@@ -6,7 +6,7 @@ import citypay
 from citypay.models.api_key import *
 
 
-class TestAccountCreate(unittest.TestCase):
+class TestApiKey(unittest.TestCase):
 
     def testGenerate(self):
         dt = datetime.strptime("2020-01-01 09:23:12", "%Y-%m-%d %H:%M:%S")
