@@ -40,9 +40,9 @@ class Decision(object):
     }
 
     attribute_map = {
-        'authentication': 'authentication',
-        'challenge': 'challenge',
-        'result': 'result'
+        'authentication': 'AuthenRequired',
+        'challenge': 'RequestChallenged',
+        'result': 'AuthResponse'
     }
 
     def __init__(self, authentication=None, challenge=None, result=None, local_vars_configuration=None):  # noqa: E501
