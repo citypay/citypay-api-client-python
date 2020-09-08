@@ -11,9 +11,6 @@ from citypay.rest import ApiException
 from citypay.models.api_key import *
 from citypay.api_client import ApiClient
 
-client_id = os.environ['CP_CLIENT_ID']
-licence_key = os.environ['CP_LICENCE_KEY']
-merchant_id = os.environ['CP_MERCHANT_ID']
 
 
 class TestApiIntegration(unittest.TestCase):
@@ -21,33 +18,29 @@ class TestApiIntegration(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
-        client_api_key = api_key_generate(client_id, licence_key)
-        print(client_api_key)
-        configuration = citypay.Configuration(
-            host="https://sandbox.citypay.com/v6",
-            api_key={'cp-api-key': str(client_api_key)}
-        )
 
-        with citypay.ApiClient(configuration) as api_client:
-            # Create an instance of the API class
-            api_instance = citypay.OperationalApi(api_client)
-            ping = citypay.Ping()  # Ping |
-            try:
-                # Ping Request
-                self.api_response = api_instance.ping_request(ping)
-            except ApiException as e:
-                print("Exception when calling OperationalApi->ping_request: %s\n" % e)
+        self.client_id = os.environ['CP_CLIENT_ID']
+        self.licence_key = os.environ['CP_LICENCE_KEY']
+        self.merchant_id = os.environ['CP_MERCHANT_ID']
+
 
     def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
+        # create new api key on each call
+        client_api_key = api_key_generate(self.client_id, self.licence_key)
+        self.api_client = citypay.ApiClient(citypay.Configuration(
+            host="https://sandbox.citypay.com/v6",
+            api_key={'cp-api-key': str(client_api_key)}
+        ))
 
     def testPing(self):
-        """Test Ping"""
-        self.assertEqual(self.api_response.code, "044")
+        api_response = citypay.OperationalApi(self.api_client).ping_request(citypay.Ping(
+            identifier="it_test"
+        ))
+        self.assertEqual("044", api_response.code)
 
+
+    def tearDown(self):
+        self.api_client.close()
 
 if __name__ == '__main__':
     unittest.main()
