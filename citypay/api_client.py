@@ -649,9 +649,14 @@ class ApiClient(object):
             return data
 
         kwargs = {}
+
         if (data is not None and
                 klass.openapi_types is not None and
                 isinstance(data, (list, dict))):
+
+            if (data[klass.__name__]):
+                data = data[klass.__name__]
+
             for attr, attr_type in six.iteritems(klass.openapi_types):
                 if klass.attribute_map[attr] in data:
                     value = data[klass.attribute_map[attr]]
