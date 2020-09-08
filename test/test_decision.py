@@ -19,71 +19,84 @@ import datetime
 import citypay
 from citypay.models.decision import Decision  # noqa: E501
 from citypay.rest import ApiException
+from citypay.api_client import ApiClient
 
 class TestDecision(unittest.TestCase):
     """Decision unit test stubs"""
 
     def setUp(self):
-        pass
+        self.data = """
+                   {
+    "AuthResponse": {
+        "amount": 5500,
+        "atrn": "atrn1",
+        "atsd": "a",
+        "authcode": "12345",
+        "authen_result": "R",
+        "authorised": true,
+        "avs_result": "G",
+        "bin_commercial": false,
+        "bin_debit": false,
+        "bin_description": "bin_desc",
+        "cavv": "cavvvvvvvvvvvvv",
+        "context": "20200812075906AAAGV4",
+        "csc_result": "C",
+        "currency": "GBP",
+        "datetime": "2020-08-12T07:59:11Z",
+        "eci": "0",
+        "identifier": "ident1",
+        "live": true,
+        "maskedpan": "400000******0002",
+        "merchantid": 12345,
+        "result": 1,
+        "result_code": "000",
+        "result_message": "System: Accepted Transaction",
+        "scheme": "VISA_BUSINESS",
+        "sha256": "abcdefg",
+        "trans_status": "P",
+        "transno": 74875
+    }
+}
+                   """
+        self.instance = ApiClient().deserialize(self, "Decision")
 
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test Decision
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = citypay.models.decision.Decision()  # noqa: E501
-        if include_optional :
-            return Decision(
-                authentication = citypay.models.authen_required.AuthenRequired(
-                    acs_url = 'https://acs.cardissuer.com/3dsv1', 
-                    md = '0', 
-                    pareq = 'eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+...', ), 
-                challenge = citypay.models.request_challenged.RequestChallenged(
-                    acs_url = 'https://acs.cardissuer.com/3dsv1', 
-                    creq = '0', 
-                    merchantid = 11223344, 
-                    three_d_server_trans_id = '0', 
-                    transno = 78416, ), 
-                result = citypay.models.auth_response.AuthResponse(
-                    amount = 3600, 
-                    atrn = '0', 
-                    atsd = '0', 
-                    authcode = '001245A', 
-                    authen_result = '0', 
-                    authorised = True, 
-                    avs_result = '0', 
-                    bin_commercial = True, 
-                    bin_debit = True, 
-                    bin_description = '0', 
-                    cavv = '0', 
-                    context = 'aspiu352908ns47n343598bads', 
-                    csc_result = '0', 
-                    currency = 'GBP', 
-                    datetime = '2020-01-02T18:32:28Z', 
-                    eci = '0', 
-                    identifier = '95b857a1-5955-4b86-963c-5a6dbfc4fb95', 
-                    live = True, 
-                    maskedpan = '4***********0002', 
-                    merchantid = 11223344, 
-                    result = 1, 
-                    result_code = '0', 
-                    result_message = 'Accepted Transaction', 
-                    scheme = 'Visa', 
-                    sha256 = '0', 
-                    trans_status = '0', 
-                    transno = 78416, )
-            )
-        else :
-            return Decision(
-        )
+    def testDecisionType(self):
+        self.assertTrue(self.instance.result)
+        self.assertFalse(self.instance.authentication)
+        self.assertFalse(self.instance.challenge)
 
     def testDecision(self):
         """Test Decision"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        self.assertEqual(self.instance.result.amount, 5500)
+        self.assertEqual(self.instance.result.atrn, "atrn1")
+        self.assertEqual(self.instance.result.atsd, "a")
+        self.assertEqual(self.instance.result.authcode, "12345")
+        self.assertEqual(self.instance.result.authen_result, "R")
+        self.assertEqual(self.instance.result.authorised, True)
+        self.assertEqual(self.instance.result.avs_result, "G")
+        self.assertEqual(self.instance.result.bin_commercial, False)
+        self.assertEqual(self.instance.result.bin_debit, False)
+        self.assertEqual(self.instance.result.bin_description, "bin_desc")
+        self.assertEqual(self.instance.result.cavv, "cavvvvvvvvvvvvv")
+        self.assertEqual(self.instance.result.context, "20200812075906AAAGV4")
+        self.assertEqual(self.instance.result.csc_result, "C")
+        self.assertEqual(self.instance.result.currency, "GBP")
+        self.assertEqual(self.instance.result.datetime.isoformat(), "2020-08-12T07:59:11+00:00")
+        self.assertEqual(self.instance.result.eci, "0")
+        self.assertEqual(self.instance.result.identifier, "ident1")
+        self.assertEqual(self.instance.result.live, True)
+        self.assertEqual(self.instance.result.maskedpan, "400000******0002")
+        self.assertEqual(self.instance.result.merchantid, 12345)
+        self.assertEqual(self.instance.result.result, 1)
+        self.assertEqual(self.instance.result.result_code, "000")
+        self.assertEqual(self.instance.result.result_message, "System: Accepted Transaction")
+        self.assertEqual(self.instance.result.scheme, "VISA_BUSINESS")
+        self.assertEqual(self.instance.result.sha256, "abcdefg")
+        self.assertEqual(self.instance.result.trans_status, "P")
+        self.assertEqual(self.instance.result.transno, 74875)
 
 
 if __name__ == '__main__':

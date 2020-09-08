@@ -19,37 +19,34 @@ import datetime
 import citypay
 from citypay.models.error import Error  # noqa: E501
 from citypay.rest import ApiException
+from citypay.api_client import ApiClient
 
 class TestError(unittest.TestCase):
     """Error unit test stubs"""
 
     def setUp(self):
-        pass
+        self.data = """
+        {
+            "code": "000",
+            "context": "aspiu352908ns47n343598bads",
+            "identifier": "95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+            "message": "Approved 044332"
+        }
+        """
+        self.instance = ApiClient().deserialize(self, "Error")
+
 
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test Error
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = citypay.models.error.Error()  # noqa: E501
-        if include_optional :
-            return Error(
-                code = '0', 
-                context = 'aspiu352908ns47n343598bads', 
-                identifier = '95b857a1-5955-4b86-963c-5a6dbfc4fb95', 
-                message = 'Approved 044332'
-            )
-        else :
-            return Error(
-        )
+
 
     def testError(self):
         """Test Error"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        self.assertEqual(self.instance.code, "000")
+        self.assertEqual(self.instance.context, "aspiu352908ns47n343598bads")
+        self.assertEqual(self.instance.identifier, "95b857a1-5955-4b86-963c-5a6dbfc4fb95")
+        self.assertEqual(self.instance.message, "Approved 044332")
 
 
 if __name__ == '__main__':

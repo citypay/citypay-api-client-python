@@ -19,36 +19,29 @@ import datetime
 import citypay
 from citypay.models.authen_required import AuthenRequired  # noqa: E501
 from citypay.rest import ApiException
+from citypay.api_client import ApiClient
 
 class TestAuthenRequired(unittest.TestCase):
     """AuthenRequired unit test stubs"""
 
     def setUp(self):
-        pass
+        self.data = """
+            {
+               "acs_url": "https://www.acs.com/tdsecure/opt_in_dispatcher.jsp?partner=debit&VAA=B",
+                "md": "0000000000000000000022",
+                "pareq": "eJxVUm1v2yAQ/itWv8dg/B5dmJyfw=="
+            }
+            """
+        self.instance = ApiClient().deserialize(self, "AuthenRequired")
 
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test AuthenRequired
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = citypay.models.authen_required.AuthenRequired()  # noqa: E501
-        if include_optional :
-            return AuthenRequired(
-                acs_url = 'https://acs.cardissuer.com/3dsv1', 
-                md = '0', 
-                pareq = 'eNrNWdnOo0qSfpXSmUuf0+w2tFy/lOyYxYDZ79h3sAEbm6cfbFfV+bu6pqe7R2qNJeQkiIwlMyK+...'
-            )
-        else :
-            return AuthenRequired(
-        )
-
     def testAuthenRequired(self):
         """Test AuthenRequired"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        self.assertEqual(self.instance.acs_url, "https://www.acs.com/tdsecure/opt_in_dispatcher.jsp?partner=debit&VAA=B")
+        self.assertEqual(self.instance.md, "0000000000000000000022")
+        self.assertEqual(self.instance.pareq, "eJxVUm1v2yAQ/itWv8dg/B5dmJyfw==")
 
 
 if __name__ == '__main__':

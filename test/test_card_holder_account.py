@@ -19,89 +19,96 @@ import datetime
 import citypay
 from citypay.models.card_holder_account import CardHolderAccount  # noqa: E501
 from citypay.rest import ApiException
+from citypay.api_client import ApiClient
+
 
 class TestCardHolderAccount(unittest.TestCase):
     """CardHolderAccount unit test stubs"""
 
     def setUp(self):
-        pass
+        self.data = """
+        {
+            "account_id": "abc123",
+            "cards": [{
+                          "bin_commercial": false,
+                          "bin_corporate": false,
+                          "bin_country_issued": "GBR",
+                          "bin_currency": "GBP",
+                          "bin_description": "Visa Classic",
+                          "bin_eu": false,
+                          "card_id": "2U1XV3PJSeUXFNzXidACn2TyCzAK",
+                          "card_status": "ACTIVE",
+                          "default": true,
+                          "expmonth": 7,
+                          "expyear": 2022,
+                          "label": "TestVisa/0002",
+                          "label2": "TestVisa/0002,Exp:7/2022",
+                          "scheme": "TestVisa",
+                          "token": "ctPCzxq4WxEwWbkG7whRPLRCG27vYFNzsEDNihYmDwqsBc5QEXnFRvq2j5oRyb56ErRVEQaBN7PFMEDtjQQXDQpfxKkp3AxbyeGo61RhKBjFTFegaP4LBZUxFZimsXW8Deae9VyhWSgS2o8AXzTJU9UP3bo8kRcpataxuH3fJj3JHDnyeZt"
+                      }],
+            "contact": {
+                "address1": "7 Esplanade",
+                "address2": "",
+                "address3": "",
+                "area": "St Helier",
+                "company": "CityPay Ltd",
+                "country": "JE",
+                "email": "support@citypay.com",
+                "firstname": "Joe",
+                "lastname": "Wicks",
+                "mobile_no": "077112123456",
+                "postcode": "JE2 3QA",
+                "telephone_no": "+4415341234567",
+                "title": "Mr"},
+            "date_created": "2020-08-01T09:15:24Z",
+            "default_card_id": "2U1XV3PJSeUXFNzXidACn2TyCzAK",
+            "default_card_index": 0,
+            "status": "ACTIVE",
+            "unique_id": "Ew3BKeWNdL3qKQU7XK7Sbt2eAL5WFW4AfoASDSA"
+        }
+        """
+
+        self.instance = ApiClient().deserialize(self, "CardHolderAccount")
 
     def tearDown(self):
         pass
 
-    def make_instance(self, include_optional):
-        """Test CardHolderAccount
-            include_option is a boolean, when False only required
-            params are included, when True both required and
-            optional params are included """
-        # model = citypay.models.card_holder_account.CardHolderAccount()  # noqa: E501
-        if include_optional :
-            return CardHolderAccount(
-                account_id = 'aaabbb-cccddd-eee', 
-                cards = [
-                    citypay.models.card.Card(
-                        bin_commercial = True, 
-                        bin_corporate = True, 
-                        bin_country_issued = '0', 
-                        bin_credit = True, 
-                        bin_currency = '0', 
-                        bin_debit = True, 
-                        bin_description = '0', 
-                        bin_eu = True, 
-                        card_id = '0', 
-                        card_status = '0', 
-                        default = True, 
-                        expmonth = 9, 
-                        expyear = 2023, 
-                        label = 'Visa/0002', 
-                        label2 = 'Visa/0002,Exp:2304', 
-                        last4digits = '2', 
-                        scheme = 'Visa', 
-                        token = 'ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr', )
-                    ], 
-                contact = citypay.models.contact_details.ContactDetails(
-                    address1 = '79 Parliament St', 
-                    address2 = 'Westminster', 
-                    address3 = '0', 
-                    area = 'London', 
-                    company = 'Acme Ltd', 
-                    country = 'GB', 
-                    email = 'card.holder@citypay.com', 
-                    firstname = 'John', 
-                    lastname = 'Smith', 
-                    mobile_no = '447790123456', 
-                    postcode = 'L1 789', 
-                    telephone_no = '442030123456', 
-                    title = 'Mr', ), 
-                date_created = '2020-01-02T18:32:28Z', 
-                default_card_id = '0', 
-                default_card_index = '0', 
-                status = '0', 
-                unique_id = '0'
-            )
-        else :
-            return CardHolderAccount(
-                account_id = 'aaabbb-cccddd-eee',
-                contact = citypay.models.contact_details.ContactDetails(
-                    address1 = '79 Parliament St', 
-                    address2 = 'Westminster', 
-                    address3 = '0', 
-                    area = 'London', 
-                    company = 'Acme Ltd', 
-                    country = 'GB', 
-                    email = 'card.holder@citypay.com', 
-                    firstname = 'John', 
-                    lastname = 'Smith', 
-                    mobile_no = '447790123456', 
-                    postcode = 'L1 789', 
-                    telephone_no = '442030123456', 
-                    title = 'Mr', ),
-        )
-
     def testCardHolderAccount(self):
         """Test CardHolderAccount"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        self.assertEqual(self.instance.account_id, "abc123")
+        self.assertEqual(self.instance.cards[0].bin_commercial, False)
+        self.assertEqual(self.instance.cards[0].bin_corporate, False)
+        self.assertEqual(self.instance.cards[0].bin_country_issued, "GBR")
+        self.assertEqual(self.instance.cards[0].bin_currency, "GBP")
+        self.assertEqual(self.instance.cards[0].bin_description, "Visa Classic")
+        self.assertEqual(self.instance.cards[0].bin_eu, False)
+        self.assertEqual(self.instance.cards[0].card_id, "2U1XV3PJSeUXFNzXidACn2TyCzAK")
+        self.assertEqual(self.instance.cards[0].card_status, "ACTIVE")
+        self.assertEqual(self.instance.cards[0].default, True)
+        self.assertEqual(self.instance.cards[0].expmonth, 7)
+        self.assertEqual(self.instance.cards[0].expyear, 2022)
+        self.assertEqual(self.instance.cards[0].label, "TestVisa/0002")
+        self.assertEqual(self.instance.cards[0].label2, "TestVisa/0002,Exp:7/2022")
+        self.assertEqual(self.instance.cards[0].scheme, "TestVisa")
+        self.assertEqual(self.instance.cards[0].token, "ctPCzxq4WxEwWbkG7whRPLRCG27vYFNzsEDNihYmDwqsBc5QEXnFRvq2j5oRyb56ErRVEQaBN7PFMEDtjQQXDQpfxKkp3AxbyeGo61RhKBjFTFegaP4LBZUxFZimsXW8Deae9VyhWSgS2o8AXzTJU9UP3bo8kRcpataxuH3fJj3JHDnyeZt")
+        self.assertEqual(self.instance.contact.address1, "7 Esplanade")
+        self.assertEqual(self.instance.contact.address2, "")
+        self.assertEqual(self.instance.contact.address3, "")
+        self.assertEqual(self.instance.contact.area, "St Helier")
+        self.assertEqual(self.instance.contact.company, "CityPay Ltd")
+        self.assertEqual(self.instance.contact.country, "JE")
+        self.assertEqual(self.instance.contact.email, "support@citypay.com")
+        self.assertEqual(self.instance.contact.firstname, "Joe")
+        self.assertEqual(self.instance.contact.lastname, "Wicks")
+        self.assertEqual(self.instance.contact.mobile_no, "077112123456")
+        self.assertEqual(self.instance.contact.postcode, "JE2 3QA")
+        self.assertEqual(self.instance.contact.telephone_no, "+4415341234567")
+        self.assertEqual(self.instance.contact.title, "Mr")
+        self.assertEqual(self.instance.date_created.isoformat(), "2020-08-01T09:15:24+00:00")
+        self.assertEqual(self.instance.default_card_id, "2U1XV3PJSeUXFNzXidACn2TyCzAK")
+        self.assertEqual(self.instance.default_card_index, 0)
+        self.assertEqual(self.instance.status, "ACTIVE")
+        self.assertEqual(self.instance.unique_id, "Ew3BKeWNdL3qKQU7XK7Sbt2eAL5WFW4AfoASDSA")
 
 
 if __name__ == '__main__':
