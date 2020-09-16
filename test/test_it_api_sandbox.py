@@ -12,17 +12,14 @@ from citypay.models.api_key import *
 from citypay.api_client import ApiClient
 
 
-
 class TestApiIntegration(unittest.TestCase):
     """Error unit test stubs"""
 
     @classmethod
-    def setUpClass(self):
-
-        self.client_id = os.environ['CP_CLIENT_ID']
-        self.licence_key = os.environ['CP_LICENCE_KEY']
-        self.merchant_id = os.environ['CP_MERCHANT_ID']
-
+    def setUpClass(cls):
+        cls.client_id = os.environ['CP_CLIENT_ID']
+        cls.licence_key = os.environ['CP_LICENCE_KEY']
+        cls.merchant_id = os.environ['CP_MERCHANT_ID']
 
     def setUp(self):
         # create new api key on each call
@@ -37,10 +34,19 @@ class TestApiIntegration(unittest.TestCase):
             identifier="it_test"
         ))
         self.assertEqual("044", api_response.code)
+        self.assertEqual("it_test", api_response.identifier)
+        self.assertEqual("Ping OK", api_response.message)
+        self.assertIsNotNone(api_response.context)
 
+    def testListMerchants(self):
+        api_list_merchants = citypay.OperationalApi(self.api_client).list_merchants_request(self.client_id)
+        # self.assertEqual(api_list_merchants.client_name)
+        self.assertEqual(api_list_merchants.clientid, str(self.client_id))
+        # self.assertEqual(api_list_merchants.merchants)
 
     def tearDown(self):
         self.api_client.close()
+
 
 if __name__ == '__main__':
     unittest.main()
