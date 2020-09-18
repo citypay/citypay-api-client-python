@@ -103,7 +103,7 @@ class TestAuthRequest(unittest.TestCase):
                     title = 'Mr', ), 
                 card_holder_name = '0', 
                 cardnumber = '4000 0000 0000 0002', 
-                csc = '12', 
+                csc = '123',
                 csc_policy = '0', 
                 currency = 'GBP', 
                 duplicate_policy = '0', 
@@ -122,8 +122,7 @@ class TestAuthRequest(unittest.TestCase):
                     recipient_dob = '0', 
                     recipient_lastname = '0', 
                     recipient_postcode = '0', ), 
-                merchantid = 11223344, 
-                sdk = 'MyClient 1.3.0', 
+                merchantid = 11223344,
                 ship_to = citypay.models.contact_details.ContactDetails(
                     address1 = '79 Parliament St', 
                     address2 = 'Westminster', 

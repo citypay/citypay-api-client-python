@@ -38,14 +38,13 @@ class TestChargeRequest(unittest.TestCase):
             return ChargeRequest(
                 amount = 3600, 
                 avs_postcode_policy = '0', 
-                csc = '12', 
+                csc = '123',
                 csc_policy = '0', 
                 currency = 'GBP', 
                 duplicate_policy = '0', 
                 identifier = '95b857a1-5955-4b86-963c-5a6dbfc4fb95', 
                 match_avsa = '0', 
-                merchantid = 11223344, 
-                sdk = 'MyClient 1.3.0', 
+                merchantid = 11223344,
                 token = 'ctPCAPyNyCkx3Ry8wGyv8khC3ch2hUSB3Db..Qzr', 
                 trans_info = '0', 
                 trans_type = '0'

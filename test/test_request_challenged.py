@@ -38,8 +38,8 @@ class TestRequestChallenged(unittest.TestCase):
             return RequestChallenged(
                 acs_url = 'https://acs.cardissuer.com/3dsv1', 
                 creq = '0', 
-                merchantid = 11223344, 
-                three_d_server_trans_id = '0', 
+                merchantid = 11223344,
+                threedserver_trans_id = '0',
                 transno = 78416
             )
         else :

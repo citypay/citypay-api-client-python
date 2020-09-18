@@ -36,8 +36,8 @@ class TestAuthReference(unittest.TestCase):
         # model = citypay.models.auth_reference.AuthReference()  # noqa: E501
         if include_optional :
             return AuthReference(
-                amount = 3600, 
-                amount_value = '0', 
+                amount = '36.00',
+                amount_value = 3600,
                 atrn = '0', 
                 authcode = '001245A', 
                 batchno = '0', 

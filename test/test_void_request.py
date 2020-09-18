@@ -37,8 +37,7 @@ class TestVoidRequest(unittest.TestCase):
         if include_optional :
             return VoidRequest(
                 identifier = '95b857a1-5955-4b86-963c-5a6dbfc4fb95', 
-                merchantid = 11223344, 
-                sdk = 'MyClient 1.3.0', 
+                merchantid = 11223344,
                 transno = 78416
             )
         else :

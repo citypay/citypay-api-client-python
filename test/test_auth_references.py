@@ -53,8 +53,8 @@ class TestAuthReferences(unittest.TestCase):
 
     def testAuthReferences(self):
         """Test AuthReferences"""
-        self.assertEqual(self.instance.auths[0].amount, 12)
-        self.assertEqual(self.instance.auths[0].amount_value, "0.12")
+        self.assertEqual(self.instance.auths[0].amount, "0.12")
+        self.assertEqual(self.instance.auths[0].amount_value, 12)
         self.assertEqual(self.instance.auths[0].atrn, None)
         self.assertEqual(self.instance.auths[0].authcode, "A12345")
         self.assertEqual(self.instance.auths[0].batchno, None)

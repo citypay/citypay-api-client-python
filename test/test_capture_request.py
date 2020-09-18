@@ -87,8 +87,7 @@ class TestCaptureRequest(unittest.TestCase):
                     transaction_type = 'TKT', ), 
                 amount = 3600, 
                 identifier = '95b857a1-5955-4b86-963c-5a6dbfc4fb95', 
-                merchantid = 11223344, 
-                sdk = 'MyClient 1.3.0', 
+                merchantid = 11223344,
                 transno = 78416
             )
         else :

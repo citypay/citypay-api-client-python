@@ -655,7 +655,7 @@ class ApiClient(object):
                 klass.openapi_types is not None and
                 isinstance(data, (list, dict))):
 
-            if (data[klass.__name__]):
+            if klass.__name__ in data:
                 data = data[klass.__name__]
 
             for attr, attr_type in six.iteritems(klass.openapi_types):
