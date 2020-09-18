@@ -39,6 +39,7 @@ from citypay.models.mcc6012 import MCC6012
 from citypay.models.merchant import Merchant
 from citypay.models.pa_res_auth_request import PaResAuthRequest
 from citypay.models.ping import Ping
+from citypay.models.refund_request import RefundRequest
 from citypay.models.register_card import RegisterCard
 from citypay.models.request_challenged import RequestChallenged
 from citypay.models.retrieve_request import RetrieveRequest
