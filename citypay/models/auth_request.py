@@ -50,7 +50,6 @@ class AuthRequest(object):
         'match_avsa': 'str',
         'mcc6012': 'MCC6012',
         'merchantid': 'int',
-        'sdk': 'str',
         'ship_to': 'ContactDetails',
         'threedsecure': 'ThreeDSecure',
         'trans_info': 'str',
@@ -75,14 +74,13 @@ class AuthRequest(object):
         'match_avsa': 'match_avsa',
         'mcc6012': 'mcc6012',
         'merchantid': 'merchantid',
-        'sdk': 'sdk',
         'ship_to': 'ship_to',
         'threedsecure': 'threedsecure',
         'trans_info': 'trans_info',
         'trans_type': 'trans_type'
     }
 
-    def __init__(self, airline_data=None, amount=None, avs_postcode_policy=None, bill_to=None, card_holder_name=None, cardnumber=None, csc=None, csc_policy=None, currency=None, duplicate_policy=None, expmonth=None, expyear=None, external_mpi=None, identifier=None, match_avsa=None, mcc6012=None, merchantid=None, sdk=None, ship_to=None, threedsecure=None, trans_info=None, trans_type=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, airline_data=None, amount=None, avs_postcode_policy=None, bill_to=None, card_holder_name=None, cardnumber=None, csc=None, csc_policy=None, currency=None, duplicate_policy=None, expmonth=None, expyear=None, external_mpi=None, identifier=None, match_avsa=None, mcc6012=None, merchantid=None, ship_to=None, threedsecure=None, trans_info=None, trans_type=None, local_vars_configuration=None):  # noqa: E501
         """AuthRequest - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -105,7 +103,6 @@ class AuthRequest(object):
         self._match_avsa = None
         self._mcc6012 = None
         self._merchantid = None
-        self._sdk = None
         self._ship_to = None
         self._threedsecure = None
         self._trans_info = None
@@ -140,8 +137,6 @@ class AuthRequest(object):
         if mcc6012 is not None:
             self.mcc6012 = mcc6012
         self.merchantid = merchantid
-        if sdk is not None:
-            self.sdk = sdk
         if ship_to is not None:
             self.ship_to = ship_to
         if threedsecure is not None:
@@ -486,7 +481,7 @@ class AuthRequest(object):
     def identifier(self):
         """Gets the identifier of this AuthRequest.  # noqa: E501
 
-        The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.  The value should be a valid printable string with ASCII character ranges from 32 to 127.  The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.  When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.   # noqa: E501
+        The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.  The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.  The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.  When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.   # noqa: E501
 
         :return: The identifier of this AuthRequest.  # noqa: E501
         :rtype: str
@@ -497,7 +492,7 @@ class AuthRequest(object):
     def identifier(self, identifier):
         """Sets the identifier of this AuthRequest.
 
-        The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.  The value should be a valid printable string with ASCII character ranges from 32 to 127.  The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.  When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.   # noqa: E501
+        The identifier of the transaction to process. The value should be a valid reference and may be used to perform  post processing actions and to aid in reconciliation of transactions.  The value should be a valid printable string with ASCII character ranges from 0x32 to 0x127.  The identifier is recommended to be distinct for each transaction such as a [random unique identifier](https://en.wikipedia.org/wiki/Universally_unique_identifier) this will aid in ensuring each transaction is identifiable.  When transactions are processed they are also checked for duplicate requests. Changing the identifier on a subsequent request will ensure that a transaction is considered as different.   # noqa: E501
 
         :param identifier: The identifier of this AuthRequest.  # noqa: E501
         :type: str
@@ -581,29 +576,6 @@ class AuthRequest(object):
             raise ValueError("Invalid value for `merchantid`, must not be `None`")  # noqa: E501
 
         self._merchantid = merchantid
-
-    @property
-    def sdk(self):
-        """Gets the sdk of this AuthRequest.  # noqa: E501
-
-        An optional reference value for the calling client such as a version number i.e.  # noqa: E501
-
-        :return: The sdk of this AuthRequest.  # noqa: E501
-        :rtype: str
-        """
-        return self._sdk
-
-    @sdk.setter
-    def sdk(self, sdk):
-        """Sets the sdk of this AuthRequest.
-
-        An optional reference value for the calling client such as a version number i.e.  # noqa: E501
-
-        :param sdk: The sdk of this AuthRequest.  # noqa: E501
-        :type: str
-        """
-
-        self._sdk = sdk
 
     @property
     def ship_to(self):

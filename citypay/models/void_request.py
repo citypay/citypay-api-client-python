@@ -35,18 +35,16 @@ class VoidRequest(object):
     openapi_types = {
         'identifier': 'str',
         'merchantid': 'int',
-        'sdk': 'str',
         'transno': 'int'
     }
 
     attribute_map = {
         'identifier': 'identifier',
         'merchantid': 'merchantid',
-        'sdk': 'sdk',
         'transno': 'transno'
     }
 
-    def __init__(self, identifier=None, merchantid=None, sdk=None, transno=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, identifier=None, merchantid=None, transno=None, local_vars_configuration=None):  # noqa: E501
         """VoidRequest - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -54,15 +52,12 @@ class VoidRequest(object):
 
         self._identifier = None
         self._merchantid = None
-        self._sdk = None
         self._transno = None
         self.discriminator = None
 
         if identifier is not None:
             self.identifier = identifier
         self.merchantid = merchantid
-        if sdk is not None:
-            self.sdk = sdk
         if transno is not None:
             self.transno = transno
 
@@ -119,29 +114,6 @@ class VoidRequest(object):
             raise ValueError("Invalid value for `merchantid`, must not be `None`")  # noqa: E501
 
         self._merchantid = merchantid
-
-    @property
-    def sdk(self):
-        """Gets the sdk of this VoidRequest.  # noqa: E501
-
-        An optional reference value for the calling client such as a version number i.e.  # noqa: E501
-
-        :return: The sdk of this VoidRequest.  # noqa: E501
-        :rtype: str
-        """
-        return self._sdk
-
-    @sdk.setter
-    def sdk(self, sdk):
-        """Sets the sdk of this VoidRequest.
-
-        An optional reference value for the calling client such as a version number i.e.  # noqa: E501
-
-        :param sdk: The sdk of this VoidRequest.  # noqa: E501
-        :type: str
-        """
-
-        self._sdk = sdk
 
     @property
     def transno(self):
