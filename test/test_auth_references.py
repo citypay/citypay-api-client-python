@@ -28,8 +28,8 @@ class TestAuthReferences(unittest.TestCase):
         self.data = """
         {"auths": [
           {
-              "amount": 12,
-              "amount_value": "0.12",
+              "amount": "0.12",
+              "amount_value": 12,
               "atrn": null,
               "authcode": "A12345",
               "batchno": null,
