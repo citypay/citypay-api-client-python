@@ -36,7 +36,7 @@ class RequestChallenged(object):
         'acs_url': 'str',
         'creq': 'str',
         'merchantid': 'int',
-        'three_d_server_trans_id': 'str',
+        'threedserver_trans_id': 'str',
         'transno': 'int'
     }
 
@@ -44,11 +44,11 @@ class RequestChallenged(object):
         'acs_url': 'acs_url',
         'creq': 'creq',
         'merchantid': 'merchantid',
-        'three_d_server_trans_id': 'ThreeDServerTransId',
+        'threedserver_trans_id': 'threedserver_trans_id',
         'transno': 'transno'
     }
 
-    def __init__(self, acs_url=None, creq=None, merchantid=None, three_d_server_trans_id=None, transno=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, acs_url=None, creq=None, merchantid=None, threedserver_trans_id=None, transno=None, local_vars_configuration=None):  # noqa: E501
         """RequestChallenged - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -57,7 +57,7 @@ class RequestChallenged(object):
         self._acs_url = None
         self._creq = None
         self._merchantid = None
-        self._three_d_server_trans_id = None
+        self._threedserver_trans_id = None
         self._transno = None
         self.discriminator = None
 
@@ -67,8 +67,8 @@ class RequestChallenged(object):
             self.creq = creq
         if merchantid is not None:
             self.merchantid = merchantid
-        if three_d_server_trans_id is not None:
-            self.three_d_server_trans_id = three_d_server_trans_id
+        if threedserver_trans_id is not None:
+            self.threedserver_trans_id = threedserver_trans_id
         if transno is not None:
             self.transno = transno
 
@@ -142,27 +142,27 @@ class RequestChallenged(object):
         self._merchantid = merchantid
 
     @property
-    def three_d_server_trans_id(self):
-        """Gets the three_d_server_trans_id of this RequestChallenged.  # noqa: E501
+    def threedserver_trans_id(self):
+        """Gets the threedserver_trans_id of this RequestChallenged.  # noqa: E501
 
         The 3DSv2 trans id reference for the challenge process.  # noqa: E501
 
-        :return: The three_d_server_trans_id of this RequestChallenged.  # noqa: E501
+        :return: The threedserver_trans_id of this RequestChallenged.  # noqa: E501
         :rtype: str
         """
-        return self._three_d_server_trans_id
+        return self._threedserver_trans_id
 
-    @three_d_server_trans_id.setter
-    def three_d_server_trans_id(self, three_d_server_trans_id):
-        """Sets the three_d_server_trans_id of this RequestChallenged.
+    @threedserver_trans_id.setter
+    def threedserver_trans_id(self, threedserver_trans_id):
+        """Sets the threedserver_trans_id of this RequestChallenged.
 
         The 3DSv2 trans id reference for the challenge process.  # noqa: E501
 
-        :param three_d_server_trans_id: The three_d_server_trans_id of this RequestChallenged.  # noqa: E501
+        :param threedserver_trans_id: The threedserver_trans_id of this RequestChallenged.  # noqa: E501
         :type: str
         """
 
-        self._three_d_server_trans_id = three_d_server_trans_id
+        self._threedserver_trans_id = threedserver_trans_id
 
     @property
     def transno(self):
