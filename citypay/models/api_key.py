@@ -6,7 +6,7 @@ import base64
 import os
 
 def api_key_generate(client_id, licence_key):
-    return api_key_generate_for(client_id, licence_key, os.urandom(16), datetime.now())
+    return api_key_generate_for(client_id, licence_key, os.urandom(16), datetime.utcnow())
 
 
 def api_key_generate_for(client_id: str, licence_key: str, nonce: bytes, dt: datetime) -> str:

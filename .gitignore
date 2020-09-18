@@ -64,4 +64,4 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
-git_push.sh
+/git_push.sh
