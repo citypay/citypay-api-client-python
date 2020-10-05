@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **bin_eu** | **bool** | Defines whether the card is regulated within the EU. | [optional] 
 **card_id** | **str** | The id of the card that is returned. Should be used for referencing the card when perform any changes. | [optional] 
 **card_status** | **str** | The status of the card such, valid values are  - ACTIVE the card is active for processing  - INACTIVE the card is not active for processing  - EXPIRED for cards that have passed their expiry date.  | [optional] 
+**date_created** | **datetime** | The date time of when the card was created. | [optional] 
 **default** | **bool** | Determines if the card is the default card for the account and should be regarded as the first option to be used for processing. | [optional] 
 **expmonth** | **int** | The expiry month of the card. | [optional] 
 **expyear** | **int** | The expiry year of the card. | [optional] 

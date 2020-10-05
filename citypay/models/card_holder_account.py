@@ -39,6 +39,7 @@ class CardHolderAccount(object):
         'date_created': 'datetime',
         'default_card_id': 'str',
         'default_card_index': 'int',
+        'last_modified': 'datetime',
         'status': 'str',
         'unique_id': 'str'
     }
@@ -50,11 +51,12 @@ class CardHolderAccount(object):
         'date_created': 'date_created',
         'default_card_id': 'default_card_id',
         'default_card_index': 'default_card_index',
+        'last_modified': 'last_modified',
         'status': 'status',
         'unique_id': 'unique_id'
     }
 
-    def __init__(self, account_id=None, cards=None, contact=None, date_created=None, default_card_id=None, default_card_index=None, status=None, unique_id=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, account_id=None, cards=None, contact=None, date_created=None, default_card_id=None, default_card_index=None, last_modified=None, status=None, unique_id=None, local_vars_configuration=None):  # noqa: E501
         """CardHolderAccount - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -66,6 +68,7 @@ class CardHolderAccount(object):
         self._date_created = None
         self._default_card_id = None
         self._default_card_index = None
+        self._last_modified = None
         self._status = None
         self._unique_id = None
         self.discriminator = None
@@ -80,6 +83,8 @@ class CardHolderAccount(object):
             self.default_card_id = default_card_id
         if default_card_index is not None:
             self.default_card_index = default_card_index
+        if last_modified is not None:
+            self.last_modified = last_modified
         if status is not None:
             self.status = status
         if unique_id is not None:
@@ -228,6 +233,29 @@ class CardHolderAccount(object):
         """
 
         self._default_card_index = default_card_index
+
+    @property
+    def last_modified(self):
+        """Gets the last_modified of this CardHolderAccount.  # noqa: E501
+
+        The date and time the account was last modified.  # noqa: E501
+
+        :return: The last_modified of this CardHolderAccount.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._last_modified
+
+    @last_modified.setter
+    def last_modified(self, last_modified):
+        """Sets the last_modified of this CardHolderAccount.
+
+        The date and time the account was last modified.  # noqa: E501
+
+        :param last_modified: The last_modified of this CardHolderAccount.  # noqa: E501
+        :type: datetime
+        """
+
+        self._last_modified = last_modified
 
     @property
     def status(self):

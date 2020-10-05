@@ -33,6 +33,7 @@ from citypay.models.charge_request import ChargeRequest
 from citypay.models.contact_details import ContactDetails
 from citypay.models.decision import Decision
 from citypay.models.error import Error
+from citypay.models.exists import Exists
 from citypay.models.external_mpi import ExternalMPI
 from citypay.models.list_merchants_response import ListMerchantsResponse
 from citypay.models.mcc6012 import MCC6012

@@ -14,7 +14,7 @@
 
 from __future__ import absolute_import
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 # import apis into sdk package
 from citypay.api.card_holder_account_api import CardHolderAccountApi
@@ -50,6 +50,7 @@ from citypay.models.charge_request import ChargeRequest
 from citypay.models.contact_details import ContactDetails
 from citypay.models.decision import Decision
 from citypay.models.error import Error
+from citypay.models.exists import Exists
 from citypay.models.external_mpi import ExternalMPI
 from citypay.models.list_merchants_response import ListMerchantsResponse
 from citypay.models.mcc6012 import MCC6012

@@ -43,6 +43,7 @@ class Card(object):
         'bin_eu': 'bool',
         'card_id': 'str',
         'card_status': 'str',
+        'date_created': 'datetime',
         'default': 'bool',
         'expmonth': 'int',
         'expyear': 'int',
@@ -64,6 +65,7 @@ class Card(object):
         'bin_eu': 'bin_eu',
         'card_id': 'card_id',
         'card_status': 'card_status',
+        'date_created': 'date_created',
         'default': 'default',
         'expmonth': 'expmonth',
         'expyear': 'expyear',
@@ -74,7 +76,7 @@ class Card(object):
         'token': 'token'
     }
 
-    def __init__(self, bin_commercial=None, bin_corporate=None, bin_country_issued=None, bin_credit=None, bin_currency=None, bin_debit=None, bin_description=None, bin_eu=None, card_id=None, card_status=None, default=None, expmonth=None, expyear=None, label=None, label2=None, last4digits=None, scheme=None, token=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, bin_commercial=None, bin_corporate=None, bin_country_issued=None, bin_credit=None, bin_currency=None, bin_debit=None, bin_description=None, bin_eu=None, card_id=None, card_status=None, date_created=None, default=None, expmonth=None, expyear=None, label=None, label2=None, last4digits=None, scheme=None, token=None, local_vars_configuration=None):  # noqa: E501
         """Card - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -90,6 +92,7 @@ class Card(object):
         self._bin_eu = None
         self._card_id = None
         self._card_status = None
+        self._date_created = None
         self._default = None
         self._expmonth = None
         self._expyear = None
@@ -120,6 +123,8 @@ class Card(object):
             self.card_id = card_id
         if card_status is not None:
             self.card_status = card_status
+        if date_created is not None:
+            self.date_created = date_created
         if default is not None:
             self.default = default
         if expmonth is not None:
@@ -366,6 +371,29 @@ class Card(object):
         """
 
         self._card_status = card_status
+
+    @property
+    def date_created(self):
+        """Gets the date_created of this Card.  # noqa: E501
+
+        The date time of when the card was created.  # noqa: E501
+
+        :return: The date_created of this Card.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._date_created
+
+    @date_created.setter
+    def date_created(self, date_created):
+        """Sets the date_created of this Card.
+
+        The date time of when the card was created.  # noqa: E501
+
+        :param date_created: The date_created of this Card.  # noqa: E501
+        :type: datetime
+        """
+
+        self._date_created = date_created
 
     @property
     def default(self):
