@@ -1,6 +1,5 @@
 # coding: utf-8
 
-# flake8: noqa
 """
     CityPay Payment API
 
@@ -13,36 +12,44 @@
 
 from __future__ import absolute_import
 
-# import models into model package
-from citypay.models.account_create import AccountCreate
-from citypay.models.account_status import AccountStatus
-from citypay.models.acknowledgement import Acknowledgement
-from citypay.models.airline_advice import AirlineAdvice
-from citypay.models.airline_segment import AirlineSegment
-from citypay.models.auth_reference import AuthReference
-from citypay.models.auth_references import AuthReferences
-from citypay.models.auth_request import AuthRequest
-from citypay.models.auth_response import AuthResponse
-from citypay.models.authen_required import AuthenRequired
-from citypay.models.c_res_auth_request import CResAuthRequest
-from citypay.models.capture_request import CaptureRequest
-from citypay.models.card import Card
-from citypay.models.card_holder_account import CardHolderAccount
-from citypay.models.card_status import CardStatus
-from citypay.models.charge_request import ChargeRequest
-from citypay.models.contact_details import ContactDetails
-from citypay.models.decision import Decision
-from citypay.models.error import Error
-from citypay.models.exists import Exists
-from citypay.models.external_mpi import ExternalMPI
-from citypay.models.list_merchants_response import ListMerchantsResponse
-from citypay.models.mcc6012 import MCC6012
-from citypay.models.merchant import Merchant
-from citypay.models.pa_res_auth_request import PaResAuthRequest
-from citypay.models.ping import Ping
-from citypay.models.refund_request import RefundRequest
-from citypay.models.register_card import RegisterCard
-from citypay.models.request_challenged import RequestChallenged
-from citypay.models.retrieve_request import RetrieveRequest
-from citypay.models.three_d_secure import ThreeDSecure
-from citypay.models.void_request import VoidRequest
+import unittest
+import datetime
+
+import citypay
+from citypay.models.exists import Exists  # noqa: E501
+from citypay.rest import ApiException
+
+class TestExists(unittest.TestCase):
+    """Exists unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def make_instance(self, include_optional):
+        """Test Exists
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = citypay.models.exists.Exists()  # noqa: E501
+        if include_optional :
+            return Exists(
+                active = True, 
+                exists = True, 
+                last_modified = '2020-01-02T18:32:28Z'
+            )
+        else :
+            return Exists(
+                exists = True,
+        )
+
+    def testExists(self):
+        """Test Exists"""
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
+
+
+if __name__ == '__main__':
+    unittest.main()

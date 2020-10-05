@@ -42,6 +42,7 @@ class ChargeRequest(object):
         'identifier': 'str',
         'match_avsa': 'str',
         'merchantid': 'int',
+        'threedsecure': 'ThreeDSecure',
         'token': 'str',
         'trans_info': 'str',
         'trans_type': 'str'
@@ -57,12 +58,13 @@ class ChargeRequest(object):
         'identifier': 'identifier',
         'match_avsa': 'match_avsa',
         'merchantid': 'merchantid',
+        'threedsecure': 'threedsecure',
         'token': 'token',
         'trans_info': 'trans_info',
         'trans_type': 'trans_type'
     }
 
-    def __init__(self, amount=None, avs_postcode_policy=None, csc=None, csc_policy=None, currency=None, duplicate_policy=None, identifier=None, match_avsa=None, merchantid=None, token=None, trans_info=None, trans_type=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, amount=None, avs_postcode_policy=None, csc=None, csc_policy=None, currency=None, duplicate_policy=None, identifier=None, match_avsa=None, merchantid=None, threedsecure=None, token=None, trans_info=None, trans_type=None, local_vars_configuration=None):  # noqa: E501
         """ChargeRequest - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -77,6 +79,7 @@ class ChargeRequest(object):
         self._identifier = None
         self._match_avsa = None
         self._merchantid = None
+        self._threedsecure = None
         self._token = None
         self._trans_info = None
         self._trans_type = None
@@ -97,6 +100,8 @@ class ChargeRequest(object):
         if match_avsa is not None:
             self.match_avsa = match_avsa
         self.merchantid = merchantid
+        if threedsecure is not None:
+            self.threedsecure = threedsecure
         self.token = token
         if trans_info is not None:
             self.trans_info = trans_info
@@ -333,6 +338,27 @@ class ChargeRequest(object):
             raise ValueError("Invalid value for `merchantid`, must not be `None`")  # noqa: E501
 
         self._merchantid = merchantid
+
+    @property
+    def threedsecure(self):
+        """Gets the threedsecure of this ChargeRequest.  # noqa: E501
+
+
+        :return: The threedsecure of this ChargeRequest.  # noqa: E501
+        :rtype: ThreeDSecure
+        """
+        return self._threedsecure
+
+    @threedsecure.setter
+    def threedsecure(self, threedsecure):
+        """Sets the threedsecure of this ChargeRequest.
+
+
+        :param threedsecure: The threedsecure of this ChargeRequest.  # noqa: E501
+        :type: ThreeDSecure
+        """
+
+        self._threedsecure = threedsecure
 
     @property
     def token(self):

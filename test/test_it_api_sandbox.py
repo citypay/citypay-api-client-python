@@ -123,14 +123,46 @@ class TestApiIntegration(unittest.TestCase):
         ))
 
         self.assertIsNone(decision.authen_required)
+        self.assertFalse(decision.is_authen_required())
         self.assertIsNone(decision.request_challenged)
+        self.assertFalse(decision.is_request_challenged())
         self.assertIsNotNone(decision.auth_response)
+        self.assertTrue(decision.is_auth_response())
 
         response = decision.auth_response
         self.assertEqual(response.result_code, "001")
         self.assertEqual(response.identifier, identifier)
         self.assertEqual(response.authcode, "A12345")
         self.assertEqual(response.amount, 7801)
+
+
+        # attempt with 3dsv1
+        identifier = uuid.uuid4().hex
+        decision = api.charge_request(citypay.ChargeRequest(
+            amount = 7802,
+            identifier= identifier,
+            merchantid=self.merchant_id,
+            token= result.cards[0].token,
+            csc="801",
+            trans_type='A',
+            threedsecure=citypay.ThreeDSecure(
+                accept_headers="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                merchant_termurl="https://citypay.com/example-url",
+                user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
+                downgrade1=True
+            )
+        ))
+
+        self.assertIsNotNone(decision.authen_required)
+        self.assertTrue(decision.is_authen_required())
+        self.assertIsNone(decision.request_challenged)
+        self.assertFalse(decision.is_request_challenged())
+        self.assertIsNone(decision.auth_response)
+        self.assertFalse(decision.is_auth_response())
+
+        self.assertIsNotNone(decision.authen_required.acs_url)
+        self.assertIsNotNone(decision.authen_required.md)
+        self.assertIsNotNone(decision.authen_required.pareq)
 
         result = api.account_delete_request(cha_id)
         self.assertEqual(result.code, "001")
