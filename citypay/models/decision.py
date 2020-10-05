@@ -125,6 +125,16 @@ class Decision(object):
 
         self._request_challenged = request_challenged
 
+    def is_authen_required(self):
+        return self.authen_required != None
+
+    def is_request_challenged(self):
+        return self.request_challenged != None
+
+    def is_auth_response(self):
+        return self.auth_response != None
+
+
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
