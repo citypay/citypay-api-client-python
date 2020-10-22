@@ -34,6 +34,7 @@ class ThreeDSecure(object):
     """
     openapi_types = {
         'accept_headers': 'str',
+        'cp_bx': 'str',
         'downgrade1': 'bool',
         'merchant_termurl': 'str',
         'tds_policy': 'str',
@@ -42,19 +43,21 @@ class ThreeDSecure(object):
 
     attribute_map = {
         'accept_headers': 'accept_headers',
+        'cp_bx': 'cp_bx',
         'downgrade1': 'downgrade1',
         'merchant_termurl': 'merchant_termurl',
         'tds_policy': 'tds_policy',
         'user_agent': 'user_agent'
     }
 
-    def __init__(self, accept_headers=None, downgrade1=None, merchant_termurl=None, tds_policy=None, user_agent=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, accept_headers=None, cp_bx=None, downgrade1=None, merchant_termurl=None, tds_policy=None, user_agent=None, local_vars_configuration=None):  # noqa: E501
         """ThreeDSecure - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
 
         self._accept_headers = None
+        self._cp_bx = None
         self._downgrade1 = None
         self._merchant_termurl = None
         self._tds_policy = None
@@ -63,6 +66,8 @@ class ThreeDSecure(object):
 
         if accept_headers is not None:
             self.accept_headers = accept_headers
+        if cp_bx is not None:
+            self.cp_bx = cp_bx
         if downgrade1 is not None:
             self.downgrade1 = downgrade1
         if merchant_termurl is not None:
@@ -76,7 +81,7 @@ class ThreeDSecure(object):
     def accept_headers(self):
         """Gets the accept_headers of this ThreeDSecure.  # noqa: E501
 
-        The content of the HTTP accept header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
+        Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required for 3Dv2 processing operating in browser authentication mode.  The `cp_bx` value will override any value supplied to this field.  The content of the HTTP accept header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
 
         :return: The accept_headers of this ThreeDSecure.  # noqa: E501
         :rtype: str
@@ -87,13 +92,36 @@ class ThreeDSecure(object):
     def accept_headers(self, accept_headers):
         """Sets the accept_headers of this ThreeDSecure.
 
-        The content of the HTTP accept header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
+        Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required for 3Dv2 processing operating in browser authentication mode.  The `cp_bx` value will override any value supplied to this field.  The content of the HTTP accept header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
 
         :param accept_headers: The accept_headers of this ThreeDSecure.  # noqa: E501
         :type: str
         """
 
         self._accept_headers = accept_headers
+
+    @property
+    def cp_bx(self):
+        """Gets the cp_bx of this ThreeDSecure.  # noqa: E501
+
+        Required for 3DSv2.  Browser extension value produced by the citypay.js `bx` function. See https://sandbox.citypay.com/3dsv2/bx for  details.   # noqa: E501
+
+        :return: The cp_bx of this ThreeDSecure.  # noqa: E501
+        :rtype: str
+        """
+        return self._cp_bx
+
+    @cp_bx.setter
+    def cp_bx(self, cp_bx):
+        """Sets the cp_bx of this ThreeDSecure.
+
+        Required for 3DSv2.  Browser extension value produced by the citypay.js `bx` function. See https://sandbox.citypay.com/3dsv2/bx for  details.   # noqa: E501
+
+        :param cp_bx: The cp_bx of this ThreeDSecure.  # noqa: E501
+        :type: str
+        """
+
+        self._cp_bx = cp_bx
 
     @property
     def downgrade1(self):
@@ -122,7 +150,7 @@ class ThreeDSecure(object):
     def merchant_termurl(self):
         """Gets the merchant_termurl of this ThreeDSecure.  # noqa: E501
 
-        A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.  The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3DSv1 or 3DSv2 is required.   # noqa: E501
+        Required for 3DSv1 and 3Dv2 processing.  A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.  The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3DSv1 or 3DSv2 is required.   # noqa: E501
 
         :return: The merchant_termurl of this ThreeDSecure.  # noqa: E501
         :rtype: str
@@ -133,7 +161,7 @@ class ThreeDSecure(object):
     def merchant_termurl(self, merchant_termurl):
         """Sets the merchant_termurl of this ThreeDSecure.
 
-        A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.  The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3DSv1 or 3DSv2 is required.   # noqa: E501
+        Required for 3DSv1 and 3Dv2 processing.  A controller URL for 3D-Secure processing that any response from an authentication request or challenge request should be sent to.  The controller should forward on the response from the URL back via this API for subsequent processing. Required if 3DSv1 or 3DSv2 is required.   # noqa: E501
 
         :param merchant_termurl: The merchant_termurl of this ThreeDSecure.  # noqa: E501
         :type: str
@@ -168,7 +196,7 @@ class ThreeDSecure(object):
     def user_agent(self):
         """Gets the user_agent of this ThreeDSecure.  # noqa: E501
 
-        The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
+        Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required 3Dv2 processing operating in browser authentication mode.  The `cp_bx` value will override any value supplied to this field.  The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
 
         :return: The user_agent of this ThreeDSecure.  # noqa: E501
         :rtype: str
@@ -179,7 +207,7 @@ class ThreeDSecure(object):
     def user_agent(self, user_agent):
         """Sets the user_agent of this ThreeDSecure.
 
-        The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
+        Required for 3DSv1. Optional if the `cp_bx` value is provided otherwise required 3Dv2 processing operating in browser authentication mode.  The `cp_bx` value will override any value supplied to this field.  The content of the HTTP user-agent header as sent to the merchant from the cardholder's user agent. This value will be validated by the ACS when the card holder authenticates themselves to verify that no intermediary is performing this action. Required for 3DSv1.   # noqa: E501
 
         :param user_agent: The user_agent of this ThreeDSecure.  # noqa: E501
         :type: str
