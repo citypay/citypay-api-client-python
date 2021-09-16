@@ -10,15 +10,9 @@
 """
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
-import json
-
-import citypay
 from citypay import ApiClient
-from citypay.models.acknowledgement import Acknowledgement  # noqa: E501
-from citypay.rest import ApiException
+from citypay.model.acknowledgement import Acknowledgement  # noqa: E501
 
 
 class TestAcknowledgement(unittest.TestCase):
@@ -26,14 +20,15 @@ class TestAcknowledgement(unittest.TestCase):
 
     def setUp(self):
         self.data = """
-{
-    "code": "000",
-    "context": "1B12WmDZB3EYSbb",
-    "identifier": "testIdentifier",
-    "message": "System: Accepted Transaction"
-}        
+        {
+            "code": "000",
+            "context": "1B12WmDZB3EYSbb",
+            "identifier": "testIdentifier",
+            "message": "System: Accepted Transaction"
+        }        
         """
-        self.instance = ApiClient().deserialize(self, "Acknowledgement")
+
+        self.instance = ApiClient().deserialize(self, (Acknowledgement,), True)
 
     def tearDown(self):
         # run after each test
@@ -41,8 +36,6 @@ class TestAcknowledgement(unittest.TestCase):
 
     def testAcknowledgement(self):
         """Test Acknowledgement"""
-        # inst_req_only = self.make_instance(include_optional=False)
-        # inst_req_and_optional = self.make_instance(include_optional=True)
         self.assertEqual(self.instance.code, "000")
         self.assertEqual(self.instance.context, "1B12WmDZB3EYSbb")
         self.assertEqual(self.instance.identifier, "testIdentifier")

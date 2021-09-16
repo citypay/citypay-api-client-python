@@ -10,15 +10,9 @@
 """
 
 from __future__ import absolute_import
-
 import unittest
-from datetime import datetime
-
-import citypay
-from citypay.models.auth_references import AuthReferences  # noqa: E501
-from citypay.rest import ApiException
+from citypay.model.auth_references import AuthReferences  # noqa: E501
 from citypay import ApiClient
-
 
 
 class TestAuthReferences(unittest.TestCase):
@@ -30,9 +24,9 @@ class TestAuthReferences(unittest.TestCase):
           {
               "amount": "0.12",
               "amount_value": 12,
-              "atrn": null,
+              "atrn": "",
               "authcode": "A12345",
-              "batchno": null,
+              "batchno": "",
               "currency": "GBP",
               "datetime": "2020-07-21T15:55:04Z",
               "identifier": "TestingAPI",
@@ -43,10 +37,9 @@ class TestAuthReferences(unittest.TestCase):
               "trans_type": "S",
               "transno": 88
           }
-      ]
-}    
-                """
-        self.instance = ApiClient().deserialize(self, "AuthReferences")
+        ]}       
+        """
+        self.instance = ApiClient().deserialize(self, (AuthReferences,), True)
 
     def tearDown(self):
         pass
@@ -55,9 +48,9 @@ class TestAuthReferences(unittest.TestCase):
         """Test AuthReferences"""
         self.assertEqual(self.instance.auths[0].amount, "0.12")
         self.assertEqual(self.instance.auths[0].amount_value, 12)
-        self.assertEqual(self.instance.auths[0].atrn, None)
+        self.assertEqual(self.instance.auths[0].atrn, "")
         self.assertEqual(self.instance.auths[0].authcode, "A12345")
-        self.assertEqual(self.instance.auths[0].batchno, None)
+        self.assertEqual(self.instance.auths[0].batchno, "")
         self.assertEqual(self.instance.auths[0].currency, "GBP")
         self.assertEqual(self.instance.auths[0].datetime.isoformat(), "2020-07-21T15:55:04+00:00")
         self.assertEqual(self.instance.auths[0].identifier, "TestingAPI")

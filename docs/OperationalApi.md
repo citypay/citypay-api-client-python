@@ -18,11 +18,13 @@ An operational request to list current merchants for a client.  ### Sorting  Sor
 ### Example
 
 * Api Key Authentication (cp-api-key):
+
 ```python
-from __future__ import print_function
 import time
 import citypay
-from citypay.rest import ApiException
+from citypay.api import operational_api
+from citypay.model.error import Error
+from citypay.model.list_merchants_response import ListMerchantsResponse
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.citypay.com/v6
 # See configuration.py for a list of all supported configuration parameters.
@@ -36,34 +38,32 @@ configuration = citypay.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: cp-api-key
-configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6",
-    api_key = {
-        'cp-api-key': 'YOUR_API_KEY'
-    }
-)
+configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
+
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['cp-api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = citypay.OperationalApi(api_client)
-    clientid = 'clientid_example' # str | The client id to return merchants for, specifying \"default\" will use the value in your api key.
+    api_instance = operational_api.OperationalApi(api_client)
+    clientid = "clientid_example" # str | The client id to return merchants for, specifying \"default\" will use the value in your api key.
 
+    # example passing only required values which don't have defaults set
     try:
         # List Merchants Request
         api_response = api_instance.list_merchants_request(clientid)
         pprint(api_response)
-    except ApiException as e:
+    except citypay.ApiException as e:
         print("Exception when calling OperationalApi->list_merchants_request: %s\n" % e)
 ```
+
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **clientid** | **str**| The client id to return merchants for, specifying \&quot;default\&quot; will use the value in your api key. | 
+ **clientid** | **str**| The client id to return merchants for, specifying \&quot;default\&quot; will use the value in your api key. |
 
 ### Return type
 
@@ -78,7 +78,9 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json, text/xml
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
@@ -99,11 +101,14 @@ A ping request which performs a connection and authentication test to the CityPa
 ### Example
 
 * Api Key Authentication (cp-api-key):
+
 ```python
-from __future__ import print_function
 import time
 import citypay
-from citypay.rest import ApiException
+from citypay.api import operational_api
+from citypay.model.ping import Ping
+from citypay.model.acknowledgement import Acknowledgement
+from citypay.model.error import Error
 from pprint import pprint
 # Defining the host is optional and defaults to https://api.citypay.com/v6
 # See configuration.py for a list of all supported configuration parameters.
@@ -117,34 +122,34 @@ configuration = citypay.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: cp-api-key
-configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6",
-    api_key = {
-        'cp-api-key': 'YOUR_API_KEY'
-    }
-)
+configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
+
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['cp-api-key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = citypay.OperationalApi(api_client)
-    ping = citypay.Ping() # Ping | 
+    api_instance = operational_api.OperationalApi(api_client)
+    ping = Ping(
+        identifier="95b857a1-5955-4b86-963c-5a6dbfc4fb95",
+    ) # Ping | 
 
+    # example passing only required values which don't have defaults set
     try:
         # Ping Request
         api_response = api_instance.ping_request(ping)
         pprint(api_response)
-    except ApiException as e:
+    except citypay.ApiException as e:
         print("Exception when calling OperationalApi->ping_request: %s\n" % e)
 ```
+
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **ping** | [**Ping**](Ping.md)|  | 
+ **ping** | [**Ping**](Ping.md)|  |
 
 ### Return type
 
@@ -159,7 +164,9 @@ Name | Type | Description  | Notes
  - **Content-Type**: application/json, text/xml
  - **Accept**: application/json, text/xml
 
+
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |

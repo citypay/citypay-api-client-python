@@ -11,13 +11,9 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
+from citypay.model.register_card import RegisterCard  # noqa: E501
 
-import citypay
-from citypay.models.register_card import RegisterCard  # noqa: E501
-from citypay.rest import ApiException
 
 class TestRegisterCard(unittest.TestCase):
     """RegisterCard unit test stubs"""
@@ -33,7 +29,7 @@ class TestRegisterCard(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.models.register_card.RegisterCard()  # noqa: E501
+        # model = citypay.model.register_card.RegisterCard()  # noqa: E501
         if include_optional :
             return RegisterCard(
                 cardnumber = '4000 0000 0000 0002', 

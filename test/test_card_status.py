@@ -11,13 +11,9 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
+from citypay.model.card_status import CardStatus  # noqa: E501
 
-import citypay
-from citypay.models.card_status import CardStatus  # noqa: E501
-from citypay.rest import ApiException
 
 class TestCardStatus(unittest.TestCase):
     """CardStatus unit test stubs"""
@@ -33,7 +29,8 @@ class TestCardStatus(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.models.card_status.CardStatus()  # noqa: E501
+        # model = citypay.model.card_status.CardStatus()  # noqa: E501
+
         if include_optional :
             return CardStatus(
                 card_status = '0', 

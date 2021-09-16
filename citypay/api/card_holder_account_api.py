@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     CityPay Payment API
 
@@ -10,18 +8,30 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from citypay.api_client import ApiClient
-from citypay.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from citypay.api_client import ApiClient, Endpoint as _Endpoint
+from citypay.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from citypay.model.account_create import AccountCreate
+from citypay.model.account_status import AccountStatus
+from citypay.model.acknowledgement import Acknowledgement
+from citypay.model.card_holder_account import CardHolderAccount
+from citypay.model.card_status import CardStatus
+from citypay.model.charge_request import ChargeRequest
+from citypay.model.contact_details import ContactDetails
+from citypay.model.decision import Decision
+from citypay.model.error import Error
+from citypay.model.exists import Exists
+from citypay.model.register_card import RegisterCard
 
 
 class CardHolderAccountApi(object):
@@ -36,1220 +46,1274 @@ class CardHolderAccountApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def account_card_delete_request(self, accountid, card_id, **kwargs):  # noqa: E501
-        """Card Deletion  # noqa: E501
+        def __account_card_delete_request(
+            self,
+            accountid,
+            card_id,
+            **kwargs
+        ):
+            """Card Deletion  # noqa: E501
 
-        Deletes a card from the account. The card will be marked for deletion before a subsequent purge will clear the card permanently.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_card_delete_request(accountid, card_id, async_req=True)
-        >>> result = thread.get()
+            Deletes a card from the account. The card will be marked for deletion before a subsequent purge will clear the card permanently.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param str card_id: The id of the card that is presented by a call to retrieve a card holder account. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Acknowledgement
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_card_delete_request_with_http_info(accountid, card_id, **kwargs)  # noqa: E501
+            >>> thread = api.account_card_delete_request(accountid, card_id, async_req=True)
+            >>> result = thread.get()
 
-    def account_card_delete_request_with_http_info(self, accountid, card_id, **kwargs):  # noqa: E501
-        """Card Deletion  # noqa: E501
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+                card_id (str): The id of the card that is presented by a call to retrieve a card holder account.
 
-        Deletes a card from the account. The card will be marked for deletion before a subsequent purge will clear the card permanently.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_card_delete_request_with_http_info(accountid, card_id, async_req=True)
-        >>> result = thread.get()
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param str card_id: The id of the card that is presented by a call to retrieve a card holder account. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Acknowledgement, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
+            Returns:
+                Acknowledgement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            kwargs['card_id'] = \
+                card_id
+            return self.call_with_http_info(**kwargs)
 
-        local_var_params = locals()
-
-        all_params = [
-            'accountid',
-            'card_id'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_card_delete_request = _Endpoint(
+            settings={
+                'response_type': (Acknowledgement,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/{accountid}/card/{cardId}',
+                'operation_id': 'account_card_delete_request',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                    'card_id',
+                ],
+                'required': [
+                    'accountid',
+                    'card_id',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                    'card_id':
+                        (str,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                    'card_id': 'cardId',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                    'card_id': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__account_card_delete_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_card_delete_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_card_delete_request`")  # noqa: E501
-        # verify the required parameter 'card_id' is set
-        if self.api_client.client_side_validation and ('card_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['card_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `card_id` when calling `account_card_delete_request`")  # noqa: E501
+        def __account_card_register_request(
+            self,
+            accountid,
+            register_card,
+            **kwargs
+        ):
+            """Card Registration  # noqa: E501
 
-        collection_formats = {}
+            Allows for a card to be registered for the account. The card will be added for future  processing and will be available as a tokenised value for future processing.  The card will be validated for  0. Being a valid card number (luhn check) 0. Having a valid expiry date 0. Being a valid bin value.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
-        if 'card_id' in local_var_params:
-            path_params['cardId'] = local_var_params['card_id']  # noqa: E501
+            >>> thread = api.account_card_register_request(accountid, register_card, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+                register_card (RegisterCard):
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                CardHolderAccount
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            kwargs['register_card'] = \
+                register_card
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/{accountid}/card/{cardId}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Acknowledgement',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_card_register_request(self, accountid, register_card, **kwargs):  # noqa: E501
-        """Card Registration  # noqa: E501
-
-        Allows for a card to be registered for the account. The card will be added for future  processing and will be available as a tokenised value for future processing.  The card will be validated for  0. Being a valid card number (luhn check) 0. Having a valid expiry date 0. Being a valid bin value.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_card_register_request(accountid, register_card, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param RegisterCard register_card: (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: CardHolderAccount
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_card_register_request_with_http_info(accountid, register_card, **kwargs)  # noqa: E501
-
-    def account_card_register_request_with_http_info(self, accountid, register_card, **kwargs):  # noqa: E501
-        """Card Registration  # noqa: E501
-
-        Allows for a card to be registered for the account. The card will be added for future  processing and will be available as a tokenised value for future processing.  The card will be validated for  0. Being a valid card number (luhn check) 0. Having a valid expiry date 0. Being a valid bin value.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_card_register_request_with_http_info(accountid, register_card, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param RegisterCard register_card: (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(CardHolderAccount, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'accountid',
-            'register_card'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_card_register_request = _Endpoint(
+            settings={
+                'response_type': (CardHolderAccount,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/{accountid}/register',
+                'operation_id': 'account_card_register_request',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                    'register_card',
+                ],
+                'required': [
+                    'accountid',
+                    'register_card',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                    'register_card':
+                        (RegisterCard,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                    'register_card': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__account_card_register_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_card_register_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_card_register_request`")  # noqa: E501
-        # verify the required parameter 'register_card' is set
-        if self.api_client.client_side_validation and ('register_card' not in local_var_params or  # noqa: E501
-                                                        local_var_params['register_card'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `register_card` when calling `account_card_register_request`")  # noqa: E501
+        def __account_card_status_request(
+            self,
+            accountid,
+            card_id,
+            card_status,
+            **kwargs
+        ):
+            """Card Status  # noqa: E501
 
-        collection_formats = {}
+            Updates the status of a card for processing. The following values are available  | Status | Description |  |--------|-------------| | Active | The card is active for processing and can be used for charging against with a valid token | | Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge | | Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
+            >>> thread = api.account_card_status_request(accountid, card_id, card_status, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+                card_id (str): The id of the card that is presented by a call to retrieve a card holder account.
+                card_status (CardStatus):
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Acknowledgement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            kwargs['card_id'] = \
+                card_id
+            kwargs['card_status'] = \
+                card_status
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'register_card' in local_var_params:
-            body_params = local_var_params['register_card']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/{accountid}/register', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='CardHolderAccount',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_card_status_request(self, accountid, card_id, card_status, **kwargs):  # noqa: E501
-        """Card Status  # noqa: E501
-
-        Updates the status of a card for processing. The following values are available  | Status | Description |  |--------|-------------| | Active | The card is active for processing and can be used for charging against with a valid token | | Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge | | Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_card_status_request(accountid, card_id, card_status, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param str card_id: The id of the card that is presented by a call to retrieve a card holder account. (required)
-        :param CardStatus card_status: (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Acknowledgement
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_card_status_request_with_http_info(accountid, card_id, card_status, **kwargs)  # noqa: E501
-
-    def account_card_status_request_with_http_info(self, accountid, card_id, card_status, **kwargs):  # noqa: E501
-        """Card Status  # noqa: E501
-
-        Updates the status of a card for processing. The following values are available  | Status | Description |  |--------|-------------| | Active | The card is active for processing and can be used for charging against with a valid token | | Inactive | The card is inactive for processing and cannot be used for processing, it will require reactivation before being used to charge | | Expired | The card has expired either due to the expiry date no longer being valid or due to a replacement card being issued |   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_card_status_request_with_http_info(accountid, card_id, card_status, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param str card_id: The id of the card that is presented by a call to retrieve a card holder account. (required)
-        :param CardStatus card_status: (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Acknowledgement, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'accountid',
-            'card_id',
-            'card_status'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_card_status_request = _Endpoint(
+            settings={
+                'response_type': (Acknowledgement,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/{accountid}/card/{cardId}/status',
+                'operation_id': 'account_card_status_request',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                    'card_id',
+                    'card_status',
+                ],
+                'required': [
+                    'accountid',
+                    'card_id',
+                    'card_status',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                    'card_id':
+                        (str,),
+                    'card_status':
+                        (CardStatus,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                    'card_id': 'cardId',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                    'card_id': 'path',
+                    'card_status': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__account_card_status_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_card_status_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_card_status_request`")  # noqa: E501
-        # verify the required parameter 'card_id' is set
-        if self.api_client.client_side_validation and ('card_id' not in local_var_params or  # noqa: E501
-                                                        local_var_params['card_id'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `card_id` when calling `account_card_status_request`")  # noqa: E501
-        # verify the required parameter 'card_status' is set
-        if self.api_client.client_side_validation and ('card_status' not in local_var_params or  # noqa: E501
-                                                        local_var_params['card_status'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `card_status` when calling `account_card_status_request`")  # noqa: E501
+        def __account_change_contact_request(
+            self,
+            accountid,
+            contact_details,
+            **kwargs
+        ):
+            """Contact Details Update  # noqa: E501
 
-        collection_formats = {}
+            Allows for the ability to change the contact details for an account.  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
-        if 'card_id' in local_var_params:
-            path_params['cardId'] = local_var_params['card_id']  # noqa: E501
+            >>> thread = api.account_change_contact_request(accountid, contact_details, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+                contact_details (ContactDetails):
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                CardHolderAccount
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            kwargs['contact_details'] = \
+                contact_details
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'card_status' in local_var_params:
-            body_params = local_var_params['card_status']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/{accountid}/card/{cardId}/status', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Acknowledgement',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_change_contact_request(self, accountid, contact_details, **kwargs):  # noqa: E501
-        """Contact Details Update  # noqa: E501
-
-        Allows for the ability to change the contact details for an account.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_change_contact_request(accountid, contact_details, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param ContactDetails contact_details: (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: CardHolderAccount
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_change_contact_request_with_http_info(accountid, contact_details, **kwargs)  # noqa: E501
-
-    def account_change_contact_request_with_http_info(self, accountid, contact_details, **kwargs):  # noqa: E501
-        """Contact Details Update  # noqa: E501
-
-        Allows for the ability to change the contact details for an account.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_change_contact_request_with_http_info(accountid, contact_details, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param ContactDetails contact_details: (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(CardHolderAccount, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'accountid',
-            'contact_details'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_change_contact_request = _Endpoint(
+            settings={
+                'response_type': (CardHolderAccount,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/{accountid}/contact',
+                'operation_id': 'account_change_contact_request',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                    'contact_details',
+                ],
+                'required': [
+                    'accountid',
+                    'contact_details',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                    'contact_details':
+                        (ContactDetails,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                    'contact_details': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__account_change_contact_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_change_contact_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_change_contact_request`")  # noqa: E501
-        # verify the required parameter 'contact_details' is set
-        if self.api_client.client_side_validation and ('contact_details' not in local_var_params or  # noqa: E501
-                                                        local_var_params['contact_details'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `contact_details` when calling `account_change_contact_request`")  # noqa: E501
+        def __account_create(
+            self,
+            account_create,
+            **kwargs
+        ):
+            """Account Create  # noqa: E501
 
-        collection_formats = {}
+            Creates a new card holder account and initialises the account ready for adding cards.  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
+            >>> thread = api.account_create(account_create, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                account_create (AccountCreate):
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                CardHolderAccount
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['account_create'] = \
+                account_create
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'contact_details' in local_var_params:
-            body_params = local_var_params['contact_details']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/{accountid}/contact', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='CardHolderAccount',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_create(self, account_create, **kwargs):  # noqa: E501
-        """Account Create  # noqa: E501
-
-        Creates a new card holder account and initialises the account ready for adding cards.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_create(account_create, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param AccountCreate account_create: (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: CardHolderAccount
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_create_with_http_info(account_create, **kwargs)  # noqa: E501
-
-    def account_create_with_http_info(self, account_create, **kwargs):  # noqa: E501
-        """Account Create  # noqa: E501
-
-        Creates a new card holder account and initialises the account ready for adding cards.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_create_with_http_info(account_create, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param AccountCreate account_create: (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(CardHolderAccount, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'account_create'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_create = _Endpoint(
+            settings={
+                'response_type': (CardHolderAccount,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/create',
+                'operation_id': 'account_create',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'account_create',
+                ],
+                'required': [
+                    'account_create',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'account_create':
+                        (AccountCreate,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'account_create': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__account_create
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_create" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'account_create' is set
-        if self.api_client.client_side_validation and ('account_create' not in local_var_params or  # noqa: E501
-                                                        local_var_params['account_create'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `account_create` when calling `account_create`")  # noqa: E501
+        def __account_delete_request(
+            self,
+            accountid,
+            **kwargs
+        ):
+            """Account Deletion  # noqa: E501
 
-        collection_formats = {}
+            Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further transactions will be alowed to be processed or actioned against this account.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
+            >>> thread = api.account_delete_request(accountid, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Acknowledgement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'account_create' in local_var_params:
-            body_params = local_var_params['account_create']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/create', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='CardHolderAccount',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_delete_request(self, accountid, **kwargs):  # noqa: E501
-        """Account Deletion  # noqa: E501
-
-        Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further transactions will be alowed to be processed or actioned against this account.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_delete_request(accountid, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Acknowledgement
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_delete_request_with_http_info(accountid, **kwargs)  # noqa: E501
-
-    def account_delete_request_with_http_info(self, accountid, **kwargs):  # noqa: E501
-        """Account Deletion  # noqa: E501
-
-        Allows for the deletion of an account. The account will marked for deletion and subsequent purging. No further transactions will be alowed to be processed or actioned against this account.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_delete_request_with_http_info(accountid, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Acknowledgement, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'accountid'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_delete_request = _Endpoint(
+            settings={
+                'response_type': (Acknowledgement,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/{accountid}',
+                'operation_id': 'account_delete_request',
+                'http_method': 'DELETE',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                ],
+                'required': [
+                    'accountid',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__account_delete_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_delete_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_delete_request`")  # noqa: E501
+        def __account_exists_request(
+            self,
+            accountid,
+            **kwargs
+        ):
+            """Account Exists  # noqa: E501
 
-        collection_formats = {}
+            Checks that an account exists and is active by providing the account id as a url parameter  Checks that an account exists and is active by providing the account id as a url parameter.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
+            >>> thread = api.account_exists_request(accountid, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Exists
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/{accountid}', 'DELETE',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Acknowledgement',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_exists_request(self, accountid, **kwargs):  # noqa: E501
-        """Account Exists  # noqa: E501
-
-        .  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_exists_request(accountid, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Exists
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_exists_request_with_http_info(accountid, **kwargs)  # noqa: E501
-
-    def account_exists_request_with_http_info(self, accountid, **kwargs):  # noqa: E501
-        """Account Exists  # noqa: E501
-
-        .  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_exists_request_with_http_info(accountid, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Exists, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'accountid'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_exists_request = _Endpoint(
+            settings={
+                'response_type': (Exists,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account-exists/{accountid}',
+                'operation_id': 'account_exists_request',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                ],
+                'required': [
+                    'accountid',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__account_exists_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_exists_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_exists_request`")  # noqa: E501
+        def __account_retrieve_request(
+            self,
+            accountid,
+            **kwargs
+        ):
+            """Account Retrieval  # noqa: E501
 
-        collection_formats = {}
+            Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist for the same `id`, the first account created with that `id` will be returned.  The account can be used for tokenisation processing by listing all cards assigned to the account. The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to  enable a card holder to view their wallet and make constructive choices on which card to use.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
+            >>> thread = api.account_retrieve_request(accountid, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                CardHolderAccount
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account-exists/{accountid}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Exists',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_retrieve_request(self, accountid, **kwargs):  # noqa: E501
-        """Account Retrieval  # noqa: E501
-
-        Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist for the same `id`, the first account created with that `id` will be returned.  The account can be used for tokenisation processing by listing all cards assigned to the account. The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to  enable a card holder to view their wallet and make constructive choices on which card to use.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_retrieve_request(accountid, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: CardHolderAccount
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_retrieve_request_with_http_info(accountid, **kwargs)  # noqa: E501
-
-    def account_retrieve_request_with_http_info(self, accountid, **kwargs):  # noqa: E501
-        """Account Retrieval  # noqa: E501
-
-        Allows for the retrieval of a card holder account for the given `id`. Should duplicate accounts exist for the same `id`, the first account created with that `id` will be returned.  The account can be used for tokenisation processing by listing all cards assigned to the account. The returned cards will include all `active`, `inactive` and `expired` cards. This can be used to  enable a card holder to view their wallet and make constructive choices on which card to use.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_retrieve_request_with_http_info(accountid, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(CardHolderAccount, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'accountid'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_retrieve_request = _Endpoint(
+            settings={
+                'response_type': (CardHolderAccount,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/{accountid}',
+                'operation_id': 'account_retrieve_request',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                ],
+                'required': [
+                    'accountid',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__account_retrieve_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_retrieve_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_retrieve_request`")  # noqa: E501
+        def __account_status_request(
+            self,
+            accountid,
+            account_status,
+            **kwargs
+        ):
+            """Account Status  # noqa: E501
 
-        collection_formats = {}
+            Updates the status of an account. An account can have the following statuses applied  | Status | Description | |--------|-------------| | Active | The account is active for processing | | Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
+            >>> thread = api.account_status_request(accountid, account_status, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                accountid (str): The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
+                account_status (AccountStatus):
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Acknowledgement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['accountid'] = \
+                accountid
+            kwargs['account_status'] = \
+                account_status
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/{accountid}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='CardHolderAccount',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def account_status_request(self, accountid, account_status, **kwargs):  # noqa: E501
-        """Account Status  # noqa: E501
-
-        Updates the status of an account. An account can have the following statuses applied  | Status | Description | |--------|-------------| | Active | The account is active for processing | | Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_status_request(accountid, account_status, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param AccountStatus account_status: (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Acknowledgement
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.account_status_request_with_http_info(accountid, account_status, **kwargs)  # noqa: E501
-
-    def account_status_request_with_http_info(self, accountid, account_status, **kwargs):  # noqa: E501
-        """Account Status  # noqa: E501
-
-        Updates the status of an account. An account can have the following statuses applied  | Status | Description | |--------|-------------| | Active | The account is active for processing | | Disabled | The account has been disabled and cannot be used for processing. The account will require reactivation to continue procesing |   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.account_status_request_with_http_info(accountid, account_status, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param str accountid: The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account. (required)
-        :param AccountStatus account_status: (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Acknowledgement, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'accountid',
-            'account_status'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.account_status_request = _Endpoint(
+            settings={
+                'response_type': (Acknowledgement,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/account/{accountid}/status',
+                'operation_id': 'account_status_request',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'accountid',
+                    'account_status',
+                ],
+                'required': [
+                    'accountid',
+                    'account_status',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'accountid':
+                        (str,),
+                    'account_status':
+                        (AccountStatus,),
+                },
+                'attribute_map': {
+                    'accountid': 'accountid',
+                },
+                'location_map': {
+                    'accountid': 'path',
+                    'account_status': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__account_status_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method account_status_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'accountid' is set
-        if self.api_client.client_side_validation and ('accountid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['accountid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `accountid` when calling `account_status_request`")  # noqa: E501
-        # verify the required parameter 'account_status' is set
-        if self.api_client.client_side_validation and ('account_status' not in local_var_params or  # noqa: E501
-                                                        local_var_params['account_status'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `account_status` when calling `account_status_request`")  # noqa: E501
+        def __charge_request(
+            self,
+            charge_request,
+            **kwargs
+        ):
+            """Charge  # noqa: E501
 
-        collection_formats = {}
+            A charge process obtains an authorisation using a tokenised value which represents a stored card  on a card holder account.  A card must previously be registered by calling `/account-register-card` with the card details  or retrieved using `/account-retrieve`  Tokens are generated whenever a previously registered list of cards are retrieved. Each token has, by design a  relatively short time to live of 30 minutes. This is both to safe guard the merchant and card holder from  replay attacks. Tokens are also restricted to your account, preventing malicious actors from stealing details for use elsewhere.    If a token is reused after it has expired it will be rejected and a new token will be required.   Tokenisation can be used for   - repeat authorisations on a previously stored card - easy authorisations just requiring CSC values to be entered - can be used for credential on file style payments - can require full 3-D Secure authentication to retain the liability shift - wallet style usage.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'accountid' in local_var_params:
-            path_params['accountid'] = local_var_params['accountid']  # noqa: E501
+            >>> thread = api.charge_request(charge_request, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                charge_request (ChargeRequest):
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Decision
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['charge_request'] = \
+                charge_request
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        if 'account_status' in local_var_params:
-            body_params = local_var_params['account_status']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/account/{accountid}/status', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Acknowledgement',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def charge_request(self, charge_request, **kwargs):  # noqa: E501
-        """Charge  # noqa: E501
-
-        A charge process obtains an authorisation using a tokenised value which represents a stored card  on a card holder account.  A card must previously be registered by calling `/account-register-card` with the card details  or retrieved using `/account-retrieve`  Tokens are generated whenever a previously registered list of cards are retrieved. Each token has, by design a  relatively short time to live of 30 minutes. This is both to safe guard the merchant and card holder from  replay attacks. Tokens are also restricted to your account, preventing malicious actors from stealing details for use elsewhere.    If a token is reused after it has expired it will be rejected and a new token will be required.   Tokenisation can be used for   - repeat authorisations on a previously stored card - easy authorisations just requiring CSC values to be entered - can be used for credential on file style payments - can require full 3-D Secure authentication to retain the liability shift - wallet style usage.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.charge_request(charge_request, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param ChargeRequest charge_request: (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Decision
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.charge_request_with_http_info(charge_request, **kwargs)  # noqa: E501
-
-    def charge_request_with_http_info(self, charge_request, **kwargs):  # noqa: E501
-        """Charge  # noqa: E501
-
-        A charge process obtains an authorisation using a tokenised value which represents a stored card  on a card holder account.  A card must previously be registered by calling `/account-register-card` with the card details  or retrieved using `/account-retrieve`  Tokens are generated whenever a previously registered list of cards are retrieved. Each token has, by design a  relatively short time to live of 30 minutes. This is both to safe guard the merchant and card holder from  replay attacks. Tokens are also restricted to your account, preventing malicious actors from stealing details for use elsewhere.    If a token is reused after it has expired it will be rejected and a new token will be required.   Tokenisation can be used for   - repeat authorisations on a previously stored card - easy authorisations just requiring CSC values to be entered - can be used for credential on file style payments - can require full 3-D Secure authentication to retain the liability shift - wallet style usage.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.charge_request_with_http_info(charge_request, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param ChargeRequest charge_request: (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Decision, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'charge_request'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.charge_request = _Endpoint(
+            settings={
+                'response_type': (Decision,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/charge',
+                'operation_id': 'charge_request',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'charge_request',
+                ],
+                'required': [
+                    'charge_request',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'charge_request':
+                        (ChargeRequest,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'charge_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__charge_request
         )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method charge_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'charge_request' is set
-        if self.api_client.client_side_validation and ('charge_request' not in local_var_params or  # noqa: E501
-                                                        local_var_params['charge_request'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `charge_request` when calling `charge_request`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'charge_request' in local_var_params:
-            body_params = local_var_params['charge_request']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/charge', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Decision',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)

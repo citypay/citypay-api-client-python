@@ -11,13 +11,10 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
-
-import citypay
-from citypay.models.external_mpi import ExternalMPI  # noqa: E501
+from citypay.model.external_mpi import ExternalMPI  # noqa: E501
 from citypay.rest import ApiException
+
 
 class TestExternalMPI(unittest.TestCase):
     """ExternalMPI unit test stubs"""
@@ -33,7 +30,8 @@ class TestExternalMPI(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.models.external_mpi.ExternalMPI()  # noqa: E501
+        # model = citypay.model.external_mpi.ExternalMPI()  # noqa: E501
+
         if include_optional :
             return ExternalMPI(
                 authen_result = '0', 
