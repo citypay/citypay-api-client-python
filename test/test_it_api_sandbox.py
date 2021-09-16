@@ -1,16 +1,10 @@
 # coding: utf-8
 
 from __future__ import absolute_import
-
-import os
 import unittest
-import datetime
-from typing import Callable, Any
 import uuid
 import citypay
-from citypay.rest import ApiException
-from citypay.models.api_key import *
-from citypay.api_client import ApiClient
+from citypay.model.api_key import *
 
 
 class TestApiIntegration(unittest.TestCase):
@@ -62,7 +56,7 @@ class TestApiIntegration(unittest.TestCase):
             expyear=2030,
             csc="012",
             identifier=id,
-            merchantid=self.merchant_id
+            merchantid=int(self.merchant_id)
         ))
 
         self.assertIsNone(decision.authen_required)
@@ -115,11 +109,11 @@ class TestApiIntegration(unittest.TestCase):
 
         identifier = uuid.uuid4().hex
         decision = api.charge_request(citypay.ChargeRequest(
-            amount= 7801,
-            identifier= identifier,
-            merchantid= self.merchant_id,
-            token = result.cards[0].token,
-            csc= "012"
+            amount=7801,
+            identifier=identifier,
+            merchantid=int(self.merchant_id),
+            token=result.cards[0].token,
+            csc="012"
         ))
 
         self.assertIsNone(decision.authen_required)
@@ -135,14 +129,13 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(response.authcode, "A12345")
         self.assertEqual(response.amount, 7801)
 
-
         # attempt with 3dsv1
         identifier = uuid.uuid4().hex
         decision = api.charge_request(citypay.ChargeRequest(
-            amount = 7802,
-            identifier= identifier,
-            merchantid=self.merchant_id,
-            token= result.cards[0].token,
+            amount=7802,
+            identifier=identifier,
+            merchantid=int(self.merchant_id),
+            token=result.cards[0].token,
             csc="801",
             trans_type='A',
             threedsecure=citypay.ThreeDSecure(
@@ -166,7 +159,6 @@ class TestApiIntegration(unittest.TestCase):
 
         result = api.account_delete_request(cha_id)
         self.assertEqual(result.code, "001")
-
 
     def tearDown(self):
         self.api_client.close()

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 """
     CityPay Payment API
 
@@ -10,18 +8,23 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
+import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
-from citypay.api_client import ApiClient
-from citypay.exceptions import (  # noqa: F401
-    ApiTypeError,
-    ApiValueError
+from citypay.api_client import ApiClient, Endpoint as _Endpoint
+from citypay.model_utils import (  # noqa: F401
+    check_allowed_values,
+    check_validations,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_and_convert_types
 )
+from citypay.model.acknowledgement import Acknowledgement
+from citypay.model.error import Error
+from citypay.model.list_merchants_response import ListMerchantsResponse
+from citypay.model.ping import Ping
 
 
 class OperationalApi(object):
@@ -36,234 +39,244 @@ class OperationalApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def list_merchants_request(self, clientid, **kwargs):  # noqa: E501
-        """List Merchants Request  # noqa: E501
+        def __list_merchants_request(
+            self,
+            clientid,
+            **kwargs
+        ):
+            """List Merchants Request  # noqa: E501
 
-        An operational request to list current merchants for a client.  ### Sorting  Sorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`  Fields that can be sorted are `merchantid` or `name`.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.list_merchants_request(clientid, async_req=True)
-        >>> result = thread.get()
+            An operational request to list current merchants for a client.  ### Sorting  Sorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`  Fields that can be sorted are `merchantid` or `name`.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        :param async_req bool: execute request asynchronously
-        :param str clientid: The client id to return merchants for, specifying \"default\" will use the value in your api key. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: ListMerchantsResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.list_merchants_request_with_http_info(clientid, **kwargs)  # noqa: E501
+            >>> thread = api.list_merchants_request(clientid, async_req=True)
+            >>> result = thread.get()
 
-    def list_merchants_request_with_http_info(self, clientid, **kwargs):  # noqa: E501
-        """List Merchants Request  # noqa: E501
+            Args:
+                clientid (str): The client id to return merchants for, specifying \"default\" will use the value in your api key.
 
-        An operational request to list current merchants for a client.  ### Sorting  Sorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`  Fields that can be sorted are `merchantid` or `name`.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.list_merchants_request_with_http_info(clientid, async_req=True)
-        >>> result = thread.get()
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        :param async_req bool: execute request asynchronously
-        :param str clientid: The client id to return merchants for, specifying \"default\" will use the value in your api key. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(ListMerchantsResponse, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
+            Returns:
+                ListMerchantsResponse
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['clientid'] = \
+                clientid
+            return self.call_with_http_info(**kwargs)
 
-        local_var_params = locals()
-
-        all_params = [
-            'clientid'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.list_merchants_request = _Endpoint(
+            settings={
+                'response_type': (ListMerchantsResponse,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/merchants/{clientid}',
+                'operation_id': 'list_merchants_request',
+                'http_method': 'GET',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'clientid',
+                ],
+                'required': [
+                    'clientid',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'clientid':
+                        (str,),
+                },
+                'attribute_map': {
+                    'clientid': 'clientid',
+                },
+                'location_map': {
+                    'clientid': 'path',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__list_merchants_request
         )
 
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method list_merchants_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'clientid' is set
-        if self.api_client.client_side_validation and ('clientid' not in local_var_params or  # noqa: E501
-                                                        local_var_params['clientid'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `clientid` when calling `list_merchants_request`")  # noqa: E501
+        def __ping_request(
+            self,
+            ping,
+            **kwargs
+        ):
+            """Ping Request  # noqa: E501
 
-        collection_formats = {}
+            A ping request which performs a connection and authentication test to the CityPay API server. The request will return a standard Acknowledgement with a response code `044` to signify a successful ping.  The ping call is useful to confirm that you will be able to access  the API from behind any firewalls and that the permission model is granting access from your source.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
 
-        path_params = {}
-        if 'clientid' in local_var_params:
-            path_params['clientid'] = local_var_params['clientid']  # noqa: E501
+            >>> thread = api.ping_request(ping, async_req=True)
+            >>> result = thread.get()
 
-        query_params = []
+            Args:
+                ping (Ping):
 
-        header_params = {}
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
 
-        form_params = []
-        local_var_files = {}
+            Returns:
+                Acknowledgement
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['ping'] = \
+                ping
+            return self.call_with_http_info(**kwargs)
 
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/merchants/{clientid}', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='ListMerchantsResponse',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def ping_request(self, ping, **kwargs):  # noqa: E501
-        """Ping Request  # noqa: E501
-
-        A ping request which performs a connection and authentication test to the CityPay API server. The request will return a standard Acknowledgement with a response code `044` to signify a successful ping.  The ping call is useful to confirm that you will be able to access  the API from behind any firewalls and that the permission model is granting access from your source.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.ping_request(ping, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param Ping ping: (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Acknowledgement
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        return self.ping_request_with_http_info(ping, **kwargs)  # noqa: E501
-
-    def ping_request_with_http_info(self, ping, **kwargs):  # noqa: E501
-        """Ping Request  # noqa: E501
-
-        A ping request which performs a connection and authentication test to the CityPay API server. The request will return a standard Acknowledgement with a response code `044` to signify a successful ping.  The ping call is useful to confirm that you will be able to access  the API from behind any firewalls and that the permission model is granting access from your source.   # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.ping_request_with_http_info(ping, async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool: execute request asynchronously
-        :param Ping ping: (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Acknowledgement, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        local_var_params = locals()
-
-        all_params = [
-            'ping'
-        ]
-        all_params.extend(
-            [
-                'async_req',
-                '_return_http_data_only',
-                '_preload_content',
-                '_request_timeout'
-            ]
+        self.ping_request = _Endpoint(
+            settings={
+                'response_type': (Acknowledgement,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/ping',
+                'operation_id': 'ping_request',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'ping',
+                ],
+                'required': [
+                    'ping',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'ping':
+                        (Ping,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'ping': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__ping_request
         )
-
-        for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
-                raise ApiTypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method ping_request" % key
-                )
-            local_var_params[key] = val
-        del local_var_params['kwargs']
-        # verify the required parameter 'ping' is set
-        if self.api_client.client_side_validation and ('ping' not in local_var_params or  # noqa: E501
-                                                        local_var_params['ping'] is None):  # noqa: E501
-            raise ApiValueError("Missing the required parameter `ping` when calling `ping_request`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        if 'ping' in local_var_params:
-            body_params = local_var_params['ping']
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'text/xml'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['cp-api-key']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/ping', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='Acknowledgement',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=local_var_params.get('async_req'),
-            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
-            _preload_content=local_var_params.get('_preload_content', True),
-            _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)

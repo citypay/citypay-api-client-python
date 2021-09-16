@@ -1,5 +1,6 @@
 # AuthReference
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
@@ -17,6 +18,7 @@ Name | Type | Description | Notes
 **trans_status** | **str** | The current status of the transaction through it&#39;s lifecycle. | [optional] 
 **trans_type** | **str** | The type of transaction that was processed. | [optional] 
 **transno** | **int** | The transaction number of the transaction. | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

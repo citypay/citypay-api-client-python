@@ -11,14 +11,10 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
-
-import citypay
-from citypay.models.decision import Decision  # noqa: E501
-from citypay.rest import ApiException
+from citypay.model.decision import Decision  # noqa: E501
 from citypay.api_client import ApiClient
+
 
 class TestDecision(unittest.TestCase):
     """Decision unit test stubs"""
@@ -57,7 +53,7 @@ class TestDecision(unittest.TestCase):
     }
 }
                    """
-        self.instance = ApiClient().deserialize(self, "Decision")
+        self.instance = ApiClient().deserialize(self, (Decision,), True)
 
     def tearDown(self):
         pass

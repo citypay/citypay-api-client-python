@@ -12,11 +12,7 @@
 from __future__ import absolute_import
 
 import unittest
-import datetime
-
-import citypay
-from citypay.models.auth_response import AuthResponse  # noqa: E501
-from citypay.rest import ApiException
+from citypay.model.auth_response import AuthResponse  # noqa: E501
 from citypay import ApiClient
 
 
@@ -56,7 +52,7 @@ class TestAuthResponse(unittest.TestCase):
         }
         """
 
-        self.instance = ApiClient().deserialize(self, "AuthResponse")
+        self.instance = ApiClient().deserialize(self, (AuthResponse,), True)
 
     def tearDown(self):
         pass

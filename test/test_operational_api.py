@@ -11,12 +11,9 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-
 import citypay
 from citypay.api.operational_api import OperationalApi  # noqa: E501
-from citypay.rest import ApiException
 
 
 class TestOperationalApi(unittest.TestCase):

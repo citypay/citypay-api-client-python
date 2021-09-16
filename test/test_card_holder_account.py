@@ -11,13 +11,8 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
-
-import citypay
-from citypay.models.card_holder_account import CardHolderAccount  # noqa: E501
-from citypay.rest import ApiException
+from citypay.model.card_holder_account import CardHolderAccount  # noqa: E501
 from citypay.api_client import ApiClient
 
 
@@ -67,7 +62,7 @@ class TestCardHolderAccount(unittest.TestCase):
         }
         """
 
-        self.instance = ApiClient().deserialize(self, "CardHolderAccount")
+        self.instance = ApiClient().deserialize(self, (CardHolderAccount,), True)
 
     def tearDown(self):
         pass

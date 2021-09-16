@@ -16,7 +16,6 @@ import unittest
 
 import citypay
 from citypay.api.card_holder_account_api import CardHolderAccountApi  # noqa: E501
-from citypay.rest import ApiException
 
 
 class TestCardHolderAccountApi(unittest.TestCase):
