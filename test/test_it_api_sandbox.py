@@ -56,7 +56,10 @@ class TestApiIntegration(unittest.TestCase):
             expyear=2030,
             csc="012",
             identifier=id,
-            merchantid=int(self.merchant_id)
+            merchantid=int(self.merchant_id),
+            threedsecure=citypay.ThreeDSecure(
+                tds_policy="2"
+            )
         ))
 
         self.assertIsNone(decision.authen_required)
@@ -68,6 +71,31 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(response.identifier, id)
         self.assertEqual(response.authcode, "A12345")
         self.assertEqual(response.amount, 1395)
+
+    def testAuthorise3DSv2Test(self):
+        id = uuid.uuid4().hex
+        decision = citypay.PaymentProcessingApi(self.api_client).authorisation_request(citypay.AuthRequest(
+            amount=1396,
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030,
+            csc="123",
+            identifier=id,
+            merchantid=int(self.merchant_id),
+            trans_type="A",
+            threedsecure=citypay.ThreeDSecure(
+                cp_bx="eyJhIjoiRkFwSCIsImMiOjI0LCJpIjoid3dIOTExTlBKSkdBRVhVZCIsImoiOmZhbHNlLCJsIjoiZW4tVVMiLCJoIjoxNDQwLCJ3IjoyNTYwLCJ0IjowLCJ1IjoiTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfMl8zKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODkuMC40Mzg5LjgyIFNhZmFyaS81MzcuMzYiLCJ2IjoiMS4wLjAifQ",
+                merchant_termurl="https://citypay.com/acs/return"
+            )
+        ))
+
+        self.assertIsNone(decision.authen_required)
+        self.assertIsNotNone(decision.request_challenged)
+        self.assertIsNone(decision.auth_response)
+
+        response = decision.request_challenged
+        self.assertIsNotNone(response.creq)
+        self.assertIsNotNone(response.acs_url)
 
     def testCardHolderAccounts(self):
 
@@ -113,7 +141,10 @@ class TestApiIntegration(unittest.TestCase):
             identifier=identifier,
             merchantid=int(self.merchant_id),
             token=result.cards[0].token,
-            csc="012"
+            csc="012",
+            threedsecure=citypay.ThreeDSecure(
+                tds_policy="2"
+            )
         ))
 
         self.assertIsNone(decision.authen_required)
