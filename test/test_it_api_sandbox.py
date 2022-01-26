@@ -30,6 +30,7 @@ class TestApiIntegration(unittest.TestCase):
         client_api_key = api_key_generate(self.client_id, self.licence_key)
         self.api_client = citypay.ApiClient(citypay.Configuration(
             host="https://sandbox.citypay.com/v6",
+            server_index=1,
             api_key={'cp-api-key': str(client_api_key)}
         ))
 
