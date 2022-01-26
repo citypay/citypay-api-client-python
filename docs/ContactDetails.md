@@ -1,5 +1,6 @@
 # ContactDetails
 
+
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
@@ -16,6 +17,7 @@ Name | Type | Description | Notes
 **postcode** | **str** | The postcode or zip code of the address which may be used for fraud analysis. | [optional] 
 **telephone_no** | **str** | A telephone number for the card holder. | [optional] 
 **title** | **str** | A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc. | [optional] 
+**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

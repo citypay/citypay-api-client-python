@@ -1,5 +1,3 @@
-# coding: utf-8
-
 # flake8: noqa
 
 """
@@ -12,56 +10,19 @@
 """
 
 
-from __future__ import absolute_import
-
-__version__ = "1.0.4"
-
-# import apis into sdk package
-from citypay.api.card_holder_account_api import CardHolderAccountApi
-from citypay.api.operational_api import OperationalApi
-from citypay.api.payment_processing_api import PaymentProcessingApi
+__version__ = "1.0.6"
 
 # import ApiClient
 from citypay.api_client import ApiClient
+
+# import Configuration
 from citypay.configuration import Configuration
+
+# import exceptions
 from citypay.exceptions import OpenApiException
+from citypay.exceptions import ApiAttributeError
 from citypay.exceptions import ApiTypeError
 from citypay.exceptions import ApiValueError
 from citypay.exceptions import ApiKeyError
-from citypay.exceptions import ApiAttributeError
 from citypay.exceptions import ApiException
-# import models into sdk package
-from citypay.models.account_create import AccountCreate
-from citypay.models.account_status import AccountStatus
-from citypay.models.acknowledgement import Acknowledgement
-from citypay.models.airline_advice import AirlineAdvice
-from citypay.models.airline_segment import AirlineSegment
-from citypay.models.auth_reference import AuthReference
-from citypay.models.auth_references import AuthReferences
-from citypay.models.auth_request import AuthRequest
-from citypay.models.auth_response import AuthResponse
-from citypay.models.authen_required import AuthenRequired
-from citypay.models.c_res_auth_request import CResAuthRequest
-from citypay.models.capture_request import CaptureRequest
-from citypay.models.card import Card
-from citypay.models.card_holder_account import CardHolderAccount
-from citypay.models.card_status import CardStatus
-from citypay.models.charge_request import ChargeRequest
-from citypay.models.contact_details import ContactDetails
-from citypay.models.decision import Decision
-from citypay.models.error import Error
-from citypay.models.exists import Exists
-from citypay.models.external_mpi import ExternalMPI
-from citypay.models.list_merchants_response import ListMerchantsResponse
-from citypay.models.mcc6012 import MCC6012
-from citypay.models.merchant import Merchant
-from citypay.models.pa_res_auth_request import PaResAuthRequest
-from citypay.models.ping import Ping
-from citypay.models.refund_request import RefundRequest
-from citypay.models.register_card import RegisterCard
-from citypay.models.request_challenged import RequestChallenged
-from citypay.models.retrieve_request import RetrieveRequest
-from citypay.models.three_d_secure import ThreeDSecure
-from citypay.models.void_request import VoidRequest
-
 from citypay.models.api_key import api_key_generate

@@ -1,8 +1,3 @@
-from __future__ import absolute_import
-
-# flake8: noqa
-
-# import apis into api package
-from citypay.api.card_holder_account_api import CardHolderAccountApi
-from citypay.api.operational_api import OperationalApi
-from citypay.api.payment_processing_api import PaymentProcessingApi
+# do not import all apis into this module because that uses a lot of memory and stack frames
+# if you need the ability to import all apis from one package, import them with
+# from citypay.apis import BatchProcessingApi

@@ -11,13 +11,10 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
-
 import citypay
-from citypay.models.list_merchants_response import ListMerchantsResponse  # noqa: E501
-from citypay.rest import ApiException
+from citypay.model.list_merchants_response import ListMerchantsResponse  # noqa: E501
+
 
 class TestListMerchantsResponse(unittest.TestCase):
     """ListMerchantsResponse unit test stubs"""
@@ -33,13 +30,14 @@ class TestListMerchantsResponse(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.models.list_merchants_response.ListMerchantsResponse()  # noqa: E501
+        # model = citypay.model.list_merchants_response.ListMerchantsResponse()  # noqa: E501
+
         if include_optional :
             return ListMerchantsResponse(
                 client_name = '0', 
                 clientid = 'PC12345', 
                 merchants = [
-                    citypay.models.merchant.Merchant(
+                    citypay.Merchant(
                         currency = 'GBP', 
                         merchantid = 11223344, 
                         name = 'Merchant 1', 

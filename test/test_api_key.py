@@ -1,9 +1,5 @@
 import unittest
-from datetime import datetime
-from typing import Any
-
-import citypay
-from citypay.models.api_key import *
+from citypay.model.api_key import *
 
 
 class TestApiKey(unittest.TestCase):
@@ -88,8 +84,6 @@ class TestApiKey(unittest.TestCase):
             self.assertEqual(i[4], key)
 
             self.assertIsNotNone(api_key_generate(i[0], i[1]))
-
-            # print(i[3])
 
 
 

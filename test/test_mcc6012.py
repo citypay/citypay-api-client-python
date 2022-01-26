@@ -11,13 +11,9 @@
 
 
 from __future__ import absolute_import
-
 import unittest
-import datetime
+from citypay.model.mcc6012 import MCC6012  # noqa: E501
 
-import citypay
-from citypay.models.mcc6012 import MCC6012  # noqa: E501
-from citypay.rest import ApiException
 
 class TestMCC6012(unittest.TestCase):
     """MCC6012 unit test stubs"""
@@ -33,7 +29,8 @@ class TestMCC6012(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.models.mcc6012.MCC6012()  # noqa: E501
+        # model = citypay.model.mcc6012.MCC6012()  # noqa: E501
+
         if include_optional :
             return MCC6012(
                 recipient_account = '0', 
