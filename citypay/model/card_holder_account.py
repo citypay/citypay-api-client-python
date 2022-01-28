@@ -32,10 +32,9 @@ from citypay.exceptions import ApiAttributeError
 def lazy_import():
     from citypay.model.card import Card
     from citypay.model.contact_details import ContactDetails
-    from citypay.model.date_time import DateTime
+
     globals()['Card'] = Card
     globals()['ContactDetails'] = ContactDetails
-    globals()['DateTime'] = DateTime
 
 
 class CardHolderAccount(ModelNormal):
@@ -101,7 +100,7 @@ class CardHolderAccount(ModelNormal):
             'date_created': (datetime,),  # noqa: E501
             'default_card_id': (str,),  # noqa: E501
             'default_card_index': (int,),  # noqa: E501
-            'last_modified': (DateTime,),  # noqa: E501
+            'last_modified': (datetime,),  # noqa: E501
             'status': (str,),  # noqa: E501
             'unique_id': (str,),  # noqa: E501
         }

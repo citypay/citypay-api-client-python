@@ -30,8 +30,7 @@ from citypay.exceptions import ApiAttributeError
 
 
 def lazy_import():
-    from citypay.model.date_time import DateTime
-    globals()['DateTime'] = DateTime
+    pass
 
 
 class Exists(ModelNormal):
@@ -89,7 +88,7 @@ class Exists(ModelNormal):
         return {
             'exists': (bool,),  # noqa: E501
             'active': (bool,),  # noqa: E501
-            'last_modified': (DateTime,),  # noqa: E501
+            'last_modified': (datetime,),  # noqa: E501
         }
 
     @cached_property
