@@ -1,11 +1,14 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
+import json
 import unittest
 import uuid
 import citypay
 from citypay.model.api_key import *
-
+import requests
+import base64
 
 class TestApiIntegration(unittest.TestCase):
     """Error unit test stubs"""
@@ -97,6 +100,33 @@ class TestApiIntegration(unittest.TestCase):
         response = decision.request_challenged
         self.assertIsNotNone(response.creq)
         self.assertIsNotNone(response.acs_url)
+        self.assertIsNotNone(response.threedserver_trans_id)
+
+        content = {
+            "threeDSSessionData": response.threedserver_trans_id,
+            "creq": response.creq
+        }
+
+        url = "https://sandbox.citypay.com/3dsv2/acs"
+        headers = {'Content-type': 'application/json'}
+
+        res = requests.post(url, data=json.dumps(content), headers=headers)
+        res_obj = json.loads(res.text)
+
+        self.assertIsNotNone(res_obj['acsTransID'])
+        self.assertIsNotNone(res_obj['messageType'])
+        self.assertIsNotNone(res_obj['messageVersion'])
+        self.assertIsNotNone(res_obj['threeDSServerTransID'])
+        self.assertIsNotNone(res_obj['transStatus'])
+
+        c_res_auth_request = citypay.CResAuthRequest(cres=base64.b64encode(res.text.encode("ascii")).decode("ascii"))
+
+        c_res_request_response =  citypay.PaymentProcessingApi(self.api_client).c_res_request(c_res_auth_request)
+
+        self.assertEqual(c_res_request_response.amount, 1396)
+        self.assertEqual(c_res_request_response.authcode, "A12345")
+        self.assertEqual(c_res_request_response.authen_result, "Y")
+        self.assertEqual(c_res_request_response.authorised, True)
 
     def testCardHolderAccounts(self):
 
