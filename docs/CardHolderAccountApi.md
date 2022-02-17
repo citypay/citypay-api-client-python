@@ -876,6 +876,13 @@ with citypay.ApiClient(configuration) as api_client:
         merchantid=11223344,
         threedsecure=ThreeDSecure(
             accept_headers="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            browser_color_depth="browser_color_depth_example",
+            browser_ip="browser_ip_example",
+            browser_java_enabled="browser_java_enabled_example",
+            browser_language="browser_language_example",
+            browser_screen_height="browser_screen_height_example",
+            browser_screen_width="browser_screen_width_example",
+            browser_tz="browser_tz_example",
             cp_bx="FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...",
             downgrade1=True,
             merchant_termurl="https://mysite.com/acs/return",

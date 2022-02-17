@@ -116,7 +116,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_acl_check_request.py
-test/test_acl_check_response_model.py
-test/test_batch.py
 tox.ini
