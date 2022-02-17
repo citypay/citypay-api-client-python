@@ -95,11 +95,10 @@ class BatchTransactionResultModel(ModelNormal):
             'identifier': (str,),  # noqa: E501
             'merchantid': (int,),  # noqa: E501
             'message': (str,),  # noqa: E501
+            'result': (int,),  # noqa: E501
             'amount': (int,),  # noqa: E501
             'authcode': (str,),  # noqa: E501
-            'authorised': (bool,),  # noqa: E501
             'maskedpan': (str,),  # noqa: E501
-            'result': (int,),  # noqa: E501
             'scheme': (str,),  # noqa: E501
         }
 
@@ -113,11 +112,10 @@ class BatchTransactionResultModel(ModelNormal):
         'identifier': 'identifier',  # noqa: E501
         'merchantid': 'merchantid',  # noqa: E501
         'message': 'message',  # noqa: E501
+        'result': 'result',  # noqa: E501
         'amount': 'amount',  # noqa: E501
         'authcode': 'authcode',  # noqa: E501
-        'authorised': 'authorised',  # noqa: E501
         'maskedpan': 'maskedpan',  # noqa: E501
-        'result': 'result',  # noqa: E501
         'scheme': 'scheme',  # noqa: E501
     }
 
@@ -128,7 +126,7 @@ class BatchTransactionResultModel(ModelNormal):
 
     @classmethod
     @convert_js_args_to_python_args
-    def _from_openapi_data(cls, account_id, identifier, merchantid, message, *args, **kwargs):  # noqa: E501
+    def _from_openapi_data(cls, account_id, identifier, merchantid, message, result, *args, **kwargs):  # noqa: E501
         """BatchTransactionResultModel - a model defined in OpenAPI
 
         Args:
@@ -136,6 +134,7 @@ class BatchTransactionResultModel(ModelNormal):
             identifier (str): The identifier of the transaction.
             merchantid (int): The merchant id of the transaction.
             message (str): A response message pertaining to the transaction.
+            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> 
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -170,9 +169,7 @@ class BatchTransactionResultModel(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             amount (int): The amount of the transaction processed.. [optional]  # noqa: E501
             authcode (str): The authorisation code of a successful transaction.. [optional]  # noqa: E501
-            authorised (bool): A boolean definition that indicates that the transaction was authorised. It will return false if the transaction  was declined, rejected or cancelled due to CSC matching failures.  Attention should be referenced to the AuthResult and Response code for accurate determination of the result. . [optional]  # noqa: E501
             maskedpan (str): A masked value of the card number used for processing displaying limited values that can be used on a receipt. . [optional]  # noqa: E501
-            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> . [optional]  # noqa: E501
             scheme (str): A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard. . [optional]  # noqa: E501
         """
 
@@ -205,6 +202,7 @@ class BatchTransactionResultModel(ModelNormal):
         self.identifier = identifier
         self.merchantid = merchantid
         self.message = message
+        self.result = result
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
@@ -225,7 +223,7 @@ class BatchTransactionResultModel(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, account_id, identifier, merchantid, message, *args, **kwargs):  # noqa: E501
+    def __init__(self, account_id, identifier, merchantid, message, result, *args, **kwargs):  # noqa: E501
         """BatchTransactionResultModel - a model defined in OpenAPI
 
         Args:
@@ -233,6 +231,7 @@ class BatchTransactionResultModel(ModelNormal):
             identifier (str): The identifier of the transaction.
             merchantid (int): The merchant id of the transaction.
             message (str): A response message pertaining to the transaction.
+            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> 
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -267,9 +266,7 @@ class BatchTransactionResultModel(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             amount (int): The amount of the transaction processed.. [optional]  # noqa: E501
             authcode (str): The authorisation code of a successful transaction.. [optional]  # noqa: E501
-            authorised (bool): A boolean definition that indicates that the transaction was authorised. It will return false if the transaction  was declined, rejected or cancelled due to CSC matching failures.  Attention should be referenced to the AuthResult and Response code for accurate determination of the result. . [optional]  # noqa: E501
             maskedpan (str): A masked value of the card number used for processing displaying limited values that can be used on a receipt. . [optional]  # noqa: E501
-            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> . [optional]  # noqa: E501
             scheme (str): A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard. . [optional]  # noqa: E501
         """
 
@@ -300,6 +297,7 @@ class BatchTransactionResultModel(ModelNormal):
         self.identifier = identifier
         self.merchantid = merchantid
         self.message = message
+        self.result = result
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \

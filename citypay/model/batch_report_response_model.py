@@ -62,14 +62,11 @@ class BatchReportResponseModel(ModelNormal):
     }
 
     validations = {
-        ('account_id',): {
-            'max_length': 20,
-            'min_length': 3,
-        },
         ('amount',): {
         },
-        ('batch_id',): {
-            'inclusive_minimum': 1,
+        ('client_account_id',): {
+            'max_length': 20,
+            'min_length': 3,
         },
     }
 
@@ -96,11 +93,11 @@ class BatchReportResponseModel(ModelNormal):
         """
         lazy_import()
         return {
-            'account_id': (str,),  # noqa: E501
             'amount': (int,),  # noqa: E501
-            'batch_date': (datetime,),  # noqa: E501
-            'batch_id': (int,),  # noqa: E501
+            'batch_date': (date,),  # noqa: E501
+            'batch_id': ([int],),  # noqa: E501
             'batch_status': (str,),  # noqa: E501
+            'client_account_id': (str,),  # noqa: E501
             'transactions': ([BatchTransactionResultModel],),  # noqa: E501
         }
 
@@ -110,11 +107,11 @@ class BatchReportResponseModel(ModelNormal):
 
 
     attribute_map = {
-        'account_id': 'account_id',  # noqa: E501
         'amount': 'amount',  # noqa: E501
         'batch_date': 'batch_date',  # noqa: E501
         'batch_id': 'batch_id',  # noqa: E501
         'batch_status': 'batch_status',  # noqa: E501
+        'client_account_id': 'client_account_id',  # noqa: E501
         'transactions': 'transactions',  # noqa: E501
     }
 
@@ -125,15 +122,15 @@ class BatchReportResponseModel(ModelNormal):
 
     @classmethod
     @convert_js_args_to_python_args
-    def _from_openapi_data(cls, account_id, amount, batch_date, batch_id, batch_status, transactions, *args, **kwargs):  # noqa: E501
+    def _from_openapi_data(cls, amount, batch_date, batch_id, batch_status, client_account_id, transactions, *args, **kwargs):  # noqa: E501
         """BatchReportResponseModel - a model defined in OpenAPI
 
         Args:
-            account_id (str): The batch account id that the batch was processed with.
             amount (int): The total amount that the batch contains.
-            batch_date (datetime): The date and time of the batch in ISO-8601 format.
-            batch_id (int): The batch id specified in the batch processing request.
-            batch_status (str): The status of the batch. Possible values are.
+            batch_date (date): The date and time of the batch in ISO-8601 format.
+            batch_id ([int]):
+            batch_status (str): The status of the batch. Possible values are - CANCELLED. The file has been cancelled by an administrator or server process.  - COMPLETE. The file has passed through the processing cycle and is determined as being complete further information should be obtained on the results of the processing - ERROR_IN_PROCESSING. Errors have occurred in the processing that has deemed that processing can not continue. - INITIALISED. The file has been initialised and no action has yet been performed - LOCKED. The file has been locked for processing - QUEUED. The file has been queued for processing yet no processing has yet been performed - UNKNOWN. The file is of an unknown status, that is the file can either not be determined by the information requested of the file has not yet been received. 
+            client_account_id (str): The batch account id that the batch was processed with.
             transactions ([BatchTransactionResultModel]):
 
         Keyword Args:
@@ -194,11 +191,11 @@ class BatchReportResponseModel(ModelNormal):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
-        self.account_id = account_id
         self.amount = amount
         self.batch_date = batch_date
         self.batch_id = batch_id
         self.batch_status = batch_status
+        self.client_account_id = client_account_id
         self.transactions = transactions
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
@@ -220,15 +217,15 @@ class BatchReportResponseModel(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, account_id, amount, batch_date, batch_id, batch_status, transactions, *args, **kwargs):  # noqa: E501
+    def __init__(self, amount, batch_date, batch_id, batch_status, client_account_id, transactions, *args, **kwargs):  # noqa: E501
         """BatchReportResponseModel - a model defined in OpenAPI
 
         Args:
-            account_id (str): The batch account id that the batch was processed with.
             amount (int): The total amount that the batch contains.
-            batch_date (datetime): The date and time of the batch in ISO-8601 format.
-            batch_id (int): The batch id specified in the batch processing request.
-            batch_status (str): The status of the batch. Possible values are.
+            batch_date (date): The date and time of the batch in ISO-8601 format.
+            batch_id ([int]):
+            batch_status (str): The status of the batch. Possible values are - CANCELLED. The file has been cancelled by an administrator or server process.  - COMPLETE. The file has passed through the processing cycle and is determined as being complete further information should be obtained on the results of the processing - ERROR_IN_PROCESSING. Errors have occurred in the processing that has deemed that processing can not continue. - INITIALISED. The file has been initialised and no action has yet been performed - LOCKED. The file has been locked for processing - QUEUED. The file has been queued for processing yet no processing has yet been performed - UNKNOWN. The file is of an unknown status, that is the file can either not be determined by the information requested of the file has not yet been received. 
+            client_account_id (str): The batch account id that the batch was processed with.
             transactions ([BatchTransactionResultModel]):
 
         Keyword Args:
@@ -287,11 +284,11 @@ class BatchReportResponseModel(ModelNormal):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
-        self.account_id = account_id
         self.amount = amount
         self.batch_date = batch_date
         self.batch_id = batch_id
         self.batch_status = batch_status
+        self.client_account_id = client_account_id
         self.transactions = transactions
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \

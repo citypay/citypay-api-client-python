@@ -50,9 +50,11 @@ with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = batch_processing_api.BatchProcessingApi(api_client)
     process_batch_request = ProcessBatchRequest(
-        account_id="AC1",
-        batch_date=dateutil_parser('2020-01-02T18:32:28Z'),
-        batch_id=1975,
+        batch_date=dateutil_parser('Thu Jan 02 00:00:00 UTC 2020').date(),
+        batch_id=[
+            1975,
+        ],
+        client_account_id="AC1",
         transactions=[
             BatchTransaction(
                 account_id="aaabbb-cccddd-eee",
@@ -97,11 +99,11 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
-**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
-**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
-**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **200** | Request to process a batch provided in the request. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -146,8 +148,10 @@ with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = batch_processing_api.BatchProcessingApi(api_client)
     check_batch_status = CheckBatchStatus(
-        account_id="AC1",
-        batch_id=1975,
+        batch_id=[
+            1975,
+        ],
+        client_account_id="AC1",
     ) # CheckBatchStatus | 
 
     # example passing only required values which don't have defaults set
@@ -184,11 +188,11 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
-**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
-**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**200** | The status of batches provided in the request. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
-**200** | The status of a batch provided in the request. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -233,8 +237,10 @@ with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = batch_processing_api.BatchProcessingApi(api_client)
     batch_report_request = BatchReportRequest(
-        account_id="AC1",
-        batch_id=1975,
+        batch_id=[
+            1975,
+        ],
+        client_account_id="AC1",
     ) # BatchReportRequest | 
 
     # example passing only required values which don't have defaults set
@@ -271,11 +277,11 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
-**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
-**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
-**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **200** | The report for a given batch. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

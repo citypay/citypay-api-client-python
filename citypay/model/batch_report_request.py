@@ -58,10 +58,7 @@ class BatchReportRequest(ModelNormal):
     }
 
     validations = {
-        ('batch_id',): {
-            'inclusive_minimum': 1,
-        },
-        ('account_id',): {
+        ('client_account_id',): {
             'max_length': 20,
             'min_length': 3,
         },
@@ -88,8 +85,8 @@ class BatchReportRequest(ModelNormal):
                 and the value is attribute type.
         """
         return {
-            'batch_id': (int,),  # noqa: E501
-            'account_id': (str,),  # noqa: E501
+            'batch_id': ([int],),  # noqa: E501
+            'client_account_id': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -99,7 +96,7 @@ class BatchReportRequest(ModelNormal):
 
     attribute_map = {
         'batch_id': 'batch_id',  # noqa: E501
-        'account_id': 'account_id',  # noqa: E501
+        'client_account_id': 'client_account_id',  # noqa: E501
     }
 
     read_only_vars = {
@@ -113,7 +110,7 @@ class BatchReportRequest(ModelNormal):
         """BatchReportRequest - a model defined in OpenAPI
 
         Args:
-            batch_id (int): The batch id specified in the batch processing request.
+            batch_id ([int]):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -146,7 +143,7 @@ class BatchReportRequest(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            account_id (str): The batch account id that the batch was processed for. Defaults to your client id if not provided.. [optional]  # noqa: E501
+            client_account_id (str): The batch account id that the batch was processed for. Defaults to your client id if not provided.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -199,7 +196,7 @@ class BatchReportRequest(ModelNormal):
         """BatchReportRequest - a model defined in OpenAPI
 
         Args:
-            batch_id (int): The batch id specified in the batch processing request.
+            batch_id ([int]):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -232,7 +229,7 @@ class BatchReportRequest(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            account_id (str): The batch account id that the batch was processed for. Defaults to your client id if not provided.. [optional]  # noqa: E501
+            client_account_id (str): The batch account id that the batch was processed for. Defaults to your client id if not provided.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

@@ -1,11 +1,14 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
+import json
 import unittest
 import uuid
 import citypay
 from citypay.model.api_key import *
-
+import requests
+import base64
 
 class TestApiIntegration(unittest.TestCase):
     """Error unit test stubs"""
@@ -30,6 +33,7 @@ class TestApiIntegration(unittest.TestCase):
         client_api_key = api_key_generate(self.client_id, self.licence_key)
         self.api_client = citypay.ApiClient(citypay.Configuration(
             host="https://sandbox.citypay.com/v6",
+            server_index=1,
             api_key={'cp-api-key': str(client_api_key)}
         ))
 
@@ -56,7 +60,10 @@ class TestApiIntegration(unittest.TestCase):
             expyear=2030,
             csc="012",
             identifier=id,
-            merchantid=int(self.merchant_id)
+            merchantid=int(self.merchant_id),
+            threedsecure=citypay.ThreeDSecure(
+                tds_policy="2"
+            )
         ))
 
         self.assertIsNone(decision.authen_required)
@@ -68,6 +75,58 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(response.identifier, id)
         self.assertEqual(response.authcode, "A12345")
         self.assertEqual(response.amount, 1395)
+
+    def testAuthorise3DSv2Test(self):
+        id = uuid.uuid4().hex
+        decision = citypay.PaymentProcessingApi(self.api_client).authorisation_request(citypay.AuthRequest(
+            amount=1396,
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030,
+            csc="123",
+            identifier=id,
+            merchantid=int(self.merchant_id),
+            trans_type="A",
+            threedsecure=citypay.ThreeDSecure(
+                cp_bx="eyJhIjoiRkFwSCIsImMiOjI0LCJpIjoid3dIOTExTlBKSkdBRVhVZCIsImoiOmZhbHNlLCJsIjoiZW4tVVMiLCJoIjoxNDQwLCJ3IjoyNTYwLCJ0IjowLCJ1IjoiTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfMl8zKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODkuMC40Mzg5LjgyIFNhZmFyaS81MzcuMzYiLCJ2IjoiMS4wLjAifQ",
+                merchant_termurl="https://citypay.com/acs/return"
+            )
+        ))
+
+        self.assertIsNone(decision.authen_required)
+        self.assertIsNotNone(decision.request_challenged)
+        self.assertIsNone(decision.auth_response)
+
+        response = decision.request_challenged
+        self.assertIsNotNone(response.creq)
+        self.assertIsNotNone(response.acs_url)
+        self.assertIsNotNone(response.threedserver_trans_id)
+
+        content = {
+            "threeDSSessionData": response.threedserver_trans_id,
+            "creq": response.creq
+        }
+
+        url = "https://sandbox.citypay.com/3dsv2/acs"
+        headers = {'Content-type': 'application/json'}
+
+        res = requests.post(url, data=json.dumps(content), headers=headers)
+        res_obj = json.loads(res.text)
+
+        self.assertIsNotNone(res_obj['acsTransID'])
+        self.assertIsNotNone(res_obj['messageType'])
+        self.assertIsNotNone(res_obj['messageVersion'])
+        self.assertIsNotNone(res_obj['threeDSServerTransID'])
+        self.assertIsNotNone(res_obj['transStatus'])
+
+        c_res_auth_request = citypay.CResAuthRequest(cres=base64.b64encode(res.text.encode("ascii")).decode("ascii"))
+
+        c_res_request_response =  citypay.PaymentProcessingApi(self.api_client).c_res_request(c_res_auth_request)
+
+        self.assertEqual(c_res_request_response.amount, 1396)
+        self.assertEqual(c_res_request_response.authcode, "A12345")
+        self.assertEqual(c_res_request_response.authen_result, "Y")
+        self.assertEqual(c_res_request_response.authorised, True)
 
     def testCardHolderAccounts(self):
 
@@ -113,7 +172,10 @@ class TestApiIntegration(unittest.TestCase):
             identifier=identifier,
             merchantid=int(self.merchant_id),
             token=result.cards[0].token,
-            csc="012"
+            csc="012",
+            threedsecure=citypay.ThreeDSecure(
+                tds_policy="2"
+            )
         ))
 
         self.assertIsNone(decision.authen_required)

@@ -98,7 +98,7 @@ class CardHolderAccount(ModelNormal):
             'contact': (ContactDetails,),  # noqa: E501
             'cards': ([Card],),  # noqa: E501
             'date_created': (datetime,),  # noqa: E501
-            'default_card_id': (str, None),  # noqa: E501
+            'default_card_id': (str,),  # noqa: E501
             'default_card_index': (int,),  # noqa: E501
             'last_modified': (datetime,),  # noqa: E501
             'status': (str,),  # noqa: E501

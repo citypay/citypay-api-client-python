@@ -70,6 +70,10 @@ class RegisterCard(ModelNormal):
             'inclusive_maximum': 2100,
             'inclusive_minimum': 2000,
         },
+        ('name_on_card',): {
+            'max_length': 45,
+            'min_length': 2,
+        },
     }
 
     @cached_property
@@ -97,6 +101,7 @@ class RegisterCard(ModelNormal):
             'expmonth': (int,),  # noqa: E501
             'expyear': (int,),  # noqa: E501
             'default': (bool,),  # noqa: E501
+            'name_on_card': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -109,6 +114,7 @@ class RegisterCard(ModelNormal):
         'expmonth': 'expmonth',  # noqa: E501
         'expyear': 'expyear',  # noqa: E501
         'default': 'default',  # noqa: E501
+        'name_on_card': 'name_on_card',  # noqa: E501
     }
 
     read_only_vars = {
@@ -158,6 +164,7 @@ class RegisterCard(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             default (bool): Determines whether the card should be the new default card.. [optional]  # noqa: E501
+            name_on_card (str): The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -248,6 +255,7 @@ class RegisterCard(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             default (bool): Determines whether the card should be the new default card.. [optional]  # noqa: E501
+            name_on_card (str): The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

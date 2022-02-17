@@ -96,6 +96,10 @@ class AuthRequest(ModelNormal):
             'max_length': 3,
             'min_length': 3,
         },
+        ('name_on_card',): {
+            'max_length': 45,
+            'min_length': 2,
+        },
         ('trans_info',): {
             'max_length': 50,
         },
@@ -136,7 +140,6 @@ class AuthRequest(ModelNormal):
             'airline_data': (AirlineAdvice,),  # noqa: E501
             'avs_postcode_policy': (str,),  # noqa: E501
             'bill_to': (ContactDetails,),  # noqa: E501
-            'card_holder_name': (str,),  # noqa: E501
             'csc': (str,),  # noqa: E501
             'csc_policy': (str,),  # noqa: E501
             'currency': (str,),  # noqa: E501
@@ -144,6 +147,7 @@ class AuthRequest(ModelNormal):
             'external_mpi': (ExternalMPI,),  # noqa: E501
             'match_avsa': (str,),  # noqa: E501
             'mcc6012': (MCC6012,),  # noqa: E501
+            'name_on_card': (str,),  # noqa: E501
             'ship_to': (ContactDetails,),  # noqa: E501
             'threedsecure': (ThreeDSecure,),  # noqa: E501
             'trans_info': (str,),  # noqa: E501
@@ -165,7 +169,6 @@ class AuthRequest(ModelNormal):
         'airline_data': 'airline_data',  # noqa: E501
         'avs_postcode_policy': 'avs_postcode_policy',  # noqa: E501
         'bill_to': 'bill_to',  # noqa: E501
-        'card_holder_name': 'card_holder_name',  # noqa: E501
         'csc': 'csc',  # noqa: E501
         'csc_policy': 'csc_policy',  # noqa: E501
         'currency': 'currency',  # noqa: E501
@@ -173,6 +176,7 @@ class AuthRequest(ModelNormal):
         'external_mpi': 'external_mpi',  # noqa: E501
         'match_avsa': 'match_avsa',  # noqa: E501
         'mcc6012': 'mcc6012',  # noqa: E501
+        'name_on_card': 'name_on_card',  # noqa: E501
         'ship_to': 'ship_to',  # noqa: E501
         'threedsecure': 'threedsecure',  # noqa: E501
         'trans_info': 'trans_info',  # noqa: E501
@@ -231,7 +235,6 @@ class AuthRequest(ModelNormal):
             airline_data (AirlineAdvice): [optional]  # noqa: E501
             avs_postcode_policy (str): A policy value which determines whether an AVS postcode policy is enforced or bypassed.  Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.   `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.   `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.   `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. . [optional]  # noqa: E501
             bill_to (ContactDetails): [optional]  # noqa: E501
-            card_holder_name (str): The card holder name as appears on the card such as MR N E BODY. Required for some acquirers. . [optional]  # noqa: E501
             csc (str): The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.  When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.  The CSC number aids fraud prevention in Mail Order and Internet payments.  Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.  The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.  This applies to all entities handling card data.  It should also not be used in any hashing process.  CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm. . [optional]  # noqa: E501
             csc_policy (str): A policy value which determines whether a CSC policy is enforced or bypassed.  Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.   `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.   `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.   `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. . [optional]  # noqa: E501
             currency (str): The processing currency for the transaction. Will default to the merchant account currency.. [optional]  # noqa: E501
@@ -239,6 +242,7 @@ class AuthRequest(ModelNormal):
             external_mpi (ExternalMPI): [optional]  # noqa: E501
             match_avsa (str): A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.  Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.   `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.   `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.   `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. . [optional]  # noqa: E501
             mcc6012 (MCC6012): [optional]  # noqa: E501
+            name_on_card (str): The card holder name as appears on the card such as MR N E BODY. Required for some acquirers. . [optional]  # noqa: E501
             ship_to (ContactDetails): [optional]  # noqa: E501
             threedsecure (ThreeDSecure): [optional]  # noqa: E501
             trans_info (str): Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.. [optional]  # noqa: E501
@@ -341,7 +345,6 @@ class AuthRequest(ModelNormal):
             airline_data (AirlineAdvice): [optional]  # noqa: E501
             avs_postcode_policy (str): A policy value which determines whether an AVS postcode policy is enforced or bypassed.  Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.   `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS postcode numeric value does not match.   `2` to bypass. Transactions that are bypassed will be allowed through even if the postcode did not match.   `3` to ignore. Transactions that are ignored will bypass the result and not send postcode details for authorisation. . [optional]  # noqa: E501
             bill_to (ContactDetails): [optional]  # noqa: E501
-            card_holder_name (str): The card holder name as appears on the card such as MR N E BODY. Required for some acquirers. . [optional]  # noqa: E501
             csc (str): The Card Security Code (CSC) (also known as CV2/CVV2) is normally found on the back of the card (American Express has it on the front). The value helps to identify posession of the card as it is not available within the chip or magnetic swipe.  When forwarding the CSC, please ensure the value is a string as some values start with 0 and this will be stripped out by any integer parsing.  The CSC number aids fraud prevention in Mail Order and Internet payments.  Business rules are available on your account to identify whether to accept or decline transactions based on mismatched results of the CSC.  The Payment Card Industry (PCI) requires that at no stage of a transaction should the CSC be stored.  This applies to all entities handling card data.  It should also not be used in any hashing process.  CityPay do not store the value and have no method of retrieving the value once the transaction has been processed. For this reason, duplicate checking is unable to determine the CSC in its duplication check algorithm. . [optional]  # noqa: E501
             csc_policy (str): A policy value which determines whether a CSC policy is enforced or bypassed.  Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.   `1` for an enforced policy. Transactions that are enforced will be rejected if the CSC value does not match.   `2` to bypass. Transactions that are bypassed will be allowed through even if the CSC did not match.   `3` to ignore. Transactions that are ignored will bypass the result and not send the CSC details for authorisation. . [optional]  # noqa: E501
             currency (str): The processing currency for the transaction. Will default to the merchant account currency.. [optional]  # noqa: E501
@@ -349,6 +352,7 @@ class AuthRequest(ModelNormal):
             external_mpi (ExternalMPI): [optional]  # noqa: E501
             match_avsa (str): A policy value which determines whether an AVS address policy is enforced, bypassed or ignored.  Values are  `0` for the default policy (default value if not supplied). Your default values are determined by your account manager on setup of the account.   `1` for an enforced policy. Transactions that are enforced will be rejected if the AVS address numeric value does not match.   `2` to bypass. Transactions that are bypassed will be allowed through even if the address did not match.   `3` to ignore. Transactions that are ignored will bypass the result and not send address numeric details for authorisation. . [optional]  # noqa: E501
             mcc6012 (MCC6012): [optional]  # noqa: E501
+            name_on_card (str): The card holder name as appears on the card such as MR N E BODY. Required for some acquirers. . [optional]  # noqa: E501
             ship_to (ContactDetails): [optional]  # noqa: E501
             threedsecure (ThreeDSecure): [optional]  # noqa: E501
             trans_info (str): Further information that can be added to the transaction will display in reporting. Can be used for flexible values such as operator id.. [optional]  # noqa: E501

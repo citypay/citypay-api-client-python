@@ -22,6 +22,8 @@ from citypay.model_utils import (  # noqa: F401
     validate_and_convert_types
 )
 from citypay.model.acknowledgement import Acknowledgement
+from citypay.model.acl_check_request import AclCheckRequest
+from citypay.model.acl_check_response_model import AclCheckResponseModel
 from citypay.model.error import Error
 from citypay.model.list_merchants_response import ListMerchantsResponse
 from citypay.model.ping import Ping
@@ -38,6 +40,128 @@ class OperationalApi(object):
         if api_client is None:
             api_client = ApiClient()
         self.api_client = api_client
+
+        def __acl_check_request(
+            self,
+            acl_check_request,
+            **kwargs
+        ):
+            """ACL Check Request  # noqa: E501
+
+            Allows the checking of IP addresses against configured ACLs. Requests can perform a lookup of addresses in subnets and services such as AWS or Azure to check that those addresses are listed in the ACLs.   # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.acl_check_request(acl_check_request, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                acl_check_request (AclCheckRequest):
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (int/float/tuple): timeout setting for this request. If
+                    one number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                AclCheckResponseModel
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['acl_check_request'] = \
+                acl_check_request
+            return self.call_with_http_info(**kwargs)
+
+        self.acl_check_request = _Endpoint(
+            settings={
+                'response_type': (AclCheckResponseModel,),
+                'auth': [
+                    'cp-api-key'
+                ],
+                'endpoint_path': '/acl/check',
+                'operation_id': 'acl_check_request',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'acl_check_request',
+                ],
+                'required': [
+                    'acl_check_request',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'acl_check_request':
+                        (AclCheckRequest,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'acl_check_request': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json',
+                    'text/xml'
+                ],
+                'content_type': [
+                    'application/json',
+                    'text/xml'
+                ]
+            },
+            api_client=api_client,
+            callable=__acl_check_request
+        )
 
         def __list_merchants_request(
             self,

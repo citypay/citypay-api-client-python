@@ -70,15 +70,21 @@ class ContactDetails(ModelNormal):
         ('area',): {
             'max_length': 50,
         },
+        ('company',): {
+            'max_length': 50,
+        },
         ('country',): {
             'max_length': 2,
             'min_length': 2,
+        },
+        ('email',): {
+            'max_length': 254,
         },
         ('mobile_no',): {
             'max_length': 20,
         },
         ('postcode',): {
-            'max_length': 10,
+            'max_length': 16,
         },
         ('telephone_no',): {
             'max_length': 20,

@@ -21,6 +21,7 @@ Name | Type | Description | Notes
 **label** | **str** | A label which identifies this card. | [optional] 
 **label2** | **str** | A label which also provides the expiry date of the card. | [optional] 
 **last4digits** | **str** | The last 4 digits of the card to aid in identification. | [optional] 
+**name_on_card** | **str** | The name on the card. | [optional] 
 **scheme** | **str** | The scheme that issued the card. | [optional] 
 **token** | **str** | A token that can be used to process against the card. | [optional] 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]

@@ -66,6 +66,10 @@ class Card(ModelNormal):
             'inclusive_maximum': 2100,
             'inclusive_minimum': 2000,
         },
+        ('name_on_card',): {
+            'max_length': 45,
+            'min_length': 2,
+        },
     }
 
     @cached_property
@@ -106,6 +110,7 @@ class Card(ModelNormal):
             'label': (str,),  # noqa: E501
             'label2': (str,),  # noqa: E501
             'last4digits': (str,),  # noqa: E501
+            'name_on_card': (str,),  # noqa: E501
             'scheme': (str,),  # noqa: E501
             'token': (str,),  # noqa: E501
         }
@@ -133,6 +138,7 @@ class Card(ModelNormal):
         'label': 'label',  # noqa: E501
         'label2': 'label2',  # noqa: E501
         'last4digits': 'last4digits',  # noqa: E501
+        'name_on_card': 'name_on_card',  # noqa: E501
         'scheme': 'scheme',  # noqa: E501
         'token': 'token',  # noqa: E501
     }
@@ -195,6 +201,7 @@ class Card(ModelNormal):
             label (str): A label which identifies this card.. [optional]  # noqa: E501
             label2 (str): A label which also provides the expiry date of the card.. [optional]  # noqa: E501
             last4digits (str): The last 4 digits of the card to aid in identification.. [optional]  # noqa: E501
+            name_on_card (str): The name on the card.. [optional]  # noqa: E501
             scheme (str): The scheme that issued the card.. [optional]  # noqa: E501
             token (str): A token that can be used to process against the card.. [optional]  # noqa: E501
         """
@@ -295,6 +302,7 @@ class Card(ModelNormal):
             label (str): A label which identifies this card.. [optional]  # noqa: E501
             label2 (str): A label which also provides the expiry date of the card.. [optional]  # noqa: E501
             last4digits (str): The last 4 digits of the card to aid in identification.. [optional]  # noqa: E501
+            name_on_card (str): The name on the card.. [optional]  # noqa: E501
             scheme (str): The scheme that issued the card.. [optional]  # noqa: E501
             token (str): A token that can be used to process against the card.. [optional]  # noqa: E501
         """

@@ -58,24 +58,6 @@ class AuthResponse(ModelNormal):
     }
 
     validations = {
-        ('amount',): {
-        },
-        ('avs_result',): {
-            'max_length': 1,
-            'min_length': 1,
-        },
-        ('csc_result',): {
-            'max_length': 1,
-            'min_length': 1,
-        },
-        ('currency',): {
-            'max_length': 3,
-            'min_length': 3,
-        },
-        ('identifier',): {
-            'max_length': 50,
-            'min_length': 4,
-        },
     }
 
     @cached_property
@@ -99,6 +81,10 @@ class AuthResponse(ModelNormal):
                 and the value is attribute type.
         """
         return {
+            'merchantid': (int,),  # noqa: E501
+            'result': (int,),  # noqa: E501
+            'result_code': (str,),  # noqa: E501
+            'result_message': (str,),  # noqa: E501
             'amount': (int,),  # noqa: E501
             'atrn': (str,),  # noqa: E501
             'atsd': (str,),  # noqa: E501
@@ -118,10 +104,6 @@ class AuthResponse(ModelNormal):
             'identifier': (str,),  # noqa: E501
             'live': (bool,),  # noqa: E501
             'maskedpan': (str,),  # noqa: E501
-            'merchantid': (int,),  # noqa: E501
-            'result': (int,),  # noqa: E501
-            'result_code': (str,),  # noqa: E501
-            'result_message': (str,),  # noqa: E501
             'scheme': (str,),  # noqa: E501
             'sha256': (str,),  # noqa: E501
             'trans_status': (str,),  # noqa: E501
@@ -134,6 +116,10 @@ class AuthResponse(ModelNormal):
 
 
     attribute_map = {
+        'merchantid': 'merchantid',  # noqa: E501
+        'result': 'result',  # noqa: E501
+        'result_code': 'result_code',  # noqa: E501
+        'result_message': 'result_message',  # noqa: E501
         'amount': 'amount',  # noqa: E501
         'atrn': 'atrn',  # noqa: E501
         'atsd': 'atsd',  # noqa: E501
@@ -153,10 +139,6 @@ class AuthResponse(ModelNormal):
         'identifier': 'identifier',  # noqa: E501
         'live': 'live',  # noqa: E501
         'maskedpan': 'maskedpan',  # noqa: E501
-        'merchantid': 'merchantid',  # noqa: E501
-        'result': 'result',  # noqa: E501
-        'result_code': 'result_code',  # noqa: E501
-        'result_message': 'result_message',  # noqa: E501
         'scheme': 'scheme',  # noqa: E501
         'sha256': 'sha256',  # noqa: E501
         'trans_status': 'trans_status',  # noqa: E501
@@ -170,8 +152,14 @@ class AuthResponse(ModelNormal):
 
     @classmethod
     @convert_js_args_to_python_args
-    def _from_openapi_data(cls, *args, **kwargs):  # noqa: E501
+    def _from_openapi_data(cls, merchantid, result, result_code, result_message, *args, **kwargs):  # noqa: E501
         """AuthResponse - a model defined in OpenAPI
+
+        Args:
+            merchantid (int): The merchant id that processed this transaction.
+            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> 
+            result_code (str): The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.  Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. 
+            result_message (str): The message regarding the result which provides further narrative to the result code. 
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -223,10 +211,6 @@ class AuthResponse(ModelNormal):
             identifier (str): The identifier provided within the request.. [optional]  # noqa: E501
             live (bool): Used to identify that a transaction was processed on a live authorisation platform.. [optional]  # noqa: E501
             maskedpan (str): A masked value of the card number used for processing displaying limited values that can be used on a receipt. . [optional]  # noqa: E501
-            merchantid (int): The merchant id that processed this transaction.. [optional]  # noqa: E501
-            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> . [optional]  # noqa: E501
-            result_code (str): The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.  Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. . [optional]  # noqa: E501
-            result_message (str): The message regarding the result which provides further narrative to the result code. . [optional]  # noqa: E501
             scheme (str): A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard. . [optional]  # noqa: E501
             sha256 (str): A SHA256 digest value of the transaction used to validate the response data The digest is calculated by concatenating   * authcode   * amount   * response_code   * merchant_id   * trans_no   * identifier   * licence_key - which is not provided in the response. . [optional]  # noqa: E501
             trans_status (str): Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.  <table> <tr> <th>Id</th> <th>Description</th> </tr> <tr> <td>O</td> <td>Transaction is open for settlement</td> </tr> <tr> <td>A</td> <td>Transaction is assigned for settlement and can no longer be voided</td> </tr> <tr> <td>S</td> <td>Transaction has been settled</td> </tr> <tr> <td>D</td> <td>Transaction has been declined</td> </tr> <tr> <td>R</td> <td>Transaction has been rejected</td> </tr> <tr> <td>P</td> <td>Transaction has been authorised only and awaiting a capture. Used in pre-auth situations</td> </tr> <tr> <td>C</td> <td>Transaction has been cancelled</td> </tr> <tr> <td>E</td> <td>Transaction has expired</td> </tr> <tr> <td>I</td> <td>Transaction has been initialised but no action was able to be carried out</td> </tr> <tr> <td>H</td> <td>Transaction is awaiting authorisation</td> </tr> <tr> <td>.</td> <td>Transaction is on hold</td> </tr> <tr> <td>V</td> <td>Transaction has been verified</td> </tr> </table> . [optional]  # noqa: E501
@@ -258,6 +242,10 @@ class AuthResponse(ModelNormal):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
+        self.merchantid = merchantid
+        self.result = result
+        self.result_code = result_code
+        self.result_message = result_message
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
@@ -278,8 +266,14 @@ class AuthResponse(ModelNormal):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, *args, **kwargs):  # noqa: E501
+    def __init__(self, merchantid, result, result_code, result_message, *args, **kwargs):  # noqa: E501
         """AuthResponse - a model defined in OpenAPI
+
+        Args:
+            merchantid (int): The merchant id that processed this transaction.
+            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> 
+            result_code (str): The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.  Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. 
+            result_message (str): The message regarding the result which provides further narrative to the result code. 
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -331,10 +325,6 @@ class AuthResponse(ModelNormal):
             identifier (str): The identifier provided within the request.. [optional]  # noqa: E501
             live (bool): Used to identify that a transaction was processed on a live authorisation platform.. [optional]  # noqa: E501
             maskedpan (str): A masked value of the card number used for processing displaying limited values that can be used on a receipt. . [optional]  # noqa: E501
-            merchantid (int): The merchant id that processed this transaction.. [optional]  # noqa: E501
-            result (int): An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> </table> . [optional]  # noqa: E501
-            result_code (str): The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.  Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. . [optional]  # noqa: E501
-            result_message (str): The message regarding the result which provides further narrative to the result code. . [optional]  # noqa: E501
             scheme (str): A name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard. . [optional]  # noqa: E501
             sha256 (str): A SHA256 digest value of the transaction used to validate the response data The digest is calculated by concatenating   * authcode   * amount   * response_code   * merchant_id   * trans_no   * identifier   * licence_key - which is not provided in the response. . [optional]  # noqa: E501
             trans_status (str): Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.  <table> <tr> <th>Id</th> <th>Description</th> </tr> <tr> <td>O</td> <td>Transaction is open for settlement</td> </tr> <tr> <td>A</td> <td>Transaction is assigned for settlement and can no longer be voided</td> </tr> <tr> <td>S</td> <td>Transaction has been settled</td> </tr> <tr> <td>D</td> <td>Transaction has been declined</td> </tr> <tr> <td>R</td> <td>Transaction has been rejected</td> </tr> <tr> <td>P</td> <td>Transaction has been authorised only and awaiting a capture. Used in pre-auth situations</td> </tr> <tr> <td>C</td> <td>Transaction has been cancelled</td> </tr> <tr> <td>E</td> <td>Transaction has expired</td> </tr> <tr> <td>I</td> <td>Transaction has been initialised but no action was able to be carried out</td> </tr> <tr> <td>H</td> <td>Transaction is awaiting authorisation</td> </tr> <tr> <td>.</td> <td>Transaction is on hold</td> </tr> <tr> <td>V</td> <td>Transaction has been verified</td> </tr> </table> . [optional]  # noqa: E501
@@ -364,6 +354,10 @@ class AuthResponse(ModelNormal):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
+        self.merchantid = merchantid
+        self.result = result
+        self.result_code = result_code
+        self.result_message = result_message
         for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
