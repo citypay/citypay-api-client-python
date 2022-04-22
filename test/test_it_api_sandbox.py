@@ -75,6 +75,7 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(response.identifier, id)
         self.assertEqual(response.authcode, "A12345")
         self.assertEqual(response.amount, 1395)
+        self.assertTrue(validate_digest(response, self.licence_key))
 
     def testAuthorise3DSv2Test(self):
         id = uuid.uuid4().hex
