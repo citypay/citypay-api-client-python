@@ -1,10 +1,6 @@
 # coding: utf-8
-from datetime import datetime
 import hmac
 import hashlib
-import base64
-import binascii
-import os
 
 
 def direct_post_create_mac(licence_key: str, nonce: bytes, amount: int, identifier: str):
