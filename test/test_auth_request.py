@@ -13,7 +13,13 @@ from __future__ import absolute_import
 import unittest
 from datetime import date
 import citypay
+from citypay.model.airline_advice import AirlineAdvice
+from citypay.model.airline_segment import AirlineSegment
 from citypay.model.auth_request import AuthRequest  # noqa: E501
+from citypay.model.contact_details import ContactDetails
+from citypay.model.external_mpi import ExternalMPI
+from citypay.model.mcc6012 import MCC6012
+from citypay.model.three_d_secure import ThreeDSecure
 
 
 class TestAuthRequest(unittest.TestCase):
@@ -33,7 +39,7 @@ class TestAuthRequest(unittest.TestCase):
 
         if include_optional:
             return AuthRequest(
-                airline_data=citypay.AirlineAdvice(
+                airline_data=AirlineAdvice(
                     carrier_name='EG Air',
                     conjunction_ticket_indicator=False,
                     eticket_indicator=True,
@@ -41,7 +47,7 @@ class TestAuthRequest(unittest.TestCase):
                     number_in_party=2,
                     original_ticket_no='0',
                     passenger_name='NE Person',
-                    segment1=citypay.AirlineSegment(
+                    segment1=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',
@@ -50,7 +56,7 @@ class TestAuthRequest(unittest.TestCase):
                         flight_number='772',
                         segment_fare=7500,
                         stop_over_indicator='1', ),
-                    segment2=citypay.AirlineSegment(
+                    segment2=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',
@@ -59,7 +65,7 @@ class TestAuthRequest(unittest.TestCase):
                         flight_number='772',
                         segment_fare=7500,
                         stop_over_indicator='1', ),
-                    segment3=citypay.AirlineSegment(
+                    segment3=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',
@@ -68,7 +74,7 @@ class TestAuthRequest(unittest.TestCase):
                         flight_number='772',
                         segment_fare=7500,
                         stop_over_indicator='1', ),
-                    segment4=citypay.AirlineSegment(
+                    segment4=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',
@@ -84,7 +90,7 @@ class TestAuthRequest(unittest.TestCase):
                     transaction_type='TKT', ),
                 amount=3600,
                 avs_postcode_policy='0',
-                bill_to=citypay.ContactDetails(
+                bill_to=ContactDetails(
                     address1='79 Parliament St',
                     address2='Westminster',
                     address3='0',
@@ -106,7 +112,7 @@ class TestAuthRequest(unittest.TestCase):
                 duplicate_policy='0',
                 expmonth=9,
                 expyear=2023,
-                external_mpi=citypay.ExternalMPI(
+                external_mpi=ExternalMPI(
                     authen_result='0',
                     cavv='0',
                     eci=56,
@@ -114,13 +120,13 @@ class TestAuthRequest(unittest.TestCase):
                     xid='0', ),
                 identifier='95b857a1-5955-4b86-963c-5a6dbfc4fb95',
                 match_avsa='0',
-                mcc6012=citypay.MCC6012(
+                mcc6012=MCC6012(
                     recipient_account='0',
                     recipient_dob='0',
                     recipient_lastname='0',
                     recipient_postcode='0', ),
                 merchantid=11223344,
-                ship_to=citypay.ContactDetails(
+                ship_to=ContactDetails(
                     address1='79 Parliament St',
                     address2='Westminster',
                     address3='0',
@@ -134,7 +140,7 @@ class TestAuthRequest(unittest.TestCase):
                     postcode='L1 789',
                     telephone_no='442030123456',
                     title='Mr', ),
-                threedsecure=citypay.ThreeDSecure(
+                threedsecure=ThreeDSecure(
                     accept_headers='text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
                     downgrade1=True,
                     merchant_termurl='0',

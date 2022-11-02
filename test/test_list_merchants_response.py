@@ -14,6 +14,7 @@ from __future__ import absolute_import
 import unittest
 import citypay
 from citypay.model.list_merchants_response import ListMerchantsResponse  # noqa: E501
+from citypay.model.merchant import Merchant
 
 
 class TestListMerchantsResponse(unittest.TestCase):
@@ -37,7 +38,7 @@ class TestListMerchantsResponse(unittest.TestCase):
                 client_name = '0', 
                 clientid = 'PC12345', 
                 merchants = [
-                    citypay.Merchant(
+                    Merchant(
                         currency = 'GBP', 
                         merchantid = 11223344, 
                         name = 'Merchant 1', 

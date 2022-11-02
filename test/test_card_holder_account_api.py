@@ -15,14 +15,14 @@ from __future__ import absolute_import
 import unittest
 
 import citypay
-from citypay.api.card_holder_account_api import CardHolderAccountApi  # noqa: E501
+from citypay.api.card_holder_account_api__ import CardHolderAccountApi
 
 
 class TestCardHolderAccountApi(unittest.TestCase):
     """CardHolderAccountApi unit test stubs"""
 
     def setUp(self):
-        self.api = citypay.api.card_holder_account_api.CardHolderAccountApi()  # noqa: E501
+        self.api = CardHolderAccountApi()  # noqa: E501
 
     def tearDown(self):
         pass

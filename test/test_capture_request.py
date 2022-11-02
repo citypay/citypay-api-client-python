@@ -13,6 +13,8 @@ from __future__ import absolute_import
 import unittest
 from datetime import date
 import citypay
+from citypay.model.airline_advice import AirlineAdvice
+from citypay.model.airline_segment import AirlineSegment
 from citypay.model.capture_request import CaptureRequest  # noqa: E501
 
 
@@ -34,7 +36,7 @@ class TestCaptureRequest(unittest.TestCase):
 
         if include_optional:
             return CaptureRequest(
-                airline_data=citypay.AirlineAdvice(
+                airline_data=AirlineAdvice(
                     carrier_name='EG Air',
                     conjunction_ticket_indicator=False,
                     eticket_indicator=True,
@@ -42,7 +44,7 @@ class TestCaptureRequest(unittest.TestCase):
                     number_in_party=2,
                     original_ticket_no='0',
                     passenger_name='NE Person',
-                    segment1=citypay.AirlineSegment(
+                    segment1=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',
@@ -51,7 +53,7 @@ class TestCaptureRequest(unittest.TestCase):
                         flight_number='772',
                         segment_fare=7500,
                         stop_over_indicator='1', ),
-                    segment2=citypay.AirlineSegment(
+                    segment2=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',
@@ -60,7 +62,7 @@ class TestCaptureRequest(unittest.TestCase):
                         flight_number='772',
                         segment_fare=7500,
                         stop_over_indicator='1', ),
-                    segment3=citypay.AirlineSegment(
+                    segment3=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',
@@ -69,7 +71,7 @@ class TestCaptureRequest(unittest.TestCase):
                         flight_number='772',
                         segment_fare=7500,
                         stop_over_indicator='1', ),
-                    segment4=citypay.AirlineSegment(
+                    segment4=AirlineSegment(
                         arrival_location_code='SOU',
                         carrier_code='ZZ',
                         class_service_code='CC',

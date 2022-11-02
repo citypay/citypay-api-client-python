@@ -9,7 +9,8 @@
 
 
 import unittest
-from citypay.api.batch_processing_api import BatchProcessingApi  # noqa: E501
+
+from citypay.api.batch_processing_api__ import BatchProcessingApi
 
 
 class TestBatchProcessingApi(unittest.TestCase):

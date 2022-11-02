@@ -59,13 +59,13 @@ class TestDecision(unittest.TestCase):
         pass
 
     def testDecisionType(self):
-        self.assertTrue(self.instance.auth_response)
-        self.assertFalse(self.instance.authen_required)
-        self.assertFalse(self.instance.request_challenged)
+        self.assertTrue(self.instance.auth_response())
+        self.assertFalse(self.instance.authen_required())
+        self.assertFalse(self.instance.request_challenged())
 
     def testDecision(self):
         """Test Decision"""
-        response = self.instance.auth_response
+        response = self.instance.auth_response()
         self.assertEqual(response.amount, 5500)
         self.assertEqual(response.atrn, "atrn1")
         self.assertEqual(response.atsd, "a")
