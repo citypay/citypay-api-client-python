@@ -263,6 +263,7 @@ class RESTClientObject(object):
 
     def POST(self, url, headers=None, query_params=None, post_params=None,
              body=None, _preload_content=True, _request_timeout=None):
+        print(f"POST to {url}")
         return self.request("POST", url,
                             headers=headers,
                             query_params=query_params,

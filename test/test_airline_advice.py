@@ -12,8 +12,8 @@
 from __future__ import absolute_import
 import unittest
 from datetime import date
-import citypay
 from citypay.model.airline_advice import AirlineAdvice  # noqa: E501
+from citypay.model.airline_segment import AirlineSegment  # noqa: E501
 
 
 class TestAirlineAdvice(unittest.TestCase):
@@ -40,7 +40,7 @@ class TestAirlineAdvice(unittest.TestCase):
                 number_in_party=2,
                 original_ticket_no='0',
                 passenger_name='NE Person',
-                segment1=citypay.AirlineSegment(
+                segment1=AirlineSegment(
                     arrival_location_code='SOU',
                     carrier_code='ZZ',
                     class_service_code='CC',
@@ -49,7 +49,7 @@ class TestAirlineAdvice(unittest.TestCase):
                     flight_number='772',
                     segment_fare=7500,
                     stop_over_indicator='1', ),
-                segment2=citypay.AirlineSegment(
+                segment2=AirlineSegment(
                     arrival_location_code='SOU',
                     carrier_code='ZZ',
                     class_service_code='CC',
@@ -58,7 +58,7 @@ class TestAirlineAdvice(unittest.TestCase):
                     flight_number='772',
                     segment_fare=7500,
                     stop_over_indicator='1', ),
-                segment3=citypay.AirlineSegment(
+                segment3=AirlineSegment(
                     arrival_location_code='SOU',
                     carrier_code='ZZ',
                     class_service_code='CC',
@@ -67,7 +67,7 @@ class TestAirlineAdvice(unittest.TestCase):
                     flight_number='772',
                     segment_fare=7500,
                     stop_over_indicator='1', ),
-                segment4=citypay.AirlineSegment(
+                segment4=AirlineSegment(
                     arrival_location_code='SOU',
                     carrier_code='ZZ',
                     class_service_code='CC',
@@ -86,7 +86,7 @@ class TestAirlineAdvice(unittest.TestCase):
             return AirlineAdvice(
                 carrier_name='EG Air',
                 number_in_party=2,
-                segment1=citypay.AirlineSegment(
+                segment1=AirlineSegment(
                     arrival_location_code='SOU',
                     carrier_code='ZZ',
                     class_service_code='CC',

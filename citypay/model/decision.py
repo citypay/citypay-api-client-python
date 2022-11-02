@@ -62,6 +62,15 @@ class Decision(ModelNormal):
           as additional properties values.
     """
 
+    def authen_required(self):
+        return self._data_store.get('authen_required')
+
+    def request_challenged(self):
+        return self._data_store.get('request_challenged')
+
+    def auth_response(self):
+        return self._data_store.get('auth_response')
+
     allowed_values = {
     }
 
@@ -186,6 +195,7 @@ class Decision(ModelNormal):
                 # discard variable.
                 continue
             setattr(self, var_name, var_value)
+
         return self
 
     required_properties = set([
@@ -271,3 +281,4 @@ class Decision(ModelNormal):
             if var_name in self.read_only_vars:
                 raise ApiAttributeError(f"`{var_name}` is a read-only attribute. Use `from_openapi_data` to instantiate "
                                      f"class with read only attributes.")
+

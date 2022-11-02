@@ -6,9 +6,24 @@ import json
 import unittest
 import uuid
 import citypay
+from citypay import Configuration
+from citypay.api.card_holder_account_api import CardHolderAccountApi
+from citypay.api.operational_functions_api__ import OperationalFunctionsApi
+from citypay.api.authorisation_and_payment_api__ import AuthorisationAndPaymentApi
+from citypay.model.account_create import AccountCreate
 from citypay.model.api_key import *
 import requests
 import base64
+
+from citypay.model.auth_request import AuthRequest
+from citypay.model.c_res_auth_request import CResAuthRequest
+from citypay.model.charge_request import ChargeRequest
+from citypay.model.contact_details import ContactDetails
+from citypay.model.ping import Ping
+from citypay.model.register_card import RegisterCard
+from citypay.model.three_d_secure import ThreeDSecure
+from citypay.utils.digest import validate_digest
+
 
 class TestApiIntegration(unittest.TestCase):
     """Error unit test stubs"""
@@ -31,14 +46,14 @@ class TestApiIntegration(unittest.TestCase):
 
         # create new api key on each call
         client_api_key = api_key_generate(self.client_id, self.licence_key)
-        self.api_client = citypay.ApiClient(citypay.Configuration(
+        self.api_client = citypay.ApiClient(Configuration(
             host="https://sandbox.citypay.com/v6",
             server_index=1,
             api_key={'cp-api-key': str(client_api_key)}
         ))
 
     def testPing(self):
-        api_response = citypay.OperationalApi(self.api_client).ping_request(citypay.Ping(
+        api_response = OperationalFunctionsApi(self.api_client).ping_request(Ping(
             identifier="it_test"
         ))
         self.assertEqual("044", api_response.code)
@@ -47,13 +62,13 @@ class TestApiIntegration(unittest.TestCase):
         self.assertIsNotNone(api_response.context)
 
     def testListMerchants(self):
-        api_list_merchants = citypay.OperationalApi(self.api_client).list_merchants_request(self.client_id)
+        api_list_merchants = OperationalFunctionsApi(self.api_client).list_merchants_request(self.client_id)
         self.assertEqual(api_list_merchants.clientid, str(self.client_id))
 
     def testAuthorise(self):
 
         id = uuid.uuid4().hex
-        decision = citypay.PaymentProcessingApi(self.api_client).authorisation_request(citypay.AuthRequest(
+        decision = AuthorisationAndPaymentApi(self.api_client).authorisation_request(AuthRequest(
             amount=1395,
             cardnumber="4000 0000 0000 0002",
             expmonth=12,
@@ -61,16 +76,16 @@ class TestApiIntegration(unittest.TestCase):
             csc="012",
             identifier=id,
             merchantid=int(self.merchant_id),
-            threedsecure=citypay.ThreeDSecure(
+            threedsecure=ThreeDSecure(
                 tds_policy="2"
             )
         ))
 
-        self.assertIsNone(decision.authen_required)
-        self.assertIsNone(decision.request_challenged)
-        self.assertIsNotNone(decision.auth_response)
+        self.assertIsNone(decision.authen_required())
+        self.assertIsNone(decision.request_challenged())
+        self.assertIsNotNone(decision.auth_response())
 
-        response = decision.auth_response
+        response = decision.auth_response()
         self.assertEqual(response.result_code, "001")
         self.assertEqual(response.identifier, id)
         self.assertEqual(response.authcode, "A12345")
@@ -79,7 +94,7 @@ class TestApiIntegration(unittest.TestCase):
 
     def testAuthorise3DSv2Test(self):
         id = uuid.uuid4().hex
-        decision = citypay.PaymentProcessingApi(self.api_client).authorisation_request(citypay.AuthRequest(
+        decision = AuthorisationAndPaymentApi(self.api_client).authorisation_request(AuthRequest(
             amount=1396,
             cardnumber="4000 0000 0000 0002",
             expmonth=12,
@@ -88,17 +103,17 @@ class TestApiIntegration(unittest.TestCase):
             identifier=id,
             merchantid=int(self.merchant_id),
             trans_type="A",
-            threedsecure=citypay.ThreeDSecure(
+            threedsecure=ThreeDSecure(
                 cp_bx="eyJhIjoiRkFwSCIsImMiOjI0LCJpIjoid3dIOTExTlBKSkdBRVhVZCIsImoiOmZhbHNlLCJsIjoiZW4tVVMiLCJoIjoxNDQwLCJ3IjoyNTYwLCJ0IjowLCJ1IjoiTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfMl8zKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODkuMC40Mzg5LjgyIFNhZmFyaS81MzcuMzYiLCJ2IjoiMS4wLjAifQ",
                 merchant_termurl="https://citypay.com/acs/return"
             )
         ))
 
-        self.assertIsNone(decision.authen_required)
-        self.assertIsNotNone(decision.request_challenged)
-        self.assertIsNone(decision.auth_response)
+        self.assertIsNone(decision.authen_required())
+        self.assertIsNotNone(decision.request_challenged())
+        self.assertIsNone(decision.auth_response())
 
-        response = decision.request_challenged
+        response = decision.request_challenged()
         self.assertIsNotNone(response.creq)
         self.assertIsNotNone(response.acs_url)
         self.assertIsNotNone(response.threedserver_trans_id)
@@ -120,9 +135,9 @@ class TestApiIntegration(unittest.TestCase):
         self.assertIsNotNone(res_obj['threeDSServerTransID'])
         self.assertIsNotNone(res_obj['transStatus'])
 
-        c_res_auth_request = citypay.CResAuthRequest(cres=base64.b64encode(res.text.encode("ascii")).decode("ascii"))
+        c_res_auth_request = CResAuthRequest(cres=base64.b64encode(res.text.encode("ascii")).decode("ascii"))
 
-        c_res_request_response =  citypay.PaymentProcessingApi(self.api_client).c_res_request(c_res_auth_request)
+        c_res_request_response =  AuthorisationAndPaymentApi(self.api_client).c_res_request(c_res_auth_request)
 
         self.assertEqual(c_res_request_response.amount, 1396)
         self.assertEqual(c_res_request_response.authcode, "A12345")
@@ -132,10 +147,10 @@ class TestApiIntegration(unittest.TestCase):
     def testCardHolderAccounts(self):
 
         cha_id = uuid.uuid4().hex
-        api = citypay.CardHolderAccountApi(self.api_client)
-        result = api.account_create(citypay.AccountCreate(
+        api = CardHolderAccountApi(self.api_client)
+        result = api.account_create(AccountCreate(
             account_id=cha_id,
-            contact=citypay.ContactDetails(
+            contact=ContactDetails(
                 address1="7 Esplanade",
                 area="St Helier",
                 company="CityPay Limited",
@@ -150,7 +165,7 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(result.account_id, cha_id)
         self.assertEqual(result.contact.address1, "7 Esplanade")
 
-        result = api.account_card_register_request(cha_id, citypay.RegisterCard(
+        result = api.account_card_register_request(cha_id, RegisterCard(
             cardnumber="4000 0000 0000 0002",
             expmonth=12,
             expyear=2030
@@ -168,13 +183,13 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(result.cards[0].expyear, 2030)
 
         identifier = uuid.uuid4().hex
-        decision = api.charge_request(citypay.ChargeRequest(
+        decision = api.charge_request(ChargeRequest(
             amount=7801,
             identifier=identifier,
             merchantid=int(self.merchant_id),
             token=result.cards[0].token,
             csc="012",
-            threedsecure=citypay.ThreeDSecure(
+            threedsecure=ThreeDSecure(
                 tds_policy="2"
             )
         ))
@@ -194,14 +209,14 @@ class TestApiIntegration(unittest.TestCase):
 
         # attempt with 3dsv1
         identifier = uuid.uuid4().hex
-        decision = api.charge_request(citypay.ChargeRequest(
+        decision = api.charge_request(ChargeRequest(
             amount=7802,
             identifier=identifier,
             merchantid=int(self.merchant_id),
             token=result.cards[0].token,
             csc="801",
             trans_type='A',
-            threedsecure=citypay.ThreeDSecure(
+            threedsecure=ThreeDSecure(
                 accept_headers="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
                 merchant_termurl="https://citypay.com/example-url",
                 user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",

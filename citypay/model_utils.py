@@ -898,7 +898,7 @@ def check_validations(
             )
         )
 
-    if (is_json_validation_enabled('maxLength', configuration) and
+    if (is_json_validation_enabled('maxLength', configuration)  and not isinstance(input_values, date) and
             'max_length' in current_validations and
             len(input_values) > current_validations['max_length']):
         raise ApiValueError(

@@ -25,4 +25,5 @@ from citypay.exceptions import ApiTypeError
 from citypay.exceptions import ApiValueError
 from citypay.exceptions import ApiKeyError
 from citypay.exceptions import ApiException
-from citypay.models.api_key import api_key_generate
+from citypay.model.api_key import api_key_generate
+

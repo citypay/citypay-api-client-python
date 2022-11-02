@@ -10,9 +10,11 @@
 """
 
 from __future__ import absolute_import
+
 import unittest
-import citypay
+
 from citypay.model.account_create import AccountCreate  # noqa: E501
+from citypay.model.contact_details import ContactDetails
 
 
 class TestAccountCreate(unittest.TestCase):
@@ -33,7 +35,7 @@ class TestAccountCreate(unittest.TestCase):
         if include_optional:
             return AccountCreate(
                 account_id='aaabbb-cccddd-eee',
-                contact=citypay.ContactDetails(
+                contact=ContactDetails(
                     address1='79 Parliament St',
                     address2='Westminster',
                     address3='0',
