@@ -7,6 +7,9 @@ import unittest
 import datetime
 from typing import Callable, Any
 import uuid
+
+from docutils.nodes import thead
+
 import citypay
 from citypay.rest import ApiException
 from citypay.models.api_key import *
@@ -62,7 +65,10 @@ class TestApiIntegration(unittest.TestCase):
             expyear=2030,
             csc="012",
             identifier=id,
-            merchantid=self.merchant_id
+            merchantid=self.merchant_id,
+            threedsecure=citypay.ThreeDSecure(
+                merchant_termurl="https://citypay.com/acs/return"
+            )
         ))
 
         self.assertIsNone(decision.authen_required)
@@ -70,6 +76,8 @@ class TestApiIntegration(unittest.TestCase):
         self.assertIsNotNone(decision.auth_response)
 
         response = decision.auth_response
+        print(response)
+        
         self.assertEqual(response.result_code, "001")
         self.assertEqual(response.identifier, id)
         self.assertEqual(response.authcode, "A12345")
@@ -130,10 +138,10 @@ class TestApiIntegration(unittest.TestCase):
         self.assertTrue(decision.is_auth_response())
 
         response = decision.auth_response
-        self.assertEqual(response.result_code, "001")
-        self.assertEqual(response.identifier, identifier)
-        self.assertEqual(response.authcode, "A12345")
-        self.assertEqual(response.amount, 7801)
+        self.assertEqual("001", response.result_code)
+        self.assertEqual(identifier, response.identifier)
+        self.assertEqual("A12345", response.authcode)
+        self.assertEqual(7801, response.amount)
 
 
         # attempt with 3dsv1
