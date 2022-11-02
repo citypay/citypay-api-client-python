@@ -1,19 +1,19 @@
 # citypay.CardHolderAccountApi
 
-All URIs are relative to *https://api.citypay.com/v6*
+All URIs are relative to *https://api.citypay.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**account_card_delete_request**](CardHolderAccountApi.md#account_card_delete_request) | **DELETE** /account/{accountid}/card/{cardId} | Card Deletion
-[**account_card_register_request**](CardHolderAccountApi.md#account_card_register_request) | **POST** /account/{accountid}/register | Card Registration
-[**account_card_status_request**](CardHolderAccountApi.md#account_card_status_request) | **POST** /account/{accountid}/card/{cardId}/status | Card Status
-[**account_change_contact_request**](CardHolderAccountApi.md#account_change_contact_request) | **POST** /account/{accountid}/contact | Contact Details Update
-[**account_create**](CardHolderAccountApi.md#account_create) | **POST** /account/create | Account Create
-[**account_delete_request**](CardHolderAccountApi.md#account_delete_request) | **DELETE** /account/{accountid} | Account Deletion
-[**account_exists_request**](CardHolderAccountApi.md#account_exists_request) | **GET** /account-exists/{accountid} | Account Exists
-[**account_retrieve_request**](CardHolderAccountApi.md#account_retrieve_request) | **GET** /account/{accountid} | Account Retrieval
-[**account_status_request**](CardHolderAccountApi.md#account_status_request) | **POST** /account/{accountid}/status | Account Status
-[**charge_request**](CardHolderAccountApi.md#charge_request) | **POST** /charge | Charge
+[**account_card_delete_request**](CardHolderAccountApi.md#account_card_delete_request) | **DELETE** /v6/account/{accountid}/card/{cardId} | Card Deletion
+[**account_card_register_request**](CardHolderAccountApi.md#account_card_register_request) | **POST** /v6/account/{accountid}/register | Card Registration
+[**account_card_status_request**](CardHolderAccountApi.md#account_card_status_request) | **POST** /v6/account/{accountid}/card/{cardId}/status | Card Status
+[**account_change_contact_request**](CardHolderAccountApi.md#account_change_contact_request) | **POST** /v6/account/{accountid}/contact | Contact Details Update
+[**account_create**](CardHolderAccountApi.md#account_create) | **POST** /v6/account/create | Account Create
+[**account_delete_request**](CardHolderAccountApi.md#account_delete_request) | **DELETE** /v6/account/{accountid} | Account Deletion
+[**account_exists_request**](CardHolderAccountApi.md#account_exists_request) | **GET** /v6/account-exists/{accountid} | Account Exists
+[**account_retrieve_request**](CardHolderAccountApi.md#account_retrieve_request) | **GET** /v6/account/{accountid} | Account Retrieval
+[**account_status_request**](CardHolderAccountApi.md#account_status_request) | **POST** /v6/account/{accountid}/status | Account Status
+[**charge_request**](CardHolderAccountApi.md#charge_request) | **POST** /v6/charge | Charge
 
 
 # **account_card_delete_request**
@@ -30,14 +30,14 @@ Deletes a card from the account. The card will be marked for deletion before a s
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -54,7 +54,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     card_id = "cardId_example" # str | The id of the card that is presented by a call to retrieve a card holder account.
 
@@ -98,6 +98,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -115,15 +116,15 @@ Allows for a card to be registered for the account. The card will be added for f
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.error import Error
 from citypay.model.card_holder_account import CardHolderAccount
 from citypay.model.register_card import RegisterCard
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -140,7 +141,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     register_card = RegisterCard(
         cardnumber="4000 0000 0000 0002",
@@ -190,6 +191,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -207,15 +209,15 @@ Updates the status of a card for processing. The following values are available 
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from citypay.model.card_status import CardStatus
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -232,7 +234,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     card_id = "cardId_example" # str | The id of the card that is presented by a call to retrieve a card holder account.
     card_status = CardStatus(
@@ -276,11 +278,12 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &lt;/br&gt;Acknowledges the card status has changed, returning a response code of &#x60;001&#x60; for a valid change or &#x60;000&#x60; for a non valid change. |  -  |
+**200** | Acknowledges the card status has changed, returning a response code of &#x60;001&#x60; for a valid change or &#x60;000&#x60; for a non valid change. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -298,15 +301,15 @@ Allows for the ability to change the contact details for an account.
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.error import Error
 from citypay.model.contact_details import ContactDetails
 from citypay.model.card_holder_account import CardHolderAccount
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -323,7 +326,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     contact_details = ContactDetails(
         address1="79 Parliament St",
@@ -381,6 +384,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -398,15 +402,15 @@ Creates a new card holder account and initialises the account ready for adding c
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.error import Error
 from citypay.model.card_holder_account import CardHolderAccount
 from citypay.model.account_create import AccountCreate
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -423,7 +427,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     account_create = AccountCreate(
         account_id="aaabbb-cccddd-eee",
         contact=ContactDetails(
@@ -482,6 +486,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -499,14 +504,14 @@ Allows for the deletion of an account. The account will marked for deletion and 
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -523,7 +528,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
     # example passing only required values which don't have defaults set
@@ -565,6 +570,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -573,7 +579,7 @@ Name | Type | Description  | Notes
 
 Account Exists
 
-Checks that an account exists and is active by providing the account id as a url parameter  Checks that an account exists and is active by providing the account id as a url parameter. 
+Checks that an account exists and is active by providing the account id as a url parameter. 
 
 ### Example
 
@@ -582,14 +588,14 @@ Checks that an account exists and is active by providing the account id as a url
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.error import Error
 from citypay.model.exists import Exists
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -606,7 +612,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
     # example passing only required values which don't have defaults set
@@ -648,6 +654,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -665,14 +672,14 @@ Allows for the retrieval of a card holder account for the given `id`. Should dup
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.error import Error
 from citypay.model.card_holder_account import CardHolderAccount
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -689,7 +696,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
     # example passing only required values which don't have defaults set
@@ -731,6 +738,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -748,15 +756,15 @@ Updates the status of an account. An account can have the following statuses app
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.account_status import AccountStatus
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -773,7 +781,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     account_status = AccountStatus(
         status="status_example",
@@ -819,6 +827,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -836,15 +845,15 @@ A charge process obtains an authorisation using a tokenised value which represen
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api
+from citypay.api import card_holder_account_api__
 from citypay.model.charge_request import ChargeRequest
 from citypay.model.decision import Decision
 from citypay.model.error import Error
 from pprint import pprint
-# Defining the host is optional and defaults to https://api.citypay.com/v6
+# Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
-    host = "https://api.citypay.com/v6"
+    host = "https://api.citypay.com"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -861,7 +870,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
     charge_request = ChargeRequest(
         amount=3600,
         avs_postcode_policy="avs_postcode_policy_example",
@@ -876,6 +885,13 @@ with citypay.ApiClient(configuration) as api_client:
         merchantid=11223344,
         threedsecure=ThreeDSecure(
             accept_headers="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+            browser_color_depth="browser_color_depth_example",
+            browser_ip="browser_ip_example",
+            browser_java_enabled="browser_java_enabled_example",
+            browser_language="browser_language_example",
+            browser_screen_height="browser_screen_height_example",
+            browser_screen_width="browser_screen_width_example",
+            browser_tz="browser_tz_example",
             cp_bx="FjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAx...",
             downgrade1=True,
             merchant_termurl="https://mysite.com/acs/return",
@@ -926,6 +942,7 @@ Name | Type | Description  | Notes
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
 **422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
