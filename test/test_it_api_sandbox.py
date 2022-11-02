@@ -187,10 +187,10 @@ class TestApiIntegration(unittest.TestCase):
         self.assertTrue(decision.is_auth_response())
 
         response = decision.auth_response
-        self.assertEqual(response.result_code, "001")
-        self.assertEqual(response.identifier, identifier)
-        self.assertEqual(response.authcode, "A12345")
-        self.assertEqual(response.amount, 7801)
+        self.assertEqual("001", response.result_code)
+        self.assertEqual(identifier, response.identifier)
+        self.assertEqual("A12345", response.authcode)
+        self.assertEqual(7801, response.amount)
 
         # attempt with 3dsv1
         identifier = uuid.uuid4().hex
