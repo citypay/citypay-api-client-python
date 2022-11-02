@@ -7,7 +7,7 @@ import unittest
 import uuid
 import citypay
 from citypay import Configuration
-from citypay.api.card_holder_account_api import CardHolderAccountApi
+from citypay.api.card_holder_account_api__ import CardHolderAccountApi
 from citypay.api.operational_functions_api__ import OperationalFunctionsApi
 from citypay.api.authorisation_and_payment_api__ import AuthorisationAndPaymentApi
 from citypay.model.account_create import AccountCreate
@@ -194,14 +194,11 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required)
-        self.assertFalse(decision.is_authen_required())
-        self.assertIsNone(decision.request_challenged)
-        self.assertFalse(decision.is_request_challenged())
-        self.assertIsNotNone(decision.auth_response)
-        self.assertTrue(decision.is_auth_response())
+        self.assertIsNone(decision.authen_required())
+        self.assertIsNone(decision.request_challenged())
+        self.assertIsNotNone(decision.auth_response())
 
-        response = decision.auth_response
+        response = decision.auth_response()
         self.assertEqual("001", response.result_code)
         self.assertEqual(identifier, response.identifier)
         self.assertEqual("A12345", response.authcode)
@@ -224,16 +221,13 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNotNone(decision.authen_required)
-        self.assertTrue(decision.is_authen_required())
-        self.assertIsNone(decision.request_challenged)
-        self.assertFalse(decision.is_request_challenged())
-        self.assertIsNone(decision.auth_response)
-        self.assertFalse(decision.is_auth_response())
+        self.assertIsNotNone(decision.authen_required())
+        self.assertIsNone(decision.request_challenged())
+        self.assertIsNone(decision.auth_response())
 
-        self.assertIsNotNone(decision.authen_required.acs_url)
-        self.assertIsNotNone(decision.authen_required.md)
-        self.assertIsNotNone(decision.authen_required.pareq)
+        self.assertIsNotNone(decision.authen_required().acs_url)
+        self.assertIsNotNone(decision.authen_required().md)
+        self.assertIsNotNone(decision.authen_required().pareq)
 
         result = api.account_delete_request(cha_id)
         self.assertEqual(result.code, "001")
