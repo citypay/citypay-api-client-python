@@ -25,7 +25,7 @@ Allows the checking of IP addresses against configured ACLs. Requests can perfor
 ```python
 import time
 import citypay
-from citypay.api import operational_functions_api__
+from citypay.api import operational_functions_api
 from citypay.model.acl_check_response_model import AclCheckResponseModel
 from citypay.model.error import Error
 from citypay.model.acl_check_request import AclCheckRequest
@@ -50,7 +50,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = operational_functions_api__.OperationalFunctionsApi(api_client)
+    api_instance = operational_functions_api.OperationalFunctionsApi(api_client)
     acl_check_request = AclCheckRequest(
         ip="8.8.8.8",
     ) # AclCheckRequest | 
@@ -112,7 +112,7 @@ Checks the contents of a `domain key`. Can be used for operational processes to 
 ```python
 import time
 import citypay
-from citypay.api import operational_functions_api__
+from citypay.api import operational_functions_api
 from citypay.model.error import Error
 from citypay.model.domain_key_response import DomainKeyResponse
 from citypay.model.domain_key_check_request import DomainKeyCheckRequest
@@ -137,7 +137,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = operational_functions_api__.OperationalFunctionsApi(api_client)
+    api_instance = operational_functions_api.OperationalFunctionsApi(api_client)
     domain_key_check_request = DomainKeyCheckRequest(
         domain_key="3MEcU8cEf...QMeebACxcQVejmT1Wi",
     ) # DomainKeyCheckRequest | 
@@ -199,7 +199,7 @@ Generates a domain key based on the permissions of the calling `api-key`. Domain
 ```python
 import time
 import citypay
-from citypay.api import operational_functions_api__
+from citypay.api import operational_functions_api
 from citypay.model.domain_key_request import DomainKeyRequest
 from citypay.model.error import Error
 from citypay.model.domain_key_response import DomainKeyResponse
@@ -224,7 +224,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = operational_functions_api__.OperationalFunctionsApi(api_client)
+    api_instance = operational_functions_api.OperationalFunctionsApi(api_client)
     domain_key_request = DomainKeyRequest(
         domain=[
             "domain_example",
@@ -290,7 +290,7 @@ An operational request to list current merchants for a client.  ### Sorting  Sor
 ```python
 import time
 import citypay
-from citypay.api import operational_functions_api__
+from citypay.api import operational_functions_api
 from citypay.model.error import Error
 from citypay.model.list_merchants_response import ListMerchantsResponse
 from pprint import pprint
@@ -314,7 +314,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = operational_functions_api__.OperationalFunctionsApi(api_client)
+    api_instance = operational_functions_api.OperationalFunctionsApi(api_client)
     clientid = "clientid_example" # str | The client id to return merchants for, specifying \"default\" will use the value in your api key.
 
     # example passing only required values which don't have defaults set
@@ -375,7 +375,7 @@ A ping request which performs a connection and authentication test to the CityPa
 ```python
 import time
 import citypay
-from citypay.api import operational_functions_api__
+from citypay.api import operational_functions_api
 from citypay.model.ping import Ping
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
@@ -406,7 +406,7 @@ configuration.api_key['cp-domain-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = operational_functions_api__.OperationalFunctionsApi(api_client)
+    api_instance = operational_functions_api.OperationalFunctionsApi(api_client)
     ping = Ping(
         identifier="95b857a1-5955-4b86-963c-5a6dbfc4fb95",
     ) # Ping | 

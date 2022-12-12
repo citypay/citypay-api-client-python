@@ -7,9 +7,9 @@ import unittest
 import uuid
 import citypay
 from citypay import Configuration
-from citypay.api.card_holder_account_api__ import CardHolderAccountApi
-from citypay.api.operational_functions_api__ import OperationalFunctionsApi
-from citypay.api.authorisation_and_payment_api__ import AuthorisationAndPaymentApi
+from citypay.api.card_holder_account_api import CardHolderAccountApi
+from citypay.api.operational_functions_api import OperationalFunctionsApi
+from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi
 from citypay.model.account_create import AccountCreate
 from citypay.model.api_key import *
 import requests

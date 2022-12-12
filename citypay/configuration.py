@@ -199,6 +199,9 @@ conf = citypay.Configuration(
         self.proxy = None
         """Proxy URL
         """
+        self.no_proxy = None
+        """bypass proxy for host in the no_proxy list.
+        """
         self.proxy_headers = None
         """Proxy headers
         """
@@ -414,8 +417,8 @@ conf = citypay.Configuration(
         return "Python SDK Debug Report:\n"\
                "OS: {env}\n"\
                "Python Version: {pyversion}\n"\
-               "Version of the API: 6.4.7\n"\
-               "SDK Package Version: 1.1.0".\
+               "Version of the API: 6.4.18\n"\
+               "SDK Package Version: 1.1.1".\
                format(env=sys.platform, pyversion=sys.version)
 
     def get_host_settings(self):

@@ -28,7 +28,7 @@ An authorisation process performs a standard transaction authorisation based on 
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.decision import Decision
 from citypay.model.auth_request import AuthRequest
 from citypay.model.error import Error
@@ -53,7 +53,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     auth_request = AuthRequest(
         airline_data=AirlineAdvice(
             carrier_name="EG Air",
@@ -127,7 +127,7 @@ with citypay.ApiClient(configuration) as api_client:
             title="Mr",
         ),
         cardnumber="4000 0000 0000 0002",
-        csc="12",
+        csc="10",
         csc_policy="csc_policy_example",
         currency="GBP",
         duplicate_policy="duplicate_policy_example",
@@ -248,7 +248,7 @@ A bin range lookup service can be used to check what a card is, as seen by the g
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.bin import Bin
 from citypay.model.error import Error
 from citypay.model.bin_lookup import BinLookup
@@ -273,7 +273,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     bin_lookup = BinLookup(
         bin=543712,
     ) # BinLookup | 
@@ -335,7 +335,7 @@ The CRes request performs authorisation processing once a challenge request has 
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.c_res_auth_request import CResAuthRequest
 from citypay.model.error import Error
 from citypay.model.auth_response import AuthResponse
@@ -360,7 +360,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     c_res_auth_request = CResAuthRequest(
         cres="x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo...",
     ) # CResAuthRequest | 
@@ -422,7 +422,7 @@ _The capture process only applies to transactions which have been pre-authorised
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from citypay.model.capture_request import CaptureRequest
@@ -447,7 +447,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     capture_request = CaptureRequest(
         airline_data=AirlineAdvice(
             carrier_name="EG Air",
@@ -573,7 +573,7 @@ The Payer Authentication Response (PaRes) is an operation after the result of au
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.pa_res_auth_request import PaResAuthRequest
 from citypay.model.error import Error
 from citypay.model.auth_response import AuthResponse
@@ -598,7 +598,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     pa_res_auth_request = PaResAuthRequest(
         md="md_example",
         pares="v66ycfSp8jNlvy7PkHbx44NEt3vox90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirb...",
@@ -661,7 +661,7 @@ A refund request which allows for the refunding of a previous transaction up  an
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.error import Error
 from citypay.model.auth_response import AuthResponse
 from citypay.model.refund_request import RefundRequest
@@ -686,7 +686,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     refund_request = RefundRequest(
         amount=3600,
         identifier="95b857a1-5955-4b86-963c-5a6dbfc4fb95",
@@ -752,7 +752,7 @@ A retrieval request which allows an integration to obtain the result of a transa
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.retrieve_request import RetrieveRequest
 from citypay.model.error import Error
 from citypay.model.auth_references import AuthReferences
@@ -777,7 +777,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     retrieve_request = RetrieveRequest(
         identifier="95b857a1-5955-4b86-963c-5a6dbfc4fb95",
         merchantid=11223344,
@@ -841,7 +841,7 @@ _The void process generally applies to transactions which have been pre-authoris
 ```python
 import time
 import citypay
-from citypay.api import authorisation_and_payment_api__
+from citypay.api import authorisation_and_payment_api
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from citypay.model.void_request import VoidRequest
@@ -866,7 +866,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = authorisation_and_payment_api__.AuthorisationAndPaymentApi(api_client)
+    api_instance = authorisation_and_payment_api.AuthorisationAndPaymentApi(api_client)
     void_request = VoidRequest(
         identifier="95b857a1-5955-4b86-963c-5a6dbfc4fb95",
         merchantid=11223344,

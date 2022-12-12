@@ -24,8 +24,8 @@ from citypay.model_utils import (  # noqa: F401
     file_type,
     none_type,
     validate_get_composed_info,
+    OpenApiModel
 )
-from ..model_utils import OpenApiModel
 from citypay.exceptions import ApiAttributeError
 
 
@@ -94,10 +94,12 @@ class PaylinkBillPaymentTokenRequest(ModelNormal):
         lazy_import()
         return {
             'request': (PaylinkTokenRequestModel,),  # noqa: E501
+            'addressee': (str,),  # noqa: E501
             'attachments': ([PaylinkAttachmentRequest],),  # noqa: E501
             'descriptor': (str,),  # noqa: E501
             'due': (date,),  # noqa: E501
             'email_notification_path': (PaylinkEmailNotificationPath,),  # noqa: E501
+            'memo': (str,),  # noqa: E501
             'sms_notification_path': (PaylinkSMSNotificationPath,),  # noqa: E501
         }
 
@@ -108,10 +110,12 @@ class PaylinkBillPaymentTokenRequest(ModelNormal):
 
     attribute_map = {
         'request': 'request',  # noqa: E501
+        'addressee': 'addressee',  # noqa: E501
         'attachments': 'attachments',  # noqa: E501
         'descriptor': 'descriptor',  # noqa: E501
         'due': 'due',  # noqa: E501
         'email_notification_path': 'email_notification_path',  # noqa: E501
+        'memo': 'memo',  # noqa: E501
         'sms_notification_path': 'sms_notification_path',  # noqa: E501
     }
 
@@ -159,15 +163,17 @@ class PaylinkBillPaymentTokenRequest(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            addressee (str): Who the bill payment request intended for. This should be a readable name such as a person or company.. [optional]  # noqa: E501
             attachments ([PaylinkAttachmentRequest]): [optional]  # noqa: E501
             descriptor (str): A descriptor for the bill payment used to describe what the payment request is for for instance \"Invoice\".  The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying \"View Invoice\" or an email may say \"to pay your Invoice online\". . [optional]  # noqa: E501
             due (date): A date that the invoice is due. This can be displayed on the payment page.. [optional]  # noqa: E501
             email_notification_path (PaylinkEmailNotificationPath): [optional]  # noqa: E501
+            memo (str): A memo that can be added to the payment page and email to provide to the customer.. [optional]  # noqa: E501
             sms_notification_path (PaylinkSMSNotificationPath): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
-        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', True)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
@@ -175,14 +181,18 @@ class PaylinkBillPaymentTokenRequest(ModelNormal):
         self = super(OpenApiModel, cls).__new__(cls)
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type
@@ -249,10 +259,12 @@ class PaylinkBillPaymentTokenRequest(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            addressee (str): Who the bill payment request intended for. This should be a readable name such as a person or company.. [optional]  # noqa: E501
             attachments ([PaylinkAttachmentRequest]): [optional]  # noqa: E501
             descriptor (str): A descriptor for the bill payment used to describe what the payment request is for for instance \"Invoice\".  The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying \"View Invoice\" or an email may say \"to pay your Invoice online\". . [optional]  # noqa: E501
             due (date): A date that the invoice is due. This can be displayed on the payment page.. [optional]  # noqa: E501
             email_notification_path (PaylinkEmailNotificationPath): [optional]  # noqa: E501
+            memo (str): A memo that can be added to the payment page and email to provide to the customer.. [optional]  # noqa: E501
             sms_notification_path (PaylinkSMSNotificationPath): [optional]  # noqa: E501
         """
 
@@ -263,14 +275,18 @@ class PaylinkBillPaymentTokenRequest(ModelNormal):
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type

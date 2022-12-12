@@ -11,50 +11,71 @@
 import unittest
 
 import citypay
-from citypay.api.operational_functions_api__ import OperationalFunctionsApi  # noqa: E501
+from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi  # noqa: E501
 
 
-class TestOperationalFunctionsApi(unittest.TestCase):
-    """OperationalFunctionsApi unit test stubs"""
+class TestAuthorisationAndPaymentApi(unittest.TestCase):
+    """AuthorisationAndPaymentApi unit test stubs"""
 
     def setUp(self):
-        self.api = OperationalFunctionsApi()  # noqa: E501
+        self.api = AuthorisationAndPaymentApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_acl_check_request(self):
-        """Test case for acl_check_request
+    def test_authorisation_request(self):
+        """Test case for authorisation_request
 
-        ACL Check Request  # noqa: E501
+        Authorisation  # noqa: E501
         """
         pass
 
-    def test_domain_key_check_request(self):
-        """Test case for domain_key_check_request
+    def test_bin_range_lookup_request(self):
+        """Test case for bin_range_lookup_request
 
-        Domain Key Check Request  # noqa: E501
+        Bin Lookup  # noqa: E501
         """
         pass
 
-    def test_domain_key_gen_request(self):
-        """Test case for domain_key_gen_request
+    def test_c_res_request(self):
+        """Test case for c_res_request
 
-        Domain Key Generation Request  # noqa: E501
+        CRes  # noqa: E501
         """
         pass
 
-    def test_list_merchants_request(self):
-        """Test case for list_merchants_request
+    def test_capture_request(self):
+        """Test case for capture_request
 
-        List Merchants Request  # noqa: E501
+        Capture  # noqa: E501
         """
         pass
 
-    def test_ping_request(self):
-        """Test case for ping_request
+    def test_pa_res_request(self):
+        """Test case for pa_res_request
 
-        Ping Request  # noqa: E501
+        PaRes  # noqa: E501
+        """
+        pass
+
+    def test_refund_request(self):
+        """Test case for refund_request
+
+        Refund  # noqa: E501
+        """
+        pass
+
+    def test_retrieval_request(self):
+        """Test case for retrieval_request
+
+        Retrieval  # noqa: E501
+        """
+        pass
+
+    def test_void_request(self):
+        """Test case for void_request
+
+        Void  # noqa: E501
         """
         pass
 

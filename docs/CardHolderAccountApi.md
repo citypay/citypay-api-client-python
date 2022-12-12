@@ -30,7 +30,7 @@ Deletes a card from the account. The card will be marked for deletion before a s
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from pprint import pprint
@@ -54,7 +54,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     card_id = "cardId_example" # str | The id of the card that is presented by a call to retrieve a card holder account.
 
@@ -116,7 +116,7 @@ Allows for a card to be registered for the account. The card will be added for f
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.error import Error
 from citypay.model.card_holder_account import CardHolderAccount
 from citypay.model.register_card import RegisterCard
@@ -141,7 +141,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     register_card = RegisterCard(
         cardnumber="4000 0000 0000 0002",
@@ -209,7 +209,7 @@ Updates the status of a card for processing. The following values are available 
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from citypay.model.card_status import CardStatus
@@ -234,7 +234,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     card_id = "cardId_example" # str | The id of the card that is presented by a call to retrieve a card holder account.
     card_status = CardStatus(
@@ -301,7 +301,7 @@ Allows for the ability to change the contact details for an account.
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.error import Error
 from citypay.model.contact_details import ContactDetails
 from citypay.model.card_holder_account import CardHolderAccount
@@ -326,7 +326,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     contact_details = ContactDetails(
         address1="79 Parliament St",
@@ -402,7 +402,7 @@ Creates a new card holder account and initialises the account ready for adding c
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.error import Error
 from citypay.model.card_holder_account import CardHolderAccount
 from citypay.model.account_create import AccountCreate
@@ -427,7 +427,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     account_create = AccountCreate(
         account_id="aaabbb-cccddd-eee",
         contact=ContactDetails(
@@ -504,7 +504,7 @@ Allows for the deletion of an account. The account will marked for deletion and 
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
 from pprint import pprint
@@ -528,7 +528,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
     # example passing only required values which don't have defaults set
@@ -588,7 +588,7 @@ Checks that an account exists and is active by providing the account id as a url
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.error import Error
 from citypay.model.exists import Exists
 from pprint import pprint
@@ -612,7 +612,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
     # example passing only required values which don't have defaults set
@@ -672,7 +672,7 @@ Allows for the retrieval of a card holder account for the given `id`. Should dup
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.error import Error
 from citypay.model.card_holder_account import CardHolderAccount
 from pprint import pprint
@@ -696,7 +696,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
 
     # example passing only required values which don't have defaults set
@@ -756,7 +756,7 @@ Updates the status of an account. An account can have the following statuses app
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.account_status import AccountStatus
 from citypay.model.acknowledgement import Acknowledgement
 from citypay.model.error import Error
@@ -781,7 +781,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     accountid = "accountid_example" # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     account_status = AccountStatus(
         status="status_example",
@@ -845,7 +845,7 @@ A charge process obtains an authorisation using a tokenised value which represen
 ```python
 import time
 import citypay
-from citypay.api import card_holder_account_api__
+from citypay.api import card_holder_account_api
 from citypay.model.charge_request import ChargeRequest
 from citypay.model.decision import Decision
 from citypay.model.error import Error
@@ -870,12 +870,12 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = card_holder_account_api__.CardHolderAccountApi(api_client)
+    api_instance = card_holder_account_api.CardHolderAccountApi(api_client)
     charge_request = ChargeRequest(
         amount=3600,
         avs_postcode_policy="avs_postcode_policy_example",
         cardholder_agreement="cardholder_agreement_example",
-        csc="12",
+        csc="10",
         csc_policy="csc_policy_example",
         currency="GBP",
         duplicate_policy="duplicate_policy_example",

@@ -11,71 +11,50 @@
 import unittest
 
 import citypay
-from citypay.api.paylink_api__ import PaylinkApi  # noqa: E501
+from citypay.api.direct_post_api import DirectPostApi  # noqa: E501
 
 
-class TestPaylinkApi(unittest.TestCase):
-    """PaylinkApi unit test stubs"""
+class TestDirectPostApi(unittest.TestCase):
+    """DirectPostApi unit test stubs"""
 
     def setUp(self):
-        self.api = PaylinkApi()  # noqa: E501
+        self.api = DirectPostApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_token_adjustment_request(self):
-        """Test case for token_adjustment_request
+    def test_direct_c_res_auth_request(self):
+        """Test case for direct_c_res_auth_request
 
-        Paylink Token Adjustment  # noqa: E501
+        Handles a CRes response from ACS, returning back the result of authorisation  # noqa: E501
         """
         pass
 
-    def test_token_close_request(self):
-        """Test case for token_close_request
+    def test_direct_c_res_tokenise_request(self):
+        """Test case for direct_c_res_tokenise_request
 
-        Close Paylink Token  # noqa: E501
+        Handles a CRes response from ACS, returning back a token for future authorisation  # noqa: E501
         """
         pass
 
-    def test_token_create_bill_payment_request(self):
-        """Test case for token_create_bill_payment_request
+    def test_direct_post_auth_request(self):
+        """Test case for direct_post_auth_request
 
-        Create Bill Payment Paylink Token  # noqa: E501
+        Direct Post Auth Request  # noqa: E501
         """
         pass
 
-    def test_token_create_request(self):
-        """Test case for token_create_request
+    def test_direct_post_tokenise_request(self):
+        """Test case for direct_post_tokenise_request
 
-        Create Paylink Token  # noqa: E501
+        Direct Post Tokenise Request  # noqa: E501
         """
         pass
 
-    def test_token_reconciled_request(self):
-        """Test case for token_reconciled_request
+    def test_token_request(self):
+        """Test case for token_request
 
-        Reconcile Paylink Token  # noqa: E501
-        """
-        pass
-
-    def test_token_reopen_request(self):
-        """Test case for token_reopen_request
-
-        Reopen Paylink Token  # noqa: E501
-        """
-        pass
-
-    def test_token_status_changes_request(self):
-        """Test case for token_status_changes_request
-
-        Paylink Token Audit  # noqa: E501
-        """
-        pass
-
-    def test_token_status_request(self):
-        """Test case for token_status_request
-
-        Paylink Token Status  # noqa: E501
+        Direct Post Token Request  # noqa: E501
         """
         pass
 

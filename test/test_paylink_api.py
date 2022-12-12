@@ -11,71 +11,78 @@
 import unittest
 
 import citypay
-from citypay.api.authorisation_and_payment_api__ import AuthorisationAndPaymentApi  # noqa: E501
+from citypay.api.paylink_api import PaylinkApi  # noqa: E501
 
 
-class TestAuthorisationAndPaymentApi(unittest.TestCase):
-    """AuthorisationAndPaymentApi unit test stubs"""
+class TestPaylinkApi(unittest.TestCase):
+    """PaylinkApi unit test stubs"""
 
     def setUp(self):
-        self.api = AuthorisationAndPaymentApi()  # noqa: E501
+        self.api = PaylinkApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_authorisation_request(self):
-        """Test case for authorisation_request
+    def test_token_adjustment_request(self):
+        """Test case for token_adjustment_request
 
-        Authorisation  # noqa: E501
+        Paylink Token Adjustment  # noqa: E501
         """
         pass
 
-    def test_bin_range_lookup_request(self):
-        """Test case for bin_range_lookup_request
+    def test_token_close_request(self):
+        """Test case for token_close_request
 
-        Bin Lookup  # noqa: E501
+        Close Paylink Token  # noqa: E501
         """
         pass
 
-    def test_c_res_request(self):
-        """Test case for c_res_request
+    def test_token_create_bill_payment_request(self):
+        """Test case for token_create_bill_payment_request
 
-        CRes  # noqa: E501
+        Create Bill Payment Paylink Token  # noqa: E501
         """
         pass
 
-    def test_capture_request(self):
-        """Test case for capture_request
+    def test_token_create_request(self):
+        """Test case for token_create_request
 
-        Capture  # noqa: E501
+        Create Paylink Token  # noqa: E501
         """
         pass
 
-    def test_pa_res_request(self):
-        """Test case for pa_res_request
+    def test_token_purge_attachments_request(self):
+        """Test case for token_purge_attachments_request
 
-        PaRes  # noqa: E501
+        Purges any attachments for a Paylink Token  # noqa: E501
         """
         pass
 
-    def test_refund_request(self):
-        """Test case for refund_request
+    def test_token_reconciled_request(self):
+        """Test case for token_reconciled_request
 
-        Refund  # noqa: E501
+        Reconcile Paylink Token  # noqa: E501
         """
         pass
 
-    def test_retrieval_request(self):
-        """Test case for retrieval_request
+    def test_token_reopen_request(self):
+        """Test case for token_reopen_request
 
-        Retrieval  # noqa: E501
+        Reopen Paylink Token  # noqa: E501
         """
         pass
 
-    def test_void_request(self):
-        """Test case for void_request
+    def test_token_status_changes_request(self):
+        """Test case for token_status_changes_request
 
-        Void  # noqa: E501
+        Paylink Token Audit  # noqa: E501
+        """
+        pass
+
+    def test_token_status_request(self):
+        """Test case for token_status_request
+
+        Paylink Token Status  # noqa: E501
         """
         pass
 

@@ -11,50 +11,50 @@
 import unittest
 
 import citypay
-from citypay.api.direct_post_api__ import DirectPostApi  # noqa: E501
+from citypay.api.operational_functions_api import OperationalFunctionsApi  # noqa: E501
 
 
-class TestDirectPostApi(unittest.TestCase):
-    """DirectPostApi unit test stubs"""
+class TestOperationalFunctionsApi(unittest.TestCase):
+    """OperationalFunctionsApi unit test stubs"""
 
     def setUp(self):
-        self.api = DirectPostApi()  # noqa: E501
+        self.api = OperationalFunctionsApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_direct_c_res_auth_request(self):
-        """Test case for direct_c_res_auth_request
+    def test_acl_check_request(self):
+        """Test case for acl_check_request
 
-        Handles a CRes response from ACS, returning back the result of authorisation  # noqa: E501
+        ACL Check Request  # noqa: E501
         """
         pass
 
-    def test_direct_c_res_tokenise_request(self):
-        """Test case for direct_c_res_tokenise_request
+    def test_domain_key_check_request(self):
+        """Test case for domain_key_check_request
 
-        Handles a CRes response from ACS, returning back a token for future authorisation  # noqa: E501
+        Domain Key Check Request  # noqa: E501
         """
         pass
 
-    def test_direct_post_auth_request(self):
-        """Test case for direct_post_auth_request
+    def test_domain_key_gen_request(self):
+        """Test case for domain_key_gen_request
 
-        Direct Post Auth Request  # noqa: E501
+        Domain Key Generation Request  # noqa: E501
         """
         pass
 
-    def test_direct_post_tokenise_request(self):
-        """Test case for direct_post_tokenise_request
+    def test_list_merchants_request(self):
+        """Test case for list_merchants_request
 
-        Direct Post Tokenise Request  # noqa: E501
+        List Merchants Request  # noqa: E501
         """
         pass
 
-    def test_token_request(self):
-        """Test case for token_request
+    def test_ping_request(self):
+        """Test case for ping_request
 
-        Direct Post Token Request  # noqa: E501
+        Ping Request  # noqa: E501
         """
         pass
 

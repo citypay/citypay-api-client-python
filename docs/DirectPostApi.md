@@ -24,7 +24,7 @@ Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint
 ```python
 import time
 import citypay
-from citypay.api import direct_post_api__
+from citypay.api import direct_post_api
 from citypay.model.error import Error
 from citypay.model.auth_response import AuthResponse
 from pprint import pprint
@@ -38,7 +38,7 @@ configuration = citypay.Configuration(
 # Enter a context with an instance of the API client
 with citypay.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = direct_post_api__.DirectPostApi(api_client)
+    api_instance = direct_post_api.DirectPostApi(api_client)
     uuid = "uuid_example" # str | An identifier used to track the CReq/CRes cycle.
     cres = "x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo..." # str | The CRES from the ACS. (optional)
     three_ds_session_data = "three_ds_session_data_example" # str | The session data from the ACS. (optional)
@@ -112,7 +112,7 @@ Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint
 ```python
 import time
 import citypay
-from citypay.api import direct_post_api__
+from citypay.api import direct_post_api
 from citypay.model.tokenisation_response_model import TokenisationResponseModel
 from citypay.model.error import Error
 from pprint import pprint
@@ -126,7 +126,7 @@ configuration = citypay.Configuration(
 # Enter a context with an instance of the API client
 with citypay.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = direct_post_api__.DirectPostApi(api_client)
+    api_instance = direct_post_api.DirectPostApi(api_client)
     uuid = "uuid_example" # str | An identifier used to track the CReq/CRes cycle.
     cres = "x90+vZ/7Ll05Vid/jPfQn8adw+4D/vRDUGT19kndW97Hfirbv66ycfSp8jNlvy7PkHbx44NEt3vo..." # str | The CRES from the ACS. (optional)
     three_ds_session_data = "three_ds_session_data_example" # str | The session data from the ACS. (optional)
@@ -192,7 +192,7 @@ No authorization required
 
 Direct Post Auth Request
 
-Used to initiate a direct post request transaction flow.  <pre class=\"inline-code language-bash\"> <code> curl https://api.citypay.com/v6/direct?cp-domain-key=n834ytqp84y... \\  -d \"amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW </code> </pre>. 
+Used to initiate a direct post request transaction flow.  <pre class=\"inline-code language-bash\"> <code> curl https://api.citypay.com/direct/auth?cp-domain-key=n834ytqp84y... \\  -d \"amount=7500&identifier=example_trans&cardnumber=4000000000000002&expmonth=9&expyear=2028&bill_to_postcode=L1+7ZW </code> </pre>. 
 
 ### Example
 
@@ -202,7 +202,7 @@ Used to initiate a direct post request transaction flow.  <pre class=\"inline-co
 ```python
 import time
 import citypay
-from citypay.api import direct_post_api__
+from citypay.api import direct_post_api
 from citypay.model.error import Error
 from citypay.model.auth_response import AuthResponse
 from citypay.model.direct_post_request import DirectPostRequest
@@ -233,7 +233,7 @@ configuration.api_key['cp-domain-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = direct_post_api__.DirectPostApi(api_client)
+    api_instance = direct_post_api.DirectPostApi(api_client)
     direct_post_request = DirectPostRequest(
         amount=3600,
         avs_postcode_policy="avs_postcode_policy_example",
@@ -253,7 +253,7 @@ with citypay.ApiClient(configuration) as api_client:
             title="Mr",
         ),
         cardnumber="4000 0000 0000 0002",
-        csc="12",
+        csc="10",
         csc_policy="csc_policy_example",
         currency="GBP",
         duplicate_policy="duplicate_policy_example",
@@ -360,7 +360,7 @@ Used to initiate a direct post request transaction flow.  <pre class=\"inline-co
 ```python
 import time
 import citypay
-from citypay.api import direct_post_api__
+from citypay.api import direct_post_api
 from citypay.model.error import Error
 from citypay.model.auth_response import AuthResponse
 from citypay.model.direct_post_request import DirectPostRequest
@@ -391,7 +391,7 @@ configuration.api_key['cp-domain-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = direct_post_api__.DirectPostApi(api_client)
+    api_instance = direct_post_api.DirectPostApi(api_client)
     direct_post_request = DirectPostRequest(
         amount=3600,
         avs_postcode_policy="avs_postcode_policy_example",
@@ -411,7 +411,7 @@ with citypay.ApiClient(configuration) as api_client:
             title="Mr",
         ),
         cardnumber="4000 0000 0000 0002",
-        csc="12",
+        csc="10",
         csc_policy="csc_policy_example",
         currency="GBP",
         duplicate_policy="duplicate_policy_example",
@@ -518,7 +518,7 @@ Perform a request for authorisation for a previously generated token. This flow 
 ```python
 import time
 import citypay
-from citypay.api import direct_post_api__
+from citypay.api import direct_post_api
 from citypay.model.error import Error
 from citypay.model.auth_response import AuthResponse
 from citypay.model.direct_token_auth_request import DirectTokenAuthRequest
@@ -549,7 +549,7 @@ configuration.api_key['cp-domain-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = direct_post_api__.DirectPostApi(api_client)
+    api_instance = direct_post_api.DirectPostApi(api_client)
     direct_token_auth_request = DirectTokenAuthRequest(
         nonce="0123456789ABCDEF",
         redirect_failure="https://pay.mystore.com/continue_failure",
