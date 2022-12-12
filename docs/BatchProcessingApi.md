@@ -23,7 +23,7 @@ A batch process request is used to start the batch process workflow by uploading
 ```python
 import time
 import citypay
-from citypay.api import batch_processing_api__
+from citypay.api import batch_processing_api
 from citypay.model.process_batch_response import ProcessBatchResponse
 from citypay.model.error import Error
 from citypay.model.process_batch_request import ProcessBatchRequest
@@ -48,7 +48,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = batch_processing_api__.BatchProcessingApi(api_client)
+    api_instance = batch_processing_api.BatchProcessingApi(api_client)
     process_batch_request = ProcessBatchRequest(
         batch_date=dateutil_parser('Thu Jan 02 00:00:00 UTC 2020').date(),
         batch_id=35,
@@ -120,7 +120,7 @@ The operation is used to retrieve a report of the result of a batch process.
 ```python
 import time
 import citypay
-from citypay.api import batch_processing_api__
+from citypay.api import batch_processing_api
 from citypay.model.batch_report_request import BatchReportRequest
 from citypay.model.batch_report_response_model import BatchReportResponseModel
 from citypay.model.error import Error
@@ -145,7 +145,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = batch_processing_api__.BatchProcessingApi(api_client)
+    api_instance = batch_processing_api.BatchProcessingApi(api_client)
     batch_report_request = BatchReportRequest(
         batch_id=35,
         client_account_id="AC1",
@@ -208,7 +208,7 @@ The operation is used to retrieve the status of a batch process.
 ```python
 import time
 import citypay
-from citypay.api import batch_processing_api__
+from citypay.api import batch_processing_api
 from citypay.model.check_batch_status_response import CheckBatchStatusResponse
 from citypay.model.error import Error
 from citypay.model.check_batch_status import CheckBatchStatus
@@ -233,7 +233,7 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = batch_processing_api__.BatchProcessingApi(api_client)
+    api_instance = batch_processing_api.BatchProcessingApi(api_client)
     check_batch_status = CheckBatchStatus(
         batch_id=[
             78,

@@ -11,85 +11,78 @@
 import unittest
 
 import citypay
-from citypay.api.card_holder_account_api__ import CardHolderAccountApi  # noqa: E501
+from citypay.api.paylink_api import PaylinkApi  # noqa: E501
 
 
-class TestCardHolderAccountApi(unittest.TestCase):
-    """CardHolderAccountApi unit test stubs"""
+class TestPaylinkApi(unittest.TestCase):
+    """PaylinkApi unit test stubs"""
 
     def setUp(self):
-        self.api = CardHolderAccountApi()  # noqa: E501
+        self.api = PaylinkApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_account_card_delete_request(self):
-        """Test case for account_card_delete_request
+    def test_token_adjustment_request(self):
+        """Test case for token_adjustment_request
 
-        Card Deletion  # noqa: E501
+        Paylink Token Adjustment  # noqa: E501
         """
         pass
 
-    def test_account_card_register_request(self):
-        """Test case for account_card_register_request
+    def test_token_close_request(self):
+        """Test case for token_close_request
 
-        Card Registration  # noqa: E501
+        Close Paylink Token  # noqa: E501
         """
         pass
 
-    def test_account_card_status_request(self):
-        """Test case for account_card_status_request
+    def test_token_create_bill_payment_request(self):
+        """Test case for token_create_bill_payment_request
 
-        Card Status  # noqa: E501
+        Create Bill Payment Paylink Token  # noqa: E501
         """
         pass
 
-    def test_account_change_contact_request(self):
-        """Test case for account_change_contact_request
+    def test_token_create_request(self):
+        """Test case for token_create_request
 
-        Contact Details Update  # noqa: E501
+        Create Paylink Token  # noqa: E501
         """
         pass
 
-    def test_account_create(self):
-        """Test case for account_create
+    def test_token_purge_attachments_request(self):
+        """Test case for token_purge_attachments_request
 
-        Account Create  # noqa: E501
+        Purges any attachments for a Paylink Token  # noqa: E501
         """
         pass
 
-    def test_account_delete_request(self):
-        """Test case for account_delete_request
+    def test_token_reconciled_request(self):
+        """Test case for token_reconciled_request
 
-        Account Deletion  # noqa: E501
+        Reconcile Paylink Token  # noqa: E501
         """
         pass
 
-    def test_account_exists_request(self):
-        """Test case for account_exists_request
+    def test_token_reopen_request(self):
+        """Test case for token_reopen_request
 
-        Account Exists  # noqa: E501
+        Reopen Paylink Token  # noqa: E501
         """
         pass
 
-    def test_account_retrieve_request(self):
-        """Test case for account_retrieve_request
+    def test_token_status_changes_request(self):
+        """Test case for token_status_changes_request
 
-        Account Retrieval  # noqa: E501
+        Paylink Token Audit  # noqa: E501
         """
         pass
 
-    def test_account_status_request(self):
-        """Test case for account_status_request
+    def test_token_status_request(self):
+        """Test case for token_status_request
 
-        Account Status  # noqa: E501
-        """
-        pass
-
-    def test_charge_request(self):
-        """Test case for charge_request
-
-        Charge  # noqa: E501
+        Paylink Token Status  # noqa: E501
         """
         pass
 

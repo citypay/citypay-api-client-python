@@ -11,36 +11,71 @@
 import unittest
 
 import citypay
-from citypay.api.batch_processing_api__ import BatchProcessingApi  # noqa: E501
+from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi  # noqa: E501
 
 
-class TestBatchProcessingApi(unittest.TestCase):
-    """BatchProcessingApi unit test stubs"""
+class TestAuthorisationAndPaymentApi(unittest.TestCase):
+    """AuthorisationAndPaymentApi unit test stubs"""
 
     def setUp(self):
-        self.api = BatchProcessingApi()  # noqa: E501
+        self.api = AuthorisationAndPaymentApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def test_batch_process_request(self):
-        """Test case for batch_process_request
+    def test_authorisation_request(self):
+        """Test case for authorisation_request
 
-        Batch Process Request  # noqa: E501
+        Authorisation  # noqa: E501
         """
         pass
 
-    def test_batch_report_request(self):
-        """Test case for batch_report_request
+    def test_bin_range_lookup_request(self):
+        """Test case for bin_range_lookup_request
 
-        BatchReportRequest  # noqa: E501
+        Bin Lookup  # noqa: E501
         """
         pass
 
-    def test_check_batch_status_request(self):
-        """Test case for check_batch_status_request
+    def test_c_res_request(self):
+        """Test case for c_res_request
 
-        CheckBatchStatus  # noqa: E501
+        CRes  # noqa: E501
+        """
+        pass
+
+    def test_capture_request(self):
+        """Test case for capture_request
+
+        Capture  # noqa: E501
+        """
+        pass
+
+    def test_pa_res_request(self):
+        """Test case for pa_res_request
+
+        PaRes  # noqa: E501
+        """
+        pass
+
+    def test_refund_request(self):
+        """Test case for refund_request
+
+        Refund  # noqa: E501
+        """
+        pass
+
+    def test_retrieval_request(self):
+        """Test case for retrieval_request
+
+        Retrieval  # noqa: E501
+        """
+        pass
+
+    def test_void_request(self):
+        """Test case for void_request
+
+        Void  # noqa: E501
         """
         pass
 

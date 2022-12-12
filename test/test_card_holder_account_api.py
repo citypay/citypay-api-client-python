@@ -15,7 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import citypay
-from citypay.api.card_holder_account_api__ import CardHolderAccountApi
+from citypay.api.card_holder_account_api import CardHolderAccountApi
 
 
 class TestCardHolderAccountApi(unittest.TestCase):

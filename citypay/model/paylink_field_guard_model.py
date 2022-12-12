@@ -24,8 +24,8 @@ from citypay.model_utils import (  # noqa: F401
     file_type,
     none_type,
     validate_get_composed_info,
+    OpenApiModel
 )
-from ..model_utils import OpenApiModel
 from citypay.exceptions import ApiAttributeError
 
 
@@ -81,9 +81,13 @@ class PaylinkFieldGuardModel(ModelNormal):
                 and the value is attribute type.
         """
         return {
+            'field_type': (str,),  # noqa: E501
             'label': (str,),  # noqa: E501
+            'maxlen': (int,),  # noqa: E501
+            'minlen': (int,),  # noqa: E501
             'name': (str,),  # noqa: E501
-            'type': (str,),  # noqa: E501
+            'regex': (str,),  # noqa: E501
+            'value': (str,),  # noqa: E501
         }
 
     @cached_property
@@ -92,9 +96,13 @@ class PaylinkFieldGuardModel(ModelNormal):
 
 
     attribute_map = {
+        'field_type': 'field_type',  # noqa: E501
         'label': 'label',  # noqa: E501
+        'maxlen': 'maxlen',  # noqa: E501
+        'minlen': 'minlen',  # noqa: E501
         'name': 'name',  # noqa: E501
-        'type': 'type',  # noqa: E501
+        'regex': 'regex',  # noqa: E501
+        'value': 'value',  # noqa: E501
     }
 
     read_only_vars = {
@@ -138,13 +146,17 @@ class PaylinkFieldGuardModel(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            field_type (str): A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.. [optional]  # noqa: E501
             label (str): A label for the field guard to display on the authentication page.. [optional]  # noqa: E501
+            maxlen (int): A maximum length of any value supplied in the field guard form. Used for validating entry.. [optional]  # noqa: E501
+            minlen (int): A minimum length of any value supplied in the field guard form. Used for validating entry.. [optional]  # noqa: E501
             name (str): A field name which is used to refer to a field which is guarded.. [optional]  # noqa: E501
-            type (str): A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.. [optional]  # noqa: E501
+            regex (str): A JavaScript regular expression value which can be used to validate the data provided in the field guard entry form. Used for validating entry.. [optional]  # noqa: E501
+            value (str): A value directly associated with the field guard. Any value provided at this level will be considered as sensitive and not logged.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
-        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', True)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
@@ -152,14 +164,18 @@ class PaylinkFieldGuardModel(ModelNormal):
         self = super(OpenApiModel, cls).__new__(cls)
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type
@@ -222,9 +238,13 @@ class PaylinkFieldGuardModel(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
+            field_type (str): A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.. [optional]  # noqa: E501
             label (str): A label for the field guard to display on the authentication page.. [optional]  # noqa: E501
+            maxlen (int): A maximum length of any value supplied in the field guard form. Used for validating entry.. [optional]  # noqa: E501
+            minlen (int): A minimum length of any value supplied in the field guard form. Used for validating entry.. [optional]  # noqa: E501
             name (str): A field name which is used to refer to a field which is guarded.. [optional]  # noqa: E501
-            type (str): A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.. [optional]  # noqa: E501
+            regex (str): A JavaScript regular expression value which can be used to validate the data provided in the field guard entry form. Used for validating entry.. [optional]  # noqa: E501
+            value (str): A value directly associated with the field guard. Any value provided at this level will be considered as sensitive and not logged.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -234,14 +254,18 @@ class PaylinkFieldGuardModel(ModelNormal):
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type

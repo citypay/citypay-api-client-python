@@ -11,7 +11,7 @@
 import unittest
 
 import citypay
-from citypay.api.direct_post_api__ import DirectPostApi  # noqa: E501
+from citypay.api.direct_post_api import DirectPostApi  # noqa: E501
 
 
 class TestDirectPostApi(unittest.TestCase):

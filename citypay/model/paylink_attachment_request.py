@@ -24,8 +24,8 @@ from citypay.model_utils import (  # noqa: F401
     file_type,
     none_type,
     validate_get_composed_info,
+    OpenApiModel
 )
-from ..model_utils import OpenApiModel
 from citypay.exceptions import ApiAttributeError
 
 
@@ -84,6 +84,8 @@ class PaylinkAttachmentRequest(ModelNormal):
             'filename': (str,),  # noqa: E501
             'mime_type': (str,),  # noqa: E501
             'data': (str,),  # noqa: E501
+            'name': (str,),  # noqa: E501
+            'retention': (int,),  # noqa: E501
         }
 
     @cached_property
@@ -95,6 +97,8 @@ class PaylinkAttachmentRequest(ModelNormal):
         'filename': 'filename',  # noqa: E501
         'mime_type': 'mime_type',  # noqa: E501
         'data': 'data',  # noqa: E501
+        'name': 'name',  # noqa: E501
+        'retention': 'retention',  # noqa: E501
     }
 
     read_only_vars = {
@@ -143,10 +147,12 @@ class PaylinkAttachmentRequest(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             data (str): base64 encoding of the file if less than 32kb in size.. [optional]  # noqa: E501
+            name (str): A name for the file to identify it to the card holder when it is displayed in the payment form. For example Invoice, Statement.. [optional]  # noqa: E501
+            retention (int): The retention period in days of the attachment. Defaults to 180 days.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
-        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', True)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
@@ -154,14 +160,18 @@ class PaylinkAttachmentRequest(ModelNormal):
         self = super(OpenApiModel, cls).__new__(cls)
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type
@@ -231,6 +241,8 @@ class PaylinkAttachmentRequest(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             data (str): base64 encoding of the file if less than 32kb in size.. [optional]  # noqa: E501
+            name (str): A name for the file to identify it to the card holder when it is displayed in the payment form. For example Invoice, Statement.. [optional]  # noqa: E501
+            retention (int): The retention period in days of the attachment. Defaults to 180 days.. [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -240,14 +252,18 @@ class PaylinkAttachmentRequest(ModelNormal):
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
 
         if args:
-            raise ApiTypeError(
-                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
-                    args,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+            for arg in args:
+                if isinstance(arg, dict):
+                    kwargs.update(arg)
+                else:
+                    raise ApiTypeError(
+                        "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                            args,
+                            self.__class__.__name__,
+                        ),
+                        path_to_item=_path_to_item,
+                        valid_classes=(self.__class__,),
+                    )
 
         self._data_store = {}
         self._check_type = _check_type

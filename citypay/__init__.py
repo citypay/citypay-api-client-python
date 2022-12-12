@@ -10,7 +10,7 @@
 """
 
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 # import ApiClient
 from citypay.api_client import ApiClient
@@ -26,4 +26,3 @@ from citypay.exceptions import ApiValueError
 from citypay.exceptions import ApiKeyError
 from citypay.exceptions import ApiException
 from citypay.model.api_key import api_key_generate
-

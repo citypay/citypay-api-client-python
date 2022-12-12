@@ -11,7 +11,7 @@
 import unittest
 
 import citypay
-from citypay.api.operational_functions_api__ import OperationalFunctionsApi  # noqa: E501
+from citypay.api.operational_functions_api import OperationalFunctionsApi  # noqa: E501
 
 
 class TestOperationalFunctionsApi(unittest.TestCase):
