@@ -10,7 +10,7 @@
 
 import unittest
 
-from citypay.api.batch_processing_api__ import BatchProcessingApi
+from citypay.api.batch_processing_api import BatchProcessingApi
 
 
 class TestBatchProcessingApi(unittest.TestCase):
