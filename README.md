@@ -1,6 +1,6 @@
 # CityPay API Client for Python
 
-[![Build Status](https://api.travis-ci.com/citypay/citypay-api-client-python.svg?branch=master)](https://app.travis-ci.com/github/citypay/citypay-api-client-python)
+[![citypay Python package](https://github.com/citypay/citypay-api-client-python/actions/workflows/python.yml/badge.svg)](https://github.com/citypay/citypay-api-client-python/actions/workflows/python.yml)
 This CityPay API is an HTTP RESTful payment API used for direct server to server transactional processing. It
 provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
 3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and
