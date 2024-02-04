@@ -2,6 +2,7 @@
 
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **amount** | **int** | The net amount of the item. The Paylink Payment Form does not multiply this figure by the value provided by the count value for the cart item, this is principally to avoid rounding errors to introduce discrepancies between the value of the goods charged for and the total amount represented by the collection of cart items. | [optional] 
@@ -12,8 +13,24 @@ Name | Type | Description | Notes
 **max** | **int** | For an editable cart, the maximum number of items that can be purchased, defaults to 5. | [optional] 
 **sku** | **str** | The stock control unit value. | [optional] 
 **variant** | **str** | The variant field refers to the variant of the cart item to enable similar items to be distinguished according to certain criteria. For example, similar items may be distinguished in terms of size, weight and power. The Paylink Payment Form does not constrain the value of the variant field to a particular set of metrics. | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
+## Example
+
+```python
+from citypay.models.paylink_cart_item_model import PaylinkCartItemModel
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of PaylinkCartItemModel from a JSON string
+paylink_cart_item_model_instance = PaylinkCartItemModel.from_json(json)
+# print the JSON string representation of the object
+print PaylinkCartItemModel.to_json()
+
+# convert the object into a dict
+paylink_cart_item_model_dict = paylink_cart_item_model_instance.to_dict()
+# create an instance of PaylinkCartItemModel from a dict
+paylink_cart_item_model_form_dict = paylink_cart_item_model.from_dict(paylink_cart_item_model_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

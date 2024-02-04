@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.direct_token_auth_request import DirectTokenAuthRequest
+from citypay.models.direct_token_auth_request import DirectTokenAuthRequest
 
 
 class TestDirectTokenAuthRequest(unittest.TestCase):

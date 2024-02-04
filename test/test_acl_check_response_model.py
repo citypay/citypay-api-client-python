@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.acl_check_response_model import AclCheckResponseModel
+from citypay.models.acl_check_response_model import AclCheckResponseModel
 
 
 class TestAclCheckResponseModel(unittest.TestCase):

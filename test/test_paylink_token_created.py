@@ -12,11 +12,11 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_attachment_result import PaylinkAttachmentResult
-from citypay.model.paylink_error_code import PaylinkErrorCode
+from citypay.models.paylink_attachment_result import PaylinkAttachmentResult
+from citypay.models.paylink_error_code import PaylinkErrorCode
 globals()['PaylinkAttachmentResult'] = PaylinkAttachmentResult
 globals()['PaylinkErrorCode'] = PaylinkErrorCode
-from citypay.model.paylink_token_created import PaylinkTokenCreated
+from citypay.models.paylink_token_created import PaylinkTokenCreated
 
 
 class TestPaylinkTokenCreated(unittest.TestCase):

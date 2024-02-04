@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_custom_param import PaylinkCustomParam
+from citypay.models.paylink_custom_param import PaylinkCustomParam
 
 
 class TestPaylinkCustomParam(unittest.TestCase):

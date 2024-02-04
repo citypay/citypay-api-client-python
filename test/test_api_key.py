@@ -1,5 +1,5 @@
 import unittest
-from citypay.model.api_key import *
+from citypay.models.api_key import *
 
 
 class TestApiKey(unittest.TestCase):

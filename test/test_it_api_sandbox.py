@@ -10,18 +10,18 @@ from citypay import Configuration
 from citypay.api.card_holder_account_api import CardHolderAccountApi
 from citypay.api.operational_functions_api import OperationalFunctionsApi
 from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi
-from citypay.model.account_create import AccountCreate
-from citypay.model.api_key import *
+from citypay.models.account_create import AccountCreate
+from citypay.models.api_key import *
 import requests
 import base64
 
-from citypay.model.auth_request import AuthRequest
-from citypay.model.c_res_auth_request import CResAuthRequest
-from citypay.model.charge_request import ChargeRequest
-from citypay.model.contact_details import ContactDetails
-from citypay.model.ping import Ping
-from citypay.model.register_card import RegisterCard
-from citypay.model.three_d_secure import ThreeDSecure
+from citypay.models.auth_request import AuthRequest
+from citypay.models.c_res_auth_request import CResAuthRequest
+from citypay.models.charge_request import ChargeRequest
+from citypay.models.contact_details import ContactDetails
+from citypay.models.ping import Ping
+from citypay.models.register_card import RegisterCard
+from citypay.models.three_d_secure import ThreeDSecure
 from citypay.utils.digest import validate_digest
 
 
@@ -81,11 +81,11 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required())
-        self.assertIsNone(decision.request_challenged())
-        self.assertIsNotNone(decision.auth_response())
+        self.assertIsNone(decision.authen_required)
+        self.assertIsNone(decision.request_challenged)
+        self.assertIsNotNone(decision.auth_response)
 
-        response = decision.auth_response()
+        response = decision.auth_response
         self.assertEqual(response.result_code, "001")
         self.assertEqual(response.identifier, id)
         self.assertEqual(response.authcode, "A12345")
@@ -109,11 +109,11 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required())
-        self.assertIsNotNone(decision.request_challenged())
-        self.assertIsNone(decision.auth_response())
+        self.assertIsNone(decision.authen_required)
+        self.assertIsNotNone(decision.request_challenged)
+        self.assertIsNone(decision.auth_response)
 
-        response = decision.request_challenged()
+        response = decision.request_challenged
         self.assertIsNotNone(response.creq)
         self.assertIsNotNone(response.acs_url)
         self.assertIsNotNone(response.threedserver_trans_id)
@@ -129,13 +129,7 @@ class TestApiIntegration(unittest.TestCase):
         res = requests.post(url, data=json.dumps(content), headers=headers)
         res_obj = json.loads(res.text)
 
-        self.assertIsNotNone(res_obj['acsTransID'])
-        self.assertIsNotNone(res_obj['messageType'])
-        self.assertIsNotNone(res_obj['messageVersion'])
-        self.assertIsNotNone(res_obj['threeDSServerTransID'])
-        self.assertIsNotNone(res_obj['transStatus'])
-
-        c_res_auth_request = CResAuthRequest(cres=base64.b64encode(res.text.encode("ascii")).decode("ascii"))
+        c_res_auth_request = CResAuthRequest(cres=res_obj['cres'])
 
         c_res_request_response =  AuthorisationAndPaymentApi(self.api_client).c_res_request(c_res_auth_request)
 
@@ -194,11 +188,11 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required())
-        self.assertIsNone(decision.request_challenged())
-        self.assertIsNotNone(decision.auth_response())
+        self.assertIsNone(decision.authen_required)
+        self.assertIsNone(decision.request_challenged)
+        self.assertIsNotNone(decision.auth_response)
 
-        response = decision.auth_response()
+        response = decision.auth_response
         self.assertEqual("001", response.result_code)
         self.assertEqual(identifier, response.identifier)
         self.assertEqual("A12345", response.authcode)
@@ -221,20 +215,14 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNotNone(decision.authen_required())
-        self.assertIsNone(decision.request_challenged())
-        self.assertIsNone(decision.auth_response())
+        self.assertIsNone(decision.authen_required)
+        self.assertIsNotNone(decision.request_challenged)
+        self.assertIsNone(decision.auth_response)
 
-        self.assertIsNotNone(decision.authen_required().acs_url)
-        self.assertIsNotNone(decision.authen_required().md)
-        self.assertIsNotNone(decision.authen_required().pareq)
+        self.assertIsNotNone(decision.request_challenged.acs_url)
 
         result = api.account_delete_request(cha_id)
         self.assertEqual(result.code, "001")
-
-    def tearDown(self):
-        self.api_client.close()
-
 
 if __name__ == '__main__':
     unittest.main()

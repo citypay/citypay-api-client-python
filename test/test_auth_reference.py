@@ -12,7 +12,7 @@
 from __future__ import absolute_import
 import unittest
 from datetime import datetime
-from citypay.model.auth_reference import AuthReference  # noqa: E501
+from citypay.models.auth_reference import AuthReference  # noqa: E501
 
 
 class TestAuthReference(unittest.TestCase):

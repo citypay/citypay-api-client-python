@@ -2,13 +2,30 @@
 
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **authen_required** | [**AuthenRequired**](AuthenRequired.md) |  | [optional] 
 **auth_response** | [**AuthResponse**](AuthResponse.md) |  | [optional] 
 **request_challenged** | [**RequestChallenged**](RequestChallenged.md) |  | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
+## Example
+
+```python
+from citypay.models.decision import Decision
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of Decision from a JSON string
+decision_instance = Decision.from_json(json)
+# print the JSON string representation of the object
+print Decision.to_json()
+
+# convert the object into a dict
+decision_dict = decision_instance.to_dict()
+# create an instance of Decision from a dict
+decision_form_dict = decision.from_dict(decision_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

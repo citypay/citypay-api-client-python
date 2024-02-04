@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.account_status import AccountStatus  # noqa: E501
+from citypay.models.account_status import AccountStatus  # noqa: E501
 
 
 class TestAccountStatus(unittest.TestCase):

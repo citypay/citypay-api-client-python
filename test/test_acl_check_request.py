@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.acl_check_request import AclCheckRequest
+from citypay.models.acl_check_request import AclCheckRequest
 
 
 class TestAclCheckRequest(unittest.TestCase):

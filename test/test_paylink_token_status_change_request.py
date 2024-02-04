@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_token_status_change_request import PaylinkTokenStatusChangeRequest
+from citypay.models.paylink_token_status_change_request import PaylinkTokenStatusChangeRequest
 
 
 class TestPaylinkTokenStatusChangeRequest(unittest.TestCase):

@@ -12,15 +12,15 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_custom_param import PaylinkCustomParam
-from citypay.model.paylink_field_guard_model import PaylinkFieldGuardModel
-from citypay.model.paylink_part_payments import PaylinkPartPayments
-from citypay.model.paylink_ui import PaylinkUI
+from citypay.models.paylink_custom_param import PaylinkCustomParam
+from citypay.models.paylink_field_guard_model import PaylinkFieldGuardModel
+from citypay.models.paylink_part_payments import PaylinkPartPayments
+from citypay.models.paylink_ui import PaylinkUI
 globals()['PaylinkCustomParam'] = PaylinkCustomParam
 globals()['PaylinkFieldGuardModel'] = PaylinkFieldGuardModel
 globals()['PaylinkPartPayments'] = PaylinkPartPayments
 globals()['PaylinkUI'] = PaylinkUI
-from citypay.model.paylink_config import PaylinkConfig
+from citypay.models.paylink_config import PaylinkConfig
 
 
 class TestPaylinkConfig(unittest.TestCase):

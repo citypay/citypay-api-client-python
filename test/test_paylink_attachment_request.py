@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_attachment_request import PaylinkAttachmentRequest
+from citypay.models.paylink_attachment_request import PaylinkAttachmentRequest
 
 
 class TestPaylinkAttachmentRequest(unittest.TestCase):

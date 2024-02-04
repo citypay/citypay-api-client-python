@@ -12,7 +12,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.refund_request import RefundRequest  # noqa: E501
+from citypay.models.refund_request import RefundRequest  # noqa: E501
 
 
 class TestRefundRequest(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestRefundRequest(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.refund_request.RefundRequest()  # noqa: E501
+        # model = citypay.models.refund_request.RefundRequest()  # noqa: E501
 
         if include_optional :
             return RefundRequest(

@@ -2,6 +2,7 @@
 
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **bin_commercial** | **bool** | Defines whether the card is a commercial card. | [optional] 
@@ -24,8 +25,24 @@ Name | Type | Description | Notes
 **name_on_card** | **str** | The name on the card. | [optional] 
 **scheme** | **str** | The scheme that issued the card. | [optional] 
 **token** | **str** | A token that can be used to process against the card. | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
+## Example
+
+```python
+from citypay.models.card import Card
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of Card from a JSON string
+card_instance = Card.from_json(json)
+# print the JSON string representation of the object
+print Card.to_json()
+
+# convert the object into a dict
+card_dict = card_instance.to_dict()
+# create an instance of Card from a dict
+card_form_dict = card.from_dict(card_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

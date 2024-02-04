@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.contact_details import ContactDetails  # noqa: E501
+from citypay.models.contact_details import ContactDetails  # noqa: E501
 
 
 class TestContactDetails(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestContactDetails(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.contact_details.ContactDetails()  # noqa: E501
+        # model = citypay.models.contact_details.ContactDetails()  # noqa: E501
 
         if include_optional:
             return ContactDetails(

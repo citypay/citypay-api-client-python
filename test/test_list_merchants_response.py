@@ -13,8 +13,8 @@
 from __future__ import absolute_import
 import unittest
 import citypay
-from citypay.model.list_merchants_response import ListMerchantsResponse  # noqa: E501
-from citypay.model.merchant import Merchant
+from citypay.models.list_merchants_response import ListMerchantsResponse  # noqa: E501
+from citypay.models.merchant import Merchant
 
 
 class TestListMerchantsResponse(unittest.TestCase):
@@ -31,7 +31,7 @@ class TestListMerchantsResponse(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.list_merchants_response.ListMerchantsResponse()  # noqa: E501
+        # model = citypay.models.list_merchants_response.ListMerchantsResponse()  # noqa: E501
 
         if include_optional :
             return ListMerchantsResponse(

@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.ping import Ping  # noqa: E501
+from citypay.models.ping import Ping  # noqa: E501
 
 
 class TestPing(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestPing(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.ping.Ping()  # noqa: E501
+        # model = citypay.models.ping.Ping()  # noqa: E501
 
         if include_optional:
             return Ping(

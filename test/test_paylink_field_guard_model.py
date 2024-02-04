@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_field_guard_model import PaylinkFieldGuardModel
+from citypay.models.paylink_field_guard_model import PaylinkFieldGuardModel
 
 
 class TestPaylinkFieldGuardModel(unittest.TestCase):

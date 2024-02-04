@@ -2,6 +2,7 @@
 
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enabled** | **str** | Determines if part payments is enabled. Default is false. | [optional] 
@@ -10,8 +11,24 @@ Name | Type | Description | Notes
 **max_rate** | **str** | a rate as fixed or percentage. | [optional] 
 **min** | **str** | a minimum percentage to charge i.e. 10. | [optional] 
 **min_rate** | **str** | a rate as fixed or percentage. | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
+## Example
+
+```python
+from citypay.models.paylink_part_payments import PaylinkPartPayments
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of PaylinkPartPayments from a JSON string
+paylink_part_payments_instance = PaylinkPartPayments.from_json(json)
+# print the JSON string representation of the object
+print PaylinkPartPayments.to_json()
+
+# convert the object into a dict
+paylink_part_payments_dict = paylink_part_payments_instance.to_dict()
+# create an instance of PaylinkPartPayments from a dict
+paylink_part_payments_form_dict = paylink_part_payments.from_dict(paylink_part_payments_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

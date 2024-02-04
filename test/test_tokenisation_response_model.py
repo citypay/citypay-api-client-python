@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.tokenisation_response_model import TokenisationResponseModel
+from citypay.models.tokenisation_response_model import TokenisationResponseModel
 
 
 class TestTokenisationResponseModel(unittest.TestCase):

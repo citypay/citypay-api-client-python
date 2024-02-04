@@ -12,7 +12,7 @@
 from __future__ import absolute_import
 import unittest
 from datetime import date
-from citypay.model.airline_segment import AirlineSegment  # noqa: E501
+from citypay.models.airline_segment import AirlineSegment  # noqa: E501
 
 
 class TestAirlineSegment(unittest.TestCase):

@@ -13,9 +13,9 @@ from __future__ import absolute_import
 import unittest
 from datetime import date
 import citypay
-from citypay.model.airline_advice import AirlineAdvice
-from citypay.model.airline_segment import AirlineSegment
-from citypay.model.capture_request import CaptureRequest  # noqa: E501
+from citypay.models.airline_advice import AirlineAdvice
+from citypay.models.airline_segment import AirlineSegment
+from citypay.models.capture_request import CaptureRequest  # noqa: E501
 
 
 class TestCaptureRequest(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestCaptureRequest(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.capture_request.CaptureRequest()  # noqa: E501
+        # model = citypay.models.capture_request.CaptureRequest()  # noqa: E501
 
         if include_optional:
             return CaptureRequest(

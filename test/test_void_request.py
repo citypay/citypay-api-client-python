@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.void_request import VoidRequest  # noqa: E501
+from citypay.models.void_request import VoidRequest  # noqa: E501
 
 
 class TestVoidRequest(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestVoidRequest(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.void_request.VoidRequest()  # noqa: E501
+        # model = citypay.models.void_request.VoidRequest()  # noqa: E501
 
         if include_optional:
             return VoidRequest(

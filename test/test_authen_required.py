@@ -12,7 +12,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.authen_required import AuthenRequired  # noqa: E501
+from citypay.models.authen_required import AuthenRequired  # noqa: E501
 from citypay.api_client import ApiClient
 
 
@@ -28,7 +28,7 @@ class TestAuthenRequired(unittest.TestCase):
         }
         """
 
-        self.instance = ApiClient().deserialize(self, (AuthenRequired,), True)
+        self.instance = ApiClient().deserialize(self.data, AuthenRequired)
 
     def tearDown(self):
         pass

@@ -12,11 +12,11 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.contact_details import ContactDetails
-from citypay.model.three_d_secure import ThreeDSecure
+from citypay.models.contact_details import ContactDetails
+from citypay.models.three_d_secure import ThreeDSecure
 globals()['ContactDetails'] = ContactDetails
 globals()['ThreeDSecure'] = ThreeDSecure
-from citypay.model.direct_post_request import DirectPostRequest
+from citypay.models.direct_post_request import DirectPostRequest
 
 
 class TestDirectPostRequest(unittest.TestCase):

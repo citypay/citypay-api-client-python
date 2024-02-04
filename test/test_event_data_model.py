@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.event_data_model import EventDataModel
+from citypay.models.event_data_model import EventDataModel
 
 
 class TestEventDataModel(unittest.TestCase):

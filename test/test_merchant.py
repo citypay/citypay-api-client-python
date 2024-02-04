@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.merchant import Merchant  # noqa: E501
+from citypay.models.merchant import Merchant  # noqa: E501
 from citypay.rest import ApiException
 
 
@@ -29,7 +29,7 @@ class TestMerchant(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.merchant.Merchant()  # noqa: E501
+        # model = citypay.models.merchant.Merchant()  # noqa: E501
 
         if include_optional:
             return Merchant(

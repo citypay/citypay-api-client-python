@@ -2,13 +2,30 @@
 
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**merchantid** | **int** | Identifies the merchant account to perform the void for. | 
 **identifier** | **str** | The identifier of the transaction to void. If an empty value is supplied then a &#x60;trans_no&#x60; value must be supplied. | [optional] 
+**merchantid** | **int** | Identifies the merchant account to perform the void for. | 
 **transno** | **int** | The transaction number of the transaction to look up and void. If an empty value is supplied then an identifier value must be supplied. | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
+## Example
+
+```python
+from citypay.models.void_request import VoidRequest
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of VoidRequest from a JSON string
+void_request_instance = VoidRequest.from_json(json)
+# print the JSON string representation of the object
+print VoidRequest.to_json()
+
+# convert the object into a dict
+void_request_dict = void_request_instance.to_dict()
+# create an instance of VoidRequest from a dict
+void_request_form_dict = void_request.from_dict(void_request_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

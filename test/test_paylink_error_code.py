@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_error_code import PaylinkErrorCode
+from citypay.models.paylink_error_code import PaylinkErrorCode
 
 
 class TestPaylinkErrorCode(unittest.TestCase):
