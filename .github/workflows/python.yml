@@ -15,6 +15,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      CP_CLIENT_ID: ${{ secrets.CP_CLIENT_ID }}
+      CP_LICENCE_KEY: ${{ secrets.CP_LICENCE_KEY }}
+      CP_MERCHANT_ID: ${{ secrets.CP_MERCHANT_ID }}
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
