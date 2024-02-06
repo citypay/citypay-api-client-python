@@ -52,7 +52,40 @@ class TestAuthResponse(unittest.TestCase):
         }
         """
 
+        self.data_no_ident = """
+        {
+            "amount": 0,
+            "atrn": "",
+            "atsd": "",
+            "authcode": "",
+            "authen_result": "",
+            "authorised": false,
+            "avs_result": " ",
+            "bin_commercial": false,
+            "bin_debit": false,
+            "bin_description": "",
+            "cavv": "",
+            "context": "PC.0.A5298ef695b",
+            "csc_result": " ",
+            "currency": "---",
+            "datetime": "1969-12-31T23:59:59Z",
+            "eci": "0",
+            "identifier": "",
+            "live": true,
+            "maskedpan": "N/A",
+            "merchantid": 0,
+            "result": 3,
+            "result_code": "P030",
+            "result_message": "Request Error: Authorisation invalid (203: Data element not in the required format or value is invalid as defined in Table A.1. threeDSSessionData)",
+            "scheme": "",
+            "sha256": "",
+            "trans_status": "_",
+            "transno": -1
+        }
+        """
+
         self.instance = ApiClient().deserialize(self.data, AuthResponse)
+        self.instance_no_ident = ApiClient().deserialize(self.data_no_ident, AuthResponse)
 
     def tearDown(self):
         pass
@@ -86,6 +119,8 @@ class TestAuthResponse(unittest.TestCase):
         self.assertEqual(self.instance.sha256, "abcdefg")
         self.assertEqual(self.instance.trans_status, "P")
         self.assertEqual(self.instance.transno, 74875)
+        self.assertEqual(self.instance_no_ident.result_code, "P030")
+        self.assertEqual(self.instance_no_ident.result, 3)
 
 
 if __name__ == '__main__':
