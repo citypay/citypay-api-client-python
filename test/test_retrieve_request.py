@@ -12,7 +12,7 @@
 from __future__ import absolute_import
 
 import unittest
-from citypay.model.retrieve_request import RetrieveRequest  # noqa: E501
+from citypay.models.retrieve_request import RetrieveRequest  # noqa: E501
 
 
 class TestRetrieveRequest(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestRetrieveRequest(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.retrieve_request.RetrieveRequest()  # noqa: E501
+        # model = citypay.models.retrieve_request.RetrieveRequest()  # noqa: E501
         if include_optional:
             return RetrieveRequest(
                 identifier='95b857a1-5955-4b86-963c-5a6dbfc4fb95',

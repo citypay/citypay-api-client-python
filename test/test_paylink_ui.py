@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_ui import PaylinkUI
+from citypay.models.paylink_ui import PaylinkUI
 
 
 class TestPaylinkUI(unittest.TestCase):

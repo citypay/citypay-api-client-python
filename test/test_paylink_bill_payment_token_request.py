@@ -12,15 +12,15 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_attachment_request import PaylinkAttachmentRequest
-from citypay.model.paylink_email_notification_path import PaylinkEmailNotificationPath
-from citypay.model.paylink_sms_notification_path import PaylinkSMSNotificationPath
-from citypay.model.paylink_token_request_model import PaylinkTokenRequestModel
+from citypay.models.paylink_attachment_request import PaylinkAttachmentRequest
+from citypay.models.paylink_email_notification_path import PaylinkEmailNotificationPath
+from citypay.models.paylink_sms_notification_path import PaylinkSMSNotificationPath
+from citypay.models.paylink_token_request_model import PaylinkTokenRequestModel
 globals()['PaylinkAttachmentRequest'] = PaylinkAttachmentRequest
 globals()['PaylinkEmailNotificationPath'] = PaylinkEmailNotificationPath
 globals()['PaylinkSMSNotificationPath'] = PaylinkSMSNotificationPath
 globals()['PaylinkTokenRequestModel'] = PaylinkTokenRequestModel
-from citypay.model.paylink_bill_payment_token_request import PaylinkBillPaymentTokenRequest
+from citypay.models.paylink_bill_payment_token_request import PaylinkBillPaymentTokenRequest
 
 
 class TestPaylinkBillPaymentTokenRequest(unittest.TestCase):

@@ -12,9 +12,9 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_address import PaylinkAddress
+from citypay.models.paylink_address import PaylinkAddress
 globals()['PaylinkAddress'] = PaylinkAddress
-from citypay.model.paylink_card_holder import PaylinkCardHolder
+from citypay.models.paylink_card_holder import PaylinkCardHolder
 
 
 class TestPaylinkCardHolder(unittest.TestCase):

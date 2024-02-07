@@ -12,9 +12,9 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_state_event import PaylinkStateEvent
+from citypay.models.paylink_state_event import PaylinkStateEvent
 globals()['PaylinkStateEvent'] = PaylinkStateEvent
-from citypay.model.paylink_token_status import PaylinkTokenStatus
+from citypay.models.paylink_token_status import PaylinkTokenStatus
 
 
 class TestPaylinkTokenStatus(unittest.TestCase):

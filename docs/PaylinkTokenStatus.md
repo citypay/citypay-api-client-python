@@ -2,6 +2,7 @@
 
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **amount_paid** | **int** | the amount that has been paid against the session. | [optional] 
@@ -29,11 +30,27 @@ Name | Type | Description | Notes
 **last_payment_result** | **str** | the result of the last payment if one exists. | [optional] 
 **mid** | **str** | identifies the merchant account. | [optional] 
 **payment_attempts_count** | **int** | the number of attempts made to pay. | [optional] 
-**state_history** | [**[PaylinkStateEvent]**](PaylinkStateEvent.md) |  | [optional] 
+**state_history** | [**List[PaylinkStateEvent]**](PaylinkStateEvent.md) |  | [optional] 
 **token** | **str** | the token value which uniquely identifies the session. | [optional] 
 **trans_no** | **int** | a transaction number if the transacstion was processed and isPaid is true. | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
+## Example
+
+```python
+from citypay.models.paylink_token_status import PaylinkTokenStatus
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of PaylinkTokenStatus from a JSON string
+paylink_token_status_instance = PaylinkTokenStatus.from_json(json)
+# print the JSON string representation of the object
+print PaylinkTokenStatus.to_json()
+
+# convert the object into a dict
+paylink_token_status_dict = paylink_token_status_instance.to_dict()
+# create an instance of PaylinkTokenStatus from a dict
+paylink_token_status_form_dict = paylink_token_status.from_dict(paylink_token_status_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

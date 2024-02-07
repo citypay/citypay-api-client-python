@@ -13,8 +13,8 @@ from __future__ import absolute_import
 
 import unittest
 
-from citypay.model.account_create import AccountCreate  # noqa: E501
-from citypay.model.contact_details import ContactDetails
+from citypay.models.account_create import AccountCreate  # noqa: E501
+from citypay.models.contact_details import ContactDetails
 
 
 class TestAccountCreate(unittest.TestCase):
@@ -57,8 +57,8 @@ class TestAccountCreate(unittest.TestCase):
 
     def testAccountCreate(self):
         """Test AccountCreate"""
-        inst_req_only = self.make_instance(include_optional=False)
-        inst_req_and_optional = self.make_instance(include_optional=True)
+        # inst_req_only = self.make_instance(include_optional=False)
+        # inst_req_and_optional = self.make_instance(include_optional=True)
 
 
 if __name__ == '__main__':

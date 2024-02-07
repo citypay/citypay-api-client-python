@@ -12,7 +12,7 @@
 from __future__ import absolute_import
 
 import unittest
-from citypay.model.request_challenged import RequestChallenged  # noqa: E501
+from citypay.models.request_challenged import RequestChallenged  # noqa: E501
 
 
 class TestRequestChallenged(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestRequestChallenged(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.request_challenged.RequestChallenged()  # noqa: E501
+        # model = citypay.models.request_challenged.RequestChallenged()  # noqa: E501
 
         if include_optional:
             return RequestChallenged(

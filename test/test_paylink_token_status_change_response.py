@@ -12,9 +12,9 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_token_status import PaylinkTokenStatus
+from citypay.models.paylink_token_status import PaylinkTokenStatus
 globals()['PaylinkTokenStatus'] = PaylinkTokenStatus
-from citypay.model.paylink_token_status_change_response import PaylinkTokenStatusChangeResponse
+from citypay.models.paylink_token_status_change_response import PaylinkTokenStatusChangeResponse
 
 
 class TestPaylinkTokenStatusChangeResponse(unittest.TestCase):

@@ -12,7 +12,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.card_status import CardStatus  # noqa: E501
+from citypay.models.card_status import CardStatus  # noqa: E501
 
 
 class TestCardStatus(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestCardStatus(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.card_status.CardStatus()  # noqa: E501
+        # model = citypay.models.card_status.CardStatus()  # noqa: E501
 
         if include_optional :
             return CardStatus(

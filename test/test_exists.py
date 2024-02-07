@@ -12,7 +12,7 @@
 from __future__ import absolute_import
 import unittest
 from datetime import datetime
-from citypay.model.exists import Exists  # noqa: E501
+from citypay.models.exists import Exists  # noqa: E501
 
 
 class TestExists(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestExists(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.exists.Exists()  # noqa: E501
+        # model = citypay.models.exists.Exists()  # noqa: E501
 
         if include_optional:
             return Exists(

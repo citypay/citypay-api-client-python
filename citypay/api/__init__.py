@@ -1,3 +1,10 @@
-# do not import all apis into this module because that uses a lot of memory and stack frames
-# if you need the ability to import all apis from one package, import them with
-# from citypay.apis import AuthorisationAndPaymentApi
+# flake8: noqa
+
+# import apis into api package
+from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi
+from citypay.api.batch_processing_api import BatchProcessingApi
+from citypay.api.card_holder_account_api import CardHolderAccountApi
+from citypay.api.direct_post_api import DirectPostApi
+from citypay.api.operational_functions_api import OperationalFunctionsApi
+from citypay.api.paylink_api import PaylinkApi
+

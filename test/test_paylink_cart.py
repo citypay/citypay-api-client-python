@@ -12,9 +12,9 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_cart_item_model import PaylinkCartItemModel
+from citypay.models.paylink_cart_item_model import PaylinkCartItemModel
 globals()['PaylinkCartItemModel'] = PaylinkCartItemModel
-from citypay.model.paylink_cart import PaylinkCart
+from citypay.models.paylink_cart import PaylinkCart
 
 
 class TestPaylinkCart(unittest.TestCase):

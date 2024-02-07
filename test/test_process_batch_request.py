@@ -8,7 +8,7 @@
 """
 
 import unittest
-from citypay.model.batch_transaction import BatchTransaction
+from citypay.models.batch_transaction import BatchTransaction
 globals()['BatchTransaction'] = BatchTransaction
 
 

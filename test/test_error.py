@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.error import Error  # noqa: E501
+from citypay.models.error import Error  # noqa: E501
 from citypay.api_client import ApiClient
 
 
@@ -27,7 +27,7 @@ class TestError(unittest.TestCase):
             "message": "Approved 044332"
         }
         """
-        self.instance = ApiClient().deserialize(self, (Error,), True)
+        self.instance = ApiClient().deserialize(self.data, Error)
 
     def tearDown(self):
         pass

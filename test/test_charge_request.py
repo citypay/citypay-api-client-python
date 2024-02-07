@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.charge_request import ChargeRequest  # noqa: E501
+from citypay.models.charge_request import ChargeRequest  # noqa: E501
 
 
 class TestChargeRequest(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestChargeRequest(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.charge_request.ChargeRequest()  # noqa: E501
+        # model = citypay.models.charge_request.ChargeRequest()  # noqa: E501
 
         if include_optional:
             return ChargeRequest(

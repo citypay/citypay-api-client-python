@@ -13,13 +13,13 @@ from __future__ import absolute_import
 import unittest
 from datetime import date
 import citypay
-from citypay.model.airline_advice import AirlineAdvice
-from citypay.model.airline_segment import AirlineSegment
-from citypay.model.auth_request import AuthRequest  # noqa: E501
-from citypay.model.contact_details import ContactDetails
-from citypay.model.external_mpi import ExternalMPI
-from citypay.model.mcc6012 import MCC6012
-from citypay.model.three_d_secure import ThreeDSecure
+from citypay.models.airline_advice import AirlineAdvice
+from citypay.models.airline_segment import AirlineSegment
+from citypay.models.auth_request import AuthRequest  # noqa: E501
+from citypay.models.contact_details import ContactDetails
+from citypay.models.external_mpi import ExternalMPI
+from citypay.models.mcc6012 import MCC6012
+from citypay.models.three_d_secure import ThreeDSecure
 
 
 class TestAuthRequest(unittest.TestCase):

@@ -12,7 +12,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.decision import Decision  # noqa: E501
+from citypay.models.decision import Decision  # noqa: E501
 from citypay.api_client import ApiClient
 
 
@@ -53,19 +53,19 @@ class TestDecision(unittest.TestCase):
     }
 }
                    """
-        self.instance = ApiClient().deserialize(self, (Decision,), True)
+        self.instance = ApiClient().deserialize(self.data, Decision)
 
     def tearDown(self):
         pass
 
     def testDecisionType(self):
-        self.assertTrue(self.instance.auth_response())
-        self.assertFalse(self.instance.authen_required())
-        self.assertFalse(self.instance.request_challenged())
+        self.assertTrue(self.instance.auth_response)
+        self.assertFalse(self.instance.authen_required)
+        self.assertFalse(self.instance.request_challenged)
 
     def testDecision(self):
         """Test Decision"""
-        response = self.instance.auth_response()
+        response = self.instance.auth_response
         self.assertEqual(response.amount, 5500)
         self.assertEqual(response.atrn, "atrn1")
         self.assertEqual(response.atsd, "a")
@@ -80,7 +80,7 @@ class TestDecision(unittest.TestCase):
         self.assertEqual(response.context, "20200812075906AAAGV4")
         self.assertEqual(response.csc_result, "C")
         self.assertEqual(response.currency, "GBP")
-        self.assertEqual(response.datetime.isoformat(), "2020-08-12T07:59:11+00:00")
+        self.assertEqual(response.date_time.isoformat(), "2020-08-12T07:59:11+00:00")
         self.assertEqual(response.eci, "0")
         self.assertEqual(response.identifier, "ident1")
         self.assertEqual(response.live, True)

@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_adjustment_request import PaylinkAdjustmentRequest
+from citypay.models.paylink_adjustment_request import PaylinkAdjustmentRequest
 
 
 class TestPaylinkAdjustmentRequest(unittest.TestCase):

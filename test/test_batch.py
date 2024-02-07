@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.batch import Batch
+from citypay.models.batch import Batch
 
 
 class TestBatch(unittest.TestCase):

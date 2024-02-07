@@ -12,7 +12,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.mcc6012 import MCC6012  # noqa: E501
+from citypay.models.mcc6012 import MCC6012  # noqa: E501
 
 
 class TestMCC6012(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestMCC6012(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.mcc6012.MCC6012()  # noqa: E501
+        # model = citypay.models.mcc6012.MCC6012()  # noqa: E501
 
         if include_optional :
             return MCC6012(

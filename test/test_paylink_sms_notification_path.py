@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_sms_notification_path import PaylinkSMSNotificationPath
+from citypay.models.paylink_sms_notification_path import PaylinkSMSNotificationPath
 
 
 class TestPaylinkSMSNotificationPath(unittest.TestCase):

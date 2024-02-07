@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_part_payments import PaylinkPartPayments
+from citypay.models.paylink_part_payments import PaylinkPartPayments
 
 
 class TestPaylinkPartPayments(unittest.TestCase):

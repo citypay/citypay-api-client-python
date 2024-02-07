@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_state_event import PaylinkStateEvent
+from citypay.models.paylink_state_event import PaylinkStateEvent
 
 
 class TestPaylinkStateEvent(unittest.TestCase):

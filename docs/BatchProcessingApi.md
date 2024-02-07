@@ -5,7 +5,7 @@ All URIs are relative to *https://api.citypay.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**batch_process_request**](BatchProcessingApi.md#batch_process_request) | **POST** /v6/batch/process | Batch Process Request
-[**batch_report_request**](BatchProcessingApi.md#batch_report_request) | **POST** /v6/batch/retrieve | BatchReportRequest
+[**batch_retrieve_request**](BatchProcessingApi.md#batch_retrieve_request) | **POST** /v6/batch/retrieve | BatchReportRequest
 [**check_batch_status_request**](BatchProcessingApi.md#check_batch_status_request) | **POST** /v6/batch/status | CheckBatchStatus
 
 
@@ -14,7 +14,11 @@ Method | HTTP request | Description
 
 Batch Process Request
 
-A batch process request is used to start the batch process workflow by uploading batch data and initialising a new batch for processing. Once validated the batch will be queued for processing and further updates can be received by a subsequent call to retrieve the batch status. 
+A batch process request is used to start the batch process workflow by uploading batch
+data and initialising a new batch for processing. Once validated the batch will be queued
+for processing and further updates can be received by a subsequent call to retrieve the batch
+status.
+
 
 ### Example
 
@@ -22,12 +26,13 @@ A batch process request is used to start the batch process workflow by uploading
 
 ```python
 import time
+import os
 import citypay
-from citypay.api import batch_processing_api
-from citypay.model.process_batch_response import ProcessBatchResponse
-from citypay.model.error import Error
-from citypay.model.process_batch_request import ProcessBatchRequest
+from citypay.models.process_batch_request import ProcessBatchRequest
+from citypay.models.process_batch_response import ProcessBatchResponse
+from citypay.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
@@ -40,7 +45,7 @@ configuration = citypay.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: cp-api-key
-configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['cp-api-key'] = 'Bearer'
@@ -48,36 +53,26 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = batch_processing_api.BatchProcessingApi(api_client)
-    process_batch_request = ProcessBatchRequest(
-        batch_date=dateutil_parser('Thu Jan 02 00:00:00 UTC 2020').date(),
-        batch_id=35,
-        client_account_id="AC1",
-        transactions=[
-            BatchTransaction(
-                account_id="aaabbb-cccddd-eee",
-                amount=3600,
-                identifier="95b857a1-5955-4b86-963c-5a6dbfc4fb95",
-                merchantid=11223344,
-            ),
-        ],
-    ) # ProcessBatchRequest | 
+    api_instance = citypay.BatchProcessingApi(api_client)
+    process_batch_request = citypay.ProcessBatchRequest() # ProcessBatchRequest | 
 
-    # example passing only required values which don't have defaults set
     try:
         # Batch Process Request
         api_response = api_instance.batch_process_request(process_batch_request)
+        print("The response of BatchProcessingApi->batch_process_request:\n")
         pprint(api_response)
-    except citypay.ApiException as e:
+    except Exception as e:
         print("Exception when calling BatchProcessingApi->batch_process_request: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **process_batch_request** | [**ProcessBatchRequest**](ProcessBatchRequest.md)|  |
+ **process_batch_request** | [**ProcessBatchRequest**](ProcessBatchRequest.md)|  | 
 
 ### Return type
 
@@ -92,7 +87,6 @@ Name | Type | Description  | Notes
  - **Content-Type**: application/json, text/xml
  - **Accept**: application/json, text/xml
 
-
 ### HTTP response details
 
 | Status code | Description | Response headers |
@@ -106,12 +100,12 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **batch_report_request**
-> BatchReportResponseModel batch_report_request(batch_report_request)
+# **batch_retrieve_request**
+> BatchReportResponseModel batch_retrieve_request(batch_report_request)
 
 BatchReportRequest
 
-The operation is used to retrieve a report of the result of a batch process.
+The report for a given batch.
 
 ### Example
 
@@ -119,12 +113,13 @@ The operation is used to retrieve a report of the result of a batch process.
 
 ```python
 import time
+import os
 import citypay
-from citypay.api import batch_processing_api
-from citypay.model.batch_report_request import BatchReportRequest
-from citypay.model.batch_report_response_model import BatchReportResponseModel
-from citypay.model.error import Error
+from citypay.models.batch_report_request import BatchReportRequest
+from citypay.models.batch_report_response_model import BatchReportResponseModel
+from citypay.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
@@ -137,7 +132,7 @@ configuration = citypay.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: cp-api-key
-configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['cp-api-key'] = 'Bearer'
@@ -145,27 +140,26 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = batch_processing_api.BatchProcessingApi(api_client)
-    batch_report_request = BatchReportRequest(
-        batch_id=35,
-        client_account_id="AC1",
-    ) # BatchReportRequest | 
+    api_instance = citypay.BatchProcessingApi(api_client)
+    batch_report_request = citypay.BatchReportRequest() # BatchReportRequest | 
 
-    # example passing only required values which don't have defaults set
     try:
         # BatchReportRequest
-        api_response = api_instance.batch_report_request(batch_report_request)
+        api_response = api_instance.batch_retrieve_request(batch_report_request)
+        print("The response of BatchProcessingApi->batch_retrieve_request:\n")
         pprint(api_response)
-    except citypay.ApiException as e:
-        print("Exception when calling BatchProcessingApi->batch_report_request: %s\n" % e)
+    except Exception as e:
+        print("Exception when calling BatchProcessingApi->batch_retrieve_request: %s\n" % e)
 ```
+
 
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **batch_report_request** | [**BatchReportRequest**](BatchReportRequest.md)|  |
+ **batch_report_request** | [**BatchReportRequest**](BatchReportRequest.md)|  | 
 
 ### Return type
 
@@ -179,7 +173,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json, text/xml
  - **Accept**: application/json, text/xml
-
 
 ### HTTP response details
 
@@ -207,12 +200,13 @@ The operation is used to retrieve the status of a batch process.
 
 ```python
 import time
+import os
 import citypay
-from citypay.api import batch_processing_api
-from citypay.model.check_batch_status_response import CheckBatchStatusResponse
-from citypay.model.error import Error
-from citypay.model.check_batch_status import CheckBatchStatus
+from citypay.models.check_batch_status import CheckBatchStatus
+from citypay.models.check_batch_status_response import CheckBatchStatusResponse
+from citypay.rest import ApiException
 from pprint import pprint
+
 # Defining the host is optional and defaults to https://api.citypay.com
 # See configuration.py for a list of all supported configuration parameters.
 configuration = citypay.Configuration(
@@ -225,7 +219,7 @@ configuration = citypay.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: cp-api-key
-configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['cp-api-key'] = 'Bearer'
@@ -233,29 +227,26 @@ configuration.api_key['cp-api-key'] = 'YOUR_API_KEY'
 # Enter a context with an instance of the API client
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = batch_processing_api.BatchProcessingApi(api_client)
-    check_batch_status = CheckBatchStatus(
-        batch_id=[
-            78,
-        ],
-        client_account_id="AC1",
-    ) # CheckBatchStatus | 
+    api_instance = citypay.BatchProcessingApi(api_client)
+    check_batch_status = citypay.CheckBatchStatus() # CheckBatchStatus | 
 
-    # example passing only required values which don't have defaults set
     try:
         # CheckBatchStatus
         api_response = api_instance.check_batch_status_request(check_batch_status)
+        print("The response of BatchProcessingApi->check_batch_status_request:\n")
         pprint(api_response)
-    except citypay.ApiException as e:
+    except Exception as e:
         print("Exception when calling BatchProcessingApi->check_batch_status_request: %s\n" % e)
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **check_batch_status** | [**CheckBatchStatus**](CheckBatchStatus.md)|  |
+ **check_batch_status** | [**CheckBatchStatus**](CheckBatchStatus.md)|  | 
 
 ### Return type
 
@@ -269,7 +260,6 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: application/json, text/xml
  - **Accept**: application/json, text/xml
-
 
 ### HTTP response details
 

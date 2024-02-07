@@ -12,7 +12,7 @@
 from __future__ import absolute_import
 import unittest
 from citypay import ApiClient
-from citypay.model.acknowledgement import Acknowledgement  # noqa: E501
+from citypay.models.acknowledgement import Acknowledgement  # noqa: E501
 
 
 class TestAcknowledgement(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestAcknowledgement(unittest.TestCase):
         }        
         """
 
-        self.instance = ApiClient().deserialize(self, (Acknowledgement,), True)
+        self.instance = ApiClient().deserialize(self.data, Acknowledgement)
 
     def tearDown(self):
         # run after each test

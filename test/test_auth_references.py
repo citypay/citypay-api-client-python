@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.auth_references import AuthReferences  # noqa: E501
+from citypay.models.auth_references import AuthReferences  # noqa: E501
 from citypay import ApiClient
 
 
@@ -39,7 +39,7 @@ class TestAuthReferences(unittest.TestCase):
           }
         ]}       
         """
-        self.instance = ApiClient().deserialize(self, (AuthReferences,), True)
+        self.instance = ApiClient().deserialize(self.data, AuthReferences)
 
     def tearDown(self):
         pass
@@ -52,7 +52,7 @@ class TestAuthReferences(unittest.TestCase):
         self.assertEqual(self.instance.auths[0].authcode, "A12345")
         self.assertEqual(self.instance.auths[0].batchno, "")
         self.assertEqual(self.instance.auths[0].currency, "GBP")
-        self.assertEqual(self.instance.auths[0].datetime.isoformat(), "2020-07-21T15:55:04+00:00")
+        self.assertEqual(self.instance.auths[0].date_time.isoformat(), "2020-07-21T15:55:04+00:00")
         self.assertEqual(self.instance.auths[0].identifier, "TestingAPI")
         self.assertEqual(self.instance.auths[0].maskedpan, "400000******0000")
         self.assertEqual(self.instance.auths[0].merchantid, 12345678)

@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.pa_res_auth_request import PaResAuthRequest  # noqa: E501
+from citypay.models.pa_res_auth_request import PaResAuthRequest  # noqa: E501
 
 
 class TestPaResAuthRequest(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestPaResAuthRequest(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.pa_res_auth_request.PaResAuthRequest()  # noqa: E501
+        # model = citypay.models.pa_res_auth_request.PaResAuthRequest()  # noqa: E501
 
         if include_optional:
             return PaResAuthRequest(

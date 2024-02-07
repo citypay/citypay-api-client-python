@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.domain_key_response import DomainKeyResponse
+from citypay.models.domain_key_response import DomainKeyResponse
 
 
 class TestDomainKeyResponse(unittest.TestCase):

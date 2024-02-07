@@ -11,7 +11,7 @@
 
 from __future__ import absolute_import
 import unittest
-from citypay.model.three_d_secure import ThreeDSecure  # noqa: E501
+from citypay.models.three_d_secure import ThreeDSecure  # noqa: E501
 
 
 class TestThreeDSecure(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestThreeDSecure(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = citypay.model.three_d_secure.ThreeDSecure()  # noqa: E501
+        # model = citypay.models.three_d_secure.ThreeDSecure()  # noqa: E501
 
         if include_optional:
             return ThreeDSecure(

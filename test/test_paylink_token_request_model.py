@@ -12,13 +12,13 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_card_holder import PaylinkCardHolder
-from citypay.model.paylink_cart import PaylinkCart
-from citypay.model.paylink_config import PaylinkConfig
+from citypay.models.paylink_card_holder import PaylinkCardHolder
+from citypay.models.paylink_cart import PaylinkCart
+from citypay.models.paylink_config import PaylinkConfig
 globals()['PaylinkCardHolder'] = PaylinkCardHolder
 globals()['PaylinkCart'] = PaylinkCart
 globals()['PaylinkConfig'] = PaylinkConfig
-from citypay.model.paylink_token_request_model import PaylinkTokenRequestModel
+from citypay.models.paylink_token_request_model import PaylinkTokenRequestModel
 
 
 class TestPaylinkTokenRequestModel(unittest.TestCase):

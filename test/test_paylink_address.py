@@ -12,7 +12,7 @@ import sys
 import unittest
 
 import citypay
-from citypay.model.paylink_address import PaylinkAddress
+from citypay.models.paylink_address import PaylinkAddress
 
 
 class TestPaylinkAddress(unittest.TestCase):

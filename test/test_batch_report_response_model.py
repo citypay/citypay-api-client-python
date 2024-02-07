@@ -9,7 +9,7 @@
 
 
 import unittest
-from citypay.model.batch_transaction_result_model import BatchTransactionResultModel
+from citypay.models.batch_transaction_result_model import BatchTransactionResultModel
 
 globals()['BatchTransactionResultModel'] = BatchTransactionResultModel
 

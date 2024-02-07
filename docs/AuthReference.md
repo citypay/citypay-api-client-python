@@ -2,6 +2,7 @@
 
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **amount** | **str** | The amount of the transaction in decimal currency format. | [optional] 
@@ -18,8 +19,24 @@ Name | Type | Description | Notes
 **trans_status** | **str** | The current status of the transaction through it&#39;s lifecycle. | [optional] 
 **trans_type** | **str** | The type of transaction that was processed. | [optional] 
 **transno** | **int** | The transaction number of the transaction. | [optional] 
-**any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
+## Example
+
+```python
+from citypay.models.auth_reference import AuthReference
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of AuthReference from a JSON string
+auth_reference_instance = AuthReference.from_json(json)
+# print the JSON string representation of the object
+print AuthReference.to_json()
+
+# convert the object into a dict
+auth_reference_dict = auth_reference_instance.to_dict()
+# create an instance of AuthReference from a dict
+auth_reference_form_dict = auth_reference.from_dict(auth_reference_dict)
+```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 
