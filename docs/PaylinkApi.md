@@ -5,6 +5,7 @@ All URIs are relative to *https://api.citypay.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**token_adjustment_request**](PaylinkApi.md#token_adjustment_request) | **POST** /paylink/{token}/adjustment | Paylink Token Adjustment
+[**token_cancel_request**](PaylinkApi.md#token_cancel_request) | **PUT** /paylink/{token}/cancel | Cancel a Paylink Token
 [**token_changes_request**](PaylinkApi.md#token_changes_request) | **POST** /paylink/token/changes | Paylink Token Audit
 [**token_close_request**](PaylinkApi.md#token_close_request) | **PUT** /paylink/{token}/close | Close Paylink Token
 [**token_create_bill_payment_request**](PaylinkApi.md#token_create_bill_payment_request) | **POST** /paylink/bill-payment | Create Bill Payment Paylink Token
@@ -12,6 +13,7 @@ Method | HTTP request | Description
 [**token_purge_attachments_request**](PaylinkApi.md#token_purge_attachments_request) | **PUT** /paylink/{token}/purge-attachments | Purges any attachments for a Paylink Token
 [**token_reconciled_request**](PaylinkApi.md#token_reconciled_request) | **PUT** /paylink/{token}/reconciled | Reconcile Paylink Token
 [**token_reopen_request**](PaylinkApi.md#token_reopen_request) | **PUT** /paylink/{token}/reopen | Reopen Paylink Token
+[**token_resend_notification_request**](PaylinkApi.md#token_resend_notification_request) | **POST** /paylink/{token}/resend-notification | Resend a notification for Paylink Token
 [**token_status_request**](PaylinkApi.md#token_status_request) | **GET** /paylink/{token}/status | Paylink Token Status
 
 
@@ -100,6 +102,92 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Response defining the result of the token request. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **token_cancel_request**
+> Acknowledgement token_cancel_request(token)
+
+Cancel a Paylink Token
+
+Marks a Paylink Token as cancelled. This cancels the Token for any future request for processing.
+
+### Example
+
+* Api Key Authentication (cp-api-key):
+
+```python
+import time
+import os
+import citypay
+from citypay.models.acknowledgement import Acknowledgement
+from citypay.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.citypay.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = citypay.Configuration(
+    host = "https://api.citypay.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: cp-api-key
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with citypay.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = citypay.PaylinkApi(api_client)
+    token = 'token_example' # str | The token returned by the create token process.
+
+    try:
+        # Cancel a Paylink Token
+        api_response = api_instance.token_cancel_request(token)
+        print("The response of PaylinkApi->token_cancel_request:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PaylinkApi->token_cancel_request: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **str**| The token returned by the create token process. | 
+
+### Return type
+
+[**Acknowledgement**](Acknowledgement.md)
+
+### Authorization
+
+[cp-api-key](../README.md#cp-api-key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/xml
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Confirms that the token was marked as cancelled. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
@@ -704,7 +792,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Confirms that the attachments eiither did not exist or were purged. |  -  |
+**200** | Confirms that the attachments either did not exist or were purged. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
@@ -877,6 +965,95 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Confirms that the token was reopened. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **token_resend_notification_request**
+> Acknowledgement token_resend_notification_request(token, paylink_resend_notification_request)
+
+Resend a notification for Paylink Token
+
+Resend a notification for Paylink Token.
+
+### Example
+
+* Api Key Authentication (cp-api-key):
+
+```python
+import time
+import os
+import citypay
+from citypay.models.acknowledgement import Acknowledgement
+from citypay.models.paylink_resend_notification_request import PaylinkResendNotificationRequest
+from citypay.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.citypay.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = citypay.Configuration(
+    host = "https://api.citypay.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: cp-api-key
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with citypay.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = citypay.PaylinkApi(api_client)
+    token = 'token_example' # str | The token returned by the create token process.
+    paylink_resend_notification_request = citypay.PaylinkResendNotificationRequest() # PaylinkResendNotificationRequest | 
+
+    try:
+        # Resend a notification for Paylink Token
+        api_response = api_instance.token_resend_notification_request(token, paylink_resend_notification_request)
+        print("The response of PaylinkApi->token_resend_notification_request:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PaylinkApi->token_resend_notification_request: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **str**| The token returned by the create token process. | 
+ **paylink_resend_notification_request** | [**PaylinkResendNotificationRequest**](PaylinkResendNotificationRequest.md)|  | 
+
+### Return type
+
+[**Acknowledgement**](Acknowledgement.md)
+
+### Authorization
+
+[cp-api-key](../README.md#cp-api-key)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/xml
+ - **Accept**: application/json, text/xml
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Confirms that the notification was sent. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |

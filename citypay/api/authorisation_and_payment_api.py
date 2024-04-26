@@ -3,7 +3,7 @@
 """
     CityPay Payment API
 
-     This CityPay API is an HTTP RESTful payment API used for direct server to server transactional processing. It provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing, 3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and Completion processing. The API is also capable of tokenized payments using cardholder Accounts.  ## Compliance and Security Your application will need to adhere to PCI-DSS standards to operate safely and to meet requirements set out by  Visa and MasterCard and the PCI Security Standards Council. These include  * Data must be collected using TLS version 1.2 using [strong cryptography](https://citypay.github.io/api-docs/payment-api/#enabled-tls-ciphers). We will not accept calls to our API at   lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments   as part of our compliance program. * The application must not store sensitive cardholder data (CHD) such as the card security code (CSC) or   primary access number (PAN) * The application must not display the full card number on receipts, it is recommended to mask the PAN   and show the last 4 digits. The API will return this for you for ease of receipt creation * If you are developing a website, you will be required to perform regular scans on the network where you host the   application to meet your compliance obligations * You will be required to be PCI Compliant and the application must adhere to the security standard. Further information   is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/) * The API verifies that the request is for a valid account and originates from a trusted source using the remote IP   address. Our application firewalls analyse data that may be an attempt to break a large number of security common   security vulnerabilities. 
+     Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server  transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs.  Whether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing  Subscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure  authentication, our API is equipped to support your requirements. Additionally, we offer functionalities for  Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability  for tokenised payments.  ## Compliance and Security Overview <aside class=\"notice\">   Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is    designed with stringent security measures and compliance protocols to safeguard sensitive information and meet    the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council. </aside>  ### Key Compliance and Security Measures  * **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities. * **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden. * **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation. * **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence. * **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/). * **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.  ## Getting Started Before integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.  For further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.  Thank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution. 
 
     Contact: support@citypay.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
@@ -33,6 +33,8 @@ from citypay.models.c_res_auth_request import CResAuthRequest
 from citypay.models.capture_request import CaptureRequest
 from citypay.models.decision import Decision
 from citypay.models.pa_res_auth_request import PaResAuthRequest
+from citypay.models.payment_intent import PaymentIntent
+from citypay.models.payment_intent_reference import PaymentIntentReference
 from citypay.models.refund_request import RefundRequest
 from citypay.models.retrieve_request import RetrieveRequest
 from citypay.models.void_request import VoidRequest
@@ -74,7 +76,7 @@ class AuthorisationAndPaymentApi:
     ) -> Decision:
         """Authorisation
 
-        An authorisation process performs a standard transaction authorisation based on the provided parameters of its request. The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card  schemes such as Visa or MasterCard.  The authorisation API should be used for server environments to process transactions on demand and in realtime.   The authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order, customer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for  the appropriate coding and this will perform transparently by the gateway.   Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be  flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to   transact.   ```json {    \"RequestChallenged\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"merchantid\": 12345,     \"transno\": 1,     \"threedserver_trans_id\": \"d652d8d2-d74a-4264-a051-a7862b10d5d6\"   }                } ```   ## E-commerce workflows   For E-commerce transactions requiring 3DS, the API contains a fully accredited in built mechanism to handle authentication.  The Api and gateway has been accredited extensively with both Acquirers and Card Schemes to simplify the nature of these calls into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditations with Visa and MasterCard.  3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back to the cardholder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder  verification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisation.  3DS version 1 has now been replaced by 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation. 3DSv2 is being phased out and any accounts using version 1 of the protocol is expected to be migrated by March 2022.   Any new integrations should only consider 3DSv2 flows.   ### 3DSv2  ```json {    \"RequestChallenged\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"merchantid\": 12345,     \"transno\": 1,     \"threedserver_trans_id\": \"d652d8d2-d74a-4264-a051-a7862b10d5d6\"   }                } ```  ```xml <RequestChallenged>   <acsurl>https://bank.com/3DS/ACS</acsurl>   <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>   <merchantid>12345</merchantid>   <transno>1</transno>   <threedserver_trans_id>d652d8d2-d74a-4264-a051-a7862b10d5d6</threedserver_trans_id> </RequestChallenged> ```  CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version 2.2 is currently in development however this will be a seamless upgrade for all integrations.  #### 3-D Secure - None  ![3DSv2 Frctionless Flow](images/3dsv2-no3d.png)  A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication. An enrollment check may apply an \"attempted\" resolution to processing. In this instance a transaction may not meet any liability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being presented for authorisation if this occurs.   #### 3-D Secure - Frictionless  ![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)  E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a  \"frictionless\" flow. This method will authenticate low risk transactions with minimal impact to a  standard authorisation flow. Our API simply performs this on behalf of you the developer, the merchant and cardholder.  No redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction  authorisation has occurred.  #### 3-D Secure - Challenge  ![3DSv2 Frctionless Flow](images/3dsv2-challenge.png)  A transaction that is deemed as higher risk my be \"challenged\". In this instance, the API will return a [request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the  given [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value (the challenge request value).   Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication known as `RReq`.  To maintain session state, a parameter `threeDSSessionData` can be posted to the ACS url and will be returned alongside  the `CRes` value. This will ensure that any controller code will be able to isolate state between calls. This field is to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder's session. As an option, we do provide a `threedserver_trans_id` value in the `RequestChallenged` packet which can be used for the `threeDSSessionData` value as it is used to uniquely identify the 3D-Secure session.   A common method of maintaining state is to provide a session related query string value in the `merchant_termurl` value (also known as the `notificationUrl`). For example providing a url of `https://mystore.com/checkout?token=asny2348w4561..` could return the user directly back to their session with your environment.  Once you have received a `cres` post from the ACS authentication service, this should be POSTed to the [cres](#cres)  endpoint to perform full authorisation processing.   Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes value will be validated for receipt of the CAVV and subsequently may return response codes illustrating this.   To forward the user to the ACS, we recommend a simple auto submit HTML form.  > Simple auto submit HTML form  ```html <html lang=\"en\">  <head>         <title>Forward to ACS</title>   <script type=\"text/javascript\">         function onLoadEvent() {              document.acs.submit();          }         </script>         <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>     </head>     <body onload=\"onLoadEvent();\">         <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">             <input type=\"hidden\" name=\"creq\" value=\"{{CReq Packet from Response}}\" />             <input type=\"hidden\" name=\"threeDSSessionData\" value=\"{{session-identifier}}\" />         </form>     </body> </html> ```  A full ACS test suite is available for 3DSv2 testing.          ### Testing 3DSv2 Integrations  The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.  | CSC Value | Behaviour | |-----------|-----------| | 731       | Frictionless processing - Not authenticated | | 732       | Frictionless processing - Account verification count not be performed |         | 733       | Frictionless processing - Verification Rejected |         | 741       | Frictionless processing - Attempts Processing |         | 750       | Frictionless processing - Authenticated  |         | 761       | Triggers an error message |   | Any       | Challenge Request |          #### 3DSv1  **Please note that 3DSv1 should now be considered as deprecated.**  ```json {    \"AuthenticationRequired\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"pareq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"md\": \"WQgZXZlcnl0aGluZyBiZW\"   }                } ```  ```xml <AuthenticationRequired>  <acsurl>https://bank.com/3DS/ACS</acsurl>  <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>  <md>WQgZXZlcnl0aGluZyBiZW</md> </AuthenticationRequired> ```  For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer request (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object.  Your system will need to process this authentication packet and forward the user's browser to an authentication server (ACS) to gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed. Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let the user see that something is happening rather than a pending browser.  The main reason for ensuring that this controller is two fold:  1. We are never in control of the user's browser in a server API call 2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time  To forward the user to the ACS, we recommend a simple auto submit HTML form.  > Simple auto submit HTML form  ```html <html lang=\"en\">  <head>         <title>Forward to ACS</title>   <script type=\"text/javascript\">         function onLoadEvent() {              document.acs.submit();          }         </script>         <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>     </head>     <body onload=\"onLoadEvent();\">         <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">             <input type=\"hidden\" name=\"PaReq\" value=\"{{PaReq Packet from Response}}\" />             <input type=\"hidden\" name=\"TermUrl\" value=\"{{Your Controller}}\" />             <input type=\"hidden\" name=\"MD\" value=\"{{MD From Response}}\" />         </form>     </body> </html> ```  Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses this and will solidify the authorisation and confirmation process.  We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. 
+        Performs a request for authorisation for a card payment request.
 
         :param auth_request: (required)
         :type auth_request: AuthRequest
@@ -146,7 +148,7 @@ class AuthorisationAndPaymentApi:
     ) -> ApiResponse[Decision]:
         """Authorisation
 
-        An authorisation process performs a standard transaction authorisation based on the provided parameters of its request. The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card  schemes such as Visa or MasterCard.  The authorisation API should be used for server environments to process transactions on demand and in realtime.   The authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order, customer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for  the appropriate coding and this will perform transparently by the gateway.   Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be  flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to   transact.   ```json {    \"RequestChallenged\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"merchantid\": 12345,     \"transno\": 1,     \"threedserver_trans_id\": \"d652d8d2-d74a-4264-a051-a7862b10d5d6\"   }                } ```   ## E-commerce workflows   For E-commerce transactions requiring 3DS, the API contains a fully accredited in built mechanism to handle authentication.  The Api and gateway has been accredited extensively with both Acquirers and Card Schemes to simplify the nature of these calls into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditations with Visa and MasterCard.  3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back to the cardholder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder  verification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisation.  3DS version 1 has now been replaced by 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation. 3DSv2 is being phased out and any accounts using version 1 of the protocol is expected to be migrated by March 2022.   Any new integrations should only consider 3DSv2 flows.   ### 3DSv2  ```json {    \"RequestChallenged\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"merchantid\": 12345,     \"transno\": 1,     \"threedserver_trans_id\": \"d652d8d2-d74a-4264-a051-a7862b10d5d6\"   }                } ```  ```xml <RequestChallenged>   <acsurl>https://bank.com/3DS/ACS</acsurl>   <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>   <merchantid>12345</merchantid>   <transno>1</transno>   <threedserver_trans_id>d652d8d2-d74a-4264-a051-a7862b10d5d6</threedserver_trans_id> </RequestChallenged> ```  CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version 2.2 is currently in development however this will be a seamless upgrade for all integrations.  #### 3-D Secure - None  ![3DSv2 Frctionless Flow](images/3dsv2-no3d.png)  A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication. An enrollment check may apply an \"attempted\" resolution to processing. In this instance a transaction may not meet any liability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being presented for authorisation if this occurs.   #### 3-D Secure - Frictionless  ![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)  E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a  \"frictionless\" flow. This method will authenticate low risk transactions with minimal impact to a  standard authorisation flow. Our API simply performs this on behalf of you the developer, the merchant and cardholder.  No redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction  authorisation has occurred.  #### 3-D Secure - Challenge  ![3DSv2 Frctionless Flow](images/3dsv2-challenge.png)  A transaction that is deemed as higher risk my be \"challenged\". In this instance, the API will return a [request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the  given [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value (the challenge request value).   Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication known as `RReq`.  To maintain session state, a parameter `threeDSSessionData` can be posted to the ACS url and will be returned alongside  the `CRes` value. This will ensure that any controller code will be able to isolate state between calls. This field is to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder's session. As an option, we do provide a `threedserver_trans_id` value in the `RequestChallenged` packet which can be used for the `threeDSSessionData` value as it is used to uniquely identify the 3D-Secure session.   A common method of maintaining state is to provide a session related query string value in the `merchant_termurl` value (also known as the `notificationUrl`). For example providing a url of `https://mystore.com/checkout?token=asny2348w4561..` could return the user directly back to their session with your environment.  Once you have received a `cres` post from the ACS authentication service, this should be POSTed to the [cres](#cres)  endpoint to perform full authorisation processing.   Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes value will be validated for receipt of the CAVV and subsequently may return response codes illustrating this.   To forward the user to the ACS, we recommend a simple auto submit HTML form.  > Simple auto submit HTML form  ```html <html lang=\"en\">  <head>         <title>Forward to ACS</title>   <script type=\"text/javascript\">         function onLoadEvent() {              document.acs.submit();          }         </script>         <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>     </head>     <body onload=\"onLoadEvent();\">         <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">             <input type=\"hidden\" name=\"creq\" value=\"{{CReq Packet from Response}}\" />             <input type=\"hidden\" name=\"threeDSSessionData\" value=\"{{session-identifier}}\" />         </form>     </body> </html> ```  A full ACS test suite is available for 3DSv2 testing.          ### Testing 3DSv2 Integrations  The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.  | CSC Value | Behaviour | |-----------|-----------| | 731       | Frictionless processing - Not authenticated | | 732       | Frictionless processing - Account verification count not be performed |         | 733       | Frictionless processing - Verification Rejected |         | 741       | Frictionless processing - Attempts Processing |         | 750       | Frictionless processing - Authenticated  |         | 761       | Triggers an error message |   | Any       | Challenge Request |          #### 3DSv1  **Please note that 3DSv1 should now be considered as deprecated.**  ```json {    \"AuthenticationRequired\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"pareq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"md\": \"WQgZXZlcnl0aGluZyBiZW\"   }                } ```  ```xml <AuthenticationRequired>  <acsurl>https://bank.com/3DS/ACS</acsurl>  <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>  <md>WQgZXZlcnl0aGluZyBiZW</md> </AuthenticationRequired> ```  For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer request (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object.  Your system will need to process this authentication packet and forward the user's browser to an authentication server (ACS) to gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed. Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let the user see that something is happening rather than a pending browser.  The main reason for ensuring that this controller is two fold:  1. We are never in control of the user's browser in a server API call 2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time  To forward the user to the ACS, we recommend a simple auto submit HTML form.  > Simple auto submit HTML form  ```html <html lang=\"en\">  <head>         <title>Forward to ACS</title>   <script type=\"text/javascript\">         function onLoadEvent() {              document.acs.submit();          }         </script>         <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>     </head>     <body onload=\"onLoadEvent();\">         <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">             <input type=\"hidden\" name=\"PaReq\" value=\"{{PaReq Packet from Response}}\" />             <input type=\"hidden\" name=\"TermUrl\" value=\"{{Your Controller}}\" />             <input type=\"hidden\" name=\"MD\" value=\"{{MD From Response}}\" />         </form>     </body> </html> ```  Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses this and will solidify the authorisation and confirmation process.  We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. 
+        Performs a request for authorisation for a card payment request.
 
         :param auth_request: (required)
         :type auth_request: AuthRequest
@@ -218,7 +220,7 @@ class AuthorisationAndPaymentApi:
     ) -> RESTResponseType:
         """Authorisation
 
-        An authorisation process performs a standard transaction authorisation based on the provided parameters of its request. The CityPay gateway will route your transaction via an Acquiring bank for subsequent authorisation to the appropriate card  schemes such as Visa or MasterCard.  The authorisation API should be used for server environments to process transactions on demand and in realtime.   The authorisation API can be used for multiple types of transactions including E-commerce, mail order, telephone order, customer present (keyed), continuous authority, pre-authorisation and others. CityPay will configure your account for  the appropriate coding and this will perform transparently by the gateway.   Data properties that are required, may depend on the environment you are conducting payment for. Our API aims to be  flexible enough to cater for these structures. Our integration team will aid you in providing the necessary data to   transact.   ```json {    \"RequestChallenged\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"merchantid\": 12345,     \"transno\": 1,     \"threedserver_trans_id\": \"d652d8d2-d74a-4264-a051-a7862b10d5d6\"   }                } ```   ## E-commerce workflows   For E-commerce transactions requiring 3DS, the API contains a fully accredited in built mechanism to handle authentication.  The Api and gateway has been accredited extensively with both Acquirers and Card Schemes to simplify the nature of these calls into a simple structure for authentication, preventing integrators from performing lengthy and a costly accreditations with Visa and MasterCard.  3D-secure has been around for a number of years and aims to shift the liability of a transaction away from a merchant back to the cardholder. A *liability shift* determines whether a card holder can charge back a transaction as unknown. Effectively the process asks for a card holder to authenticate the transaction prior to authorisation producing a Cardholder  verification value (CAVV) and ecommerce indicator (ECI) as evidence of authorisation.  3DS version 1 has now been replaced by 3DS version 2 to provide secure customer authentication (SCA) in line with EU regulation. 3DSv2 is being phased out and any accounts using version 1 of the protocol is expected to be migrated by March 2022.   Any new integrations should only consider 3DSv2 flows.   ### 3DSv2  ```json {    \"RequestChallenged\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"creq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"merchantid\": 12345,     \"transno\": 1,     \"threedserver_trans_id\": \"d652d8d2-d74a-4264-a051-a7862b10d5d6\"   }                } ```  ```xml <RequestChallenged>   <acsurl>https://bank.com/3DS/ACS</acsurl>   <creq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</creq>   <merchantid>12345</merchantid>   <transno>1</transno>   <threedserver_trans_id>d652d8d2-d74a-4264-a051-a7862b10d5d6</threedserver_trans_id> </RequestChallenged> ```  CityPay support 3DS version 2.1 for Verified by Visa, MasterCard Identity Check and American Express SafeKey 2.1. Version 2.2 is currently in development however this will be a seamless upgrade for all integrations.  #### 3-D Secure - None  ![3DSv2 Frctionless Flow](images/3dsv2-no3d.png)  A basic flow may involve no 3-D secure processing. This could happen if there is no ability to perform authentication. An enrollment check may apply an \"attempted\" resolution to processing. In this instance a transaction may not meet any liability shift. A transaction may result in a decline due to this. We are also able to prevent from transactions being presented for authorisation if this occurs.   #### 3-D Secure - Frictionless  ![3DSv2 Frctionless Flow](images/3dsv2-frictionless.png)  E-commerce transactions supporting 3DSv2 can benefit from seamlessly authenticated transactions which may perform a  \"frictionless\" flow. This method will authenticate low risk transactions with minimal impact to a  standard authorisation flow. Our API simply performs this on behalf of you the developer, the merchant and cardholder.  No redirection occurs and hence the flow is called frictionless and will appear as though a simple transaction  authorisation has occurred.  #### 3-D Secure - Challenge  ![3DSv2 Frctionless Flow](images/3dsv2-challenge.png)  A transaction that is deemed as higher risk my be \"challenged\". In this instance, the API will return a [request challenge](#requestchallenged) which will require your integration to forward the cardholder's browser to the  given [ACS url](#acsurl). This should be performed by posting the [creq](#creq) value (the challenge request value).   Once complete, the ACS will have already been in touch with our servers by sending us a result of the authentication known as `RReq`.  To maintain session state, a parameter `threeDSSessionData` can be posted to the ACS url and will be returned alongside  the `CRes` value. This will ensure that any controller code will be able to isolate state between calls. This field is to be used by your own systems rather than ours and may be any value which can uniquely identify your cardholder's session. As an option, we do provide a `threedserver_trans_id` value in the `RequestChallenged` packet which can be used for the `threeDSSessionData` value as it is used to uniquely identify the 3D-Secure session.   A common method of maintaining state is to provide a session related query string value in the `merchant_termurl` value (also known as the `notificationUrl`). For example providing a url of `https://mystore.com/checkout?token=asny2348w4561..` could return the user directly back to their session with your environment.  Once you have received a `cres` post from the ACS authentication service, this should be POSTed to the [cres](#cres)  endpoint to perform full authorisation processing.   Please note that the CRes returned to us is purely a mechanism of acknowledging that transactions should be committed for authorisation. The ACS by this point will have sent us the verification value (CAVV) to perform a liability shift. The CRes value will be validated for receipt of the CAVV and subsequently may return response codes illustrating this.   To forward the user to the ACS, we recommend a simple auto submit HTML form.  > Simple auto submit HTML form  ```html <html lang=\"en\">  <head>         <title>Forward to ACS</title>   <script type=\"text/javascript\">         function onLoadEvent() {              document.acs.submit();          }         </script>         <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>     </head>     <body onload=\"onLoadEvent();\">         <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">             <input type=\"hidden\" name=\"creq\" value=\"{{CReq Packet from Response}}\" />             <input type=\"hidden\" name=\"threeDSSessionData\" value=\"{{session-identifier}}\" />         </form>     </body> </html> ```  A full ACS test suite is available for 3DSv2 testing.          ### Testing 3DSv2 Integrations  The API provides a mock 3dsV2 handler which performs a number of scenarios based on the value of the CSC in the request.  | CSC Value | Behaviour | |-----------|-----------| | 731       | Frictionless processing - Not authenticated | | 732       | Frictionless processing - Account verification count not be performed |         | 733       | Frictionless processing - Verification Rejected |         | 741       | Frictionless processing - Attempts Processing |         | 750       | Frictionless processing - Authenticated  |         | 761       | Triggers an error message |   | Any       | Challenge Request |          #### 3DSv1  **Please note that 3DSv1 should now be considered as deprecated.**  ```json {    \"AuthenticationRequired\": {     \"acsurl\": \"https://bank.com/3DS/ACS\",     \"pareq\": \"SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...\",     \"md\": \"WQgZXZlcnl0aGluZyBiZW\"   }                } ```  ```xml <AuthenticationRequired>  <acsurl>https://bank.com/3DS/ACS</acsurl>  <pareq>SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN00...</pareq>  <md>WQgZXZlcnl0aGluZyBiZW</md> </AuthenticationRequired> ```  For E-commerce transactions requiring 3DSv1, the API contains a built in MPI which will be called to check whether the card is participating in 3DSv1 with Verified by Visa or MasterCard SecureCode. We only support Amex SafeKey with 3DSv2. Should the card be enrolled, a payer request (PAReq) value will be created and returned back as an [authentication required](#authenticationrequired) response object.  Your system will need to process this authentication packet and forward the user's browser to an authentication server (ACS) to gain the user's authentication. Once complete, the ACS will produce a HTTP `POST` call back to the URL supplied in the authentication request as `merchant_termurl`. This URL should behave as a controller and handle the post data from the ACS and on a forked server to server HTTP request, forward this data to the [pares authentication url](#pares) for subsequent authorisation processing. You may prefer to provide a processing page whilst this is being processed. Processing with our systems should be relatively quick and be between 500ms - 3000ms however it is desirable to let the user see that something is happening rather than a pending browser.  The main reason for ensuring that this controller is two fold:  1. We are never in control of the user's browser in a server API call 2. The controller is actioned on your site to ensure that any post actions from authorisation can be executed in real time  To forward the user to the ACS, we recommend a simple auto submit HTML form.  > Simple auto submit HTML form  ```html <html lang=\"en\">  <head>         <title>Forward to ACS</title>   <script type=\"text/javascript\">         function onLoadEvent() {              document.acs.submit();          }         </script>         <noscript>You will require JavaScript to be enabled to complete this transaction</noscript>     </head>     <body onload=\"onLoadEvent();\">         <form name=\"acs\" action=\"{{ACSURL from Response}}\" method=\"POST\">             <input type=\"hidden\" name=\"PaReq\" value=\"{{PaReq Packet from Response}}\" />             <input type=\"hidden\" name=\"TermUrl\" value=\"{{Your Controller}}\" />             <input type=\"hidden\" name=\"MD\" value=\"{{MD From Response}}\" />         </form>     </body> </html> ```  Please note that 3DSv1 is being phased out due to changes to strong customer authentication mechanisms. 3DSv2 addresses this and will solidify the authorisation and confirmation process.  We provide a Test ACS for full 3DSv1 integration testing that simulates an ACS. 
+        Performs a request for authorisation for a card payment request.
 
         :param auth_request: (required)
         :type auth_request: AuthRequest
@@ -1192,6 +1194,294 @@ class AuthorisationAndPaymentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v6/capture',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def create_payment_intent(
+        self,
+        payment_intent: PaymentIntent,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PaymentIntentReference:
+        """Create a Payment Intent
+
+        This endpoint initiates the creation of a payment intent, which is a precursor to processing a payment. A payment intent captures the details of a prospective payment transaction, including the payment amount, currency, and associated billing and shipping information. 
+
+        :param payment_intent: (required)
+        :type payment_intent: PaymentIntent
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_payment_intent_serialize(
+            payment_intent=payment_intent,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaymentIntentReference",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': "Error",
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def create_payment_intent_with_http_info(
+        self,
+        payment_intent: PaymentIntent,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PaymentIntentReference]:
+        """Create a Payment Intent
+
+        This endpoint initiates the creation of a payment intent, which is a precursor to processing a payment. A payment intent captures the details of a prospective payment transaction, including the payment amount, currency, and associated billing and shipping information. 
+
+        :param payment_intent: (required)
+        :type payment_intent: PaymentIntent
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_payment_intent_serialize(
+            payment_intent=payment_intent,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaymentIntentReference",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': "Error",
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def create_payment_intent_without_preload_content(
+        self,
+        payment_intent: PaymentIntent,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create a Payment Intent
+
+        This endpoint initiates the creation of a payment intent, which is a precursor to processing a payment. A payment intent captures the details of a prospective payment transaction, including the payment amount, currency, and associated billing and shipping information. 
+
+        :param payment_intent: (required)
+        :type payment_intent: PaymentIntent
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_payment_intent_serialize(
+            payment_intent=payment_intent,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PaymentIntentReference",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': "Error",
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _create_payment_intent_serialize(
+        self,
+        payment_intent,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> Tuple:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[str, str] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if payment_intent is not None:
+            _body_params = payment_intent
+
+
+        # set the HTTP header `Accept`
+        _header_params['Accept'] = self.api_client.select_header_accept(
+            [
+                'application/json', 
+                'text/xml'
+            ]
+        )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json', 
+                        'text/xml'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'cp-api-key'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v6/intent/create',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

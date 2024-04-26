@@ -60,7 +60,6 @@ class TestDecision(unittest.TestCase):
 
     def testDecisionType(self):
         self.assertTrue(self.instance.auth_response)
-        self.assertFalse(self.instance.authen_required)
         self.assertFalse(self.instance.request_challenged)
 
     def testDecision(self):
@@ -80,7 +79,7 @@ class TestDecision(unittest.TestCase):
         self.assertEqual(response.context, "20200812075906AAAGV4")
         self.assertEqual(response.csc_result, "C")
         self.assertEqual(response.currency, "GBP")
-        self.assertEqual(response.date_time.isoformat(), "2020-08-12T07:59:11+00:00")
+        self.assertEqual(response.datetime.isoformat(), "2020-08-12T07:59:11+00:00")
         self.assertEqual(response.eci, "0")
         self.assertEqual(response.identifier, "ident1")
         self.assertEqual(response.live, True)

@@ -1,35 +1,42 @@
 # CityPay API Client for Python
 
 [![citypay Python package](https://github.com/citypay/citypay-api-client-python/actions/workflows/python.yml/badge.svg)](https://github.com/citypay/citypay-api-client-python/actions/workflows/python.yml)
-This CityPay API is an HTTP RESTful payment API used for direct server to server transactional processing. It
-provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing,
-3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and
-Completion processing. The API is also capable of tokenized payments using cardholder Accounts.
+Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server 
+transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs. 
+Whether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing 
+Subscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure 
+authentication, our API is equipped to support your requirements. Additionally, we offer functionalities for 
+Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability 
+for tokenised payments.
 
-## Compliance and Security
-Your application will need to adhere to PCI-DSS standards to operate safely and to meet requirements set out by 
-Visa and MasterCard and the PCI Security Standards Council. These include
+## Compliance and Security Overview
+<aside class=\"notice\">
+  Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is 
+  designed with stringent security measures and compliance protocols to safeguard sensitive information and meet 
+  the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council.
+</aside>
 
-* Data must be collected using TLS version 1.2 using [strong cryptography](https://citypay.github.io/api-docs/payment-api/#enabled-tls-ciphers). We will not accept calls to our API at
-  lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments
-  as part of our compliance program.
-* The application must not store sensitive cardholder data (CHD) such as the card security code (CSC) or
-  primary access number (PAN)
-* The application must not display the full card number on receipts, it is recommended to mask the PAN
-  and show the last 4 digits. The API will return this for you for ease of receipt creation
-* If you are developing a website, you will be required to perform regular scans on the network where you host the
-  application to meet your compliance obligations
-* You will be required to be PCI Compliant and the application must adhere to the security standard. Further information
-  is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/)
-* The API verifies that the request is for a valid account and originates from a trusted source using the remote IP
-  address. Our application firewalls analyse data that may be an attempt to break a large number of security common
-  security vulnerabilities.
+### Key Compliance and Security Measures
+
+* **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities.
+* **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden.
+* **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation.
+* **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence.
+* **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/).
+* **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.
+
+## Getting Started
+Before integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.
+
+For further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.
+
+Thank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution.
 
 
 This Python package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
-- API version: 6.6.23
-- Package version: 1.1.2
+- API version: 6.6.40
+- Package version: 1.1.3
 - Build package: org.openapitools.codegen.languages.PythonClientCodegen
 For more information, please visit [https://www.citypay.com/contacts/](https://www.citypay.com/contacts/)
 
@@ -125,13 +132,14 @@ Class | Method | HTTP request | Description
 *AuthorisationAndPaymentApi* | [**bin_range_lookup_request**](docs/AuthorisationAndPaymentApi.md#bin_range_lookup_request) | **POST** /v6/bin | Bin Lookup
 *AuthorisationAndPaymentApi* | [**c_res_request**](docs/AuthorisationAndPaymentApi.md#c_res_request) | **POST** /v6/cres | CRes
 *AuthorisationAndPaymentApi* | [**capture_request**](docs/AuthorisationAndPaymentApi.md#capture_request) | **POST** /v6/capture | Capture
+*AuthorisationAndPaymentApi* | [**create_payment_intent**](docs/AuthorisationAndPaymentApi.md#create_payment_intent) | **POST** /v6/intent/create | Create a Payment Intent
 *AuthorisationAndPaymentApi* | [**pa_res_request**](docs/AuthorisationAndPaymentApi.md#pa_res_request) | **POST** /v6/pares | PaRes
 *AuthorisationAndPaymentApi* | [**refund_request**](docs/AuthorisationAndPaymentApi.md#refund_request) | **POST** /v6/refund | Refund
 *AuthorisationAndPaymentApi* | [**retrieval_request**](docs/AuthorisationAndPaymentApi.md#retrieval_request) | **POST** /v6/retrieve | Retrieval
 *AuthorisationAndPaymentApi* | [**void_request**](docs/AuthorisationAndPaymentApi.md#void_request) | **POST** /v6/void | Void
 *BatchProcessingApi* | [**batch_process_request**](docs/BatchProcessingApi.md#batch_process_request) | **POST** /v6/batch/process | Batch Process Request
-*BatchProcessingApi* | [**batch_retrieve_request**](docs/BatchProcessingApi.md#batch_retrieve_request) | **POST** /v6/batch/retrieve | BatchReportRequest
-*BatchProcessingApi* | [**check_batch_status_request**](docs/BatchProcessingApi.md#check_batch_status_request) | **POST** /v6/batch/status | CheckBatchStatus
+*BatchProcessingApi* | [**batch_retrieve_request**](docs/BatchProcessingApi.md#batch_retrieve_request) | **POST** /v6/batch/retrieve | Batch Retrieve Request
+*BatchProcessingApi* | [**check_batch_status_request**](docs/BatchProcessingApi.md#check_batch_status_request) | **POST** /v6/batch/status | Check Batch Status
 *CardHolderAccountApi* | [**account_card_delete_request**](docs/CardHolderAccountApi.md#account_card_delete_request) | **DELETE** /v6/account/{accountid}/card/{cardId} | Card Deletion
 *CardHolderAccountApi* | [**account_card_register_request**](docs/CardHolderAccountApi.md#account_card_register_request) | **POST** /v6/account/{accountid}/register | Card Registration
 *CardHolderAccountApi* | [**account_card_status_request**](docs/CardHolderAccountApi.md#account_card_status_request) | **POST** /v6/account/{accountid}/card/{cardId}/status | Card Status
@@ -153,6 +161,7 @@ Class | Method | HTTP request | Description
 *OperationalFunctionsApi* | [**list_merchants_request**](docs/OperationalFunctionsApi.md#list_merchants_request) | **GET** /v6/merchants/{clientid} | List Merchants Request
 *OperationalFunctionsApi* | [**ping_request**](docs/OperationalFunctionsApi.md#ping_request) | **POST** /v6/ping | Ping Request
 *PaylinkApi* | [**token_adjustment_request**](docs/PaylinkApi.md#token_adjustment_request) | **POST** /paylink/{token}/adjustment | Paylink Token Adjustment
+*PaylinkApi* | [**token_cancel_request**](docs/PaylinkApi.md#token_cancel_request) | **PUT** /paylink/{token}/cancel | Cancel a Paylink Token
 *PaylinkApi* | [**token_changes_request**](docs/PaylinkApi.md#token_changes_request) | **POST** /paylink/token/changes | Paylink Token Audit
 *PaylinkApi* | [**token_close_request**](docs/PaylinkApi.md#token_close_request) | **PUT** /paylink/{token}/close | Close Paylink Token
 *PaylinkApi* | [**token_create_bill_payment_request**](docs/PaylinkApi.md#token_create_bill_payment_request) | **POST** /paylink/bill-payment | Create Bill Payment Paylink Token
@@ -160,7 +169,13 @@ Class | Method | HTTP request | Description
 *PaylinkApi* | [**token_purge_attachments_request**](docs/PaylinkApi.md#token_purge_attachments_request) | **PUT** /paylink/{token}/purge-attachments | Purges any attachments for a Paylink Token
 *PaylinkApi* | [**token_reconciled_request**](docs/PaylinkApi.md#token_reconciled_request) | **PUT** /paylink/{token}/reconciled | Reconcile Paylink Token
 *PaylinkApi* | [**token_reopen_request**](docs/PaylinkApi.md#token_reopen_request) | **PUT** /paylink/{token}/reopen | Reopen Paylink Token
+*PaylinkApi* | [**token_resend_notification_request**](docs/PaylinkApi.md#token_resend_notification_request) | **POST** /paylink/{token}/resend-notification | Resend a notification for Paylink Token
 *PaylinkApi* | [**token_status_request**](docs/PaylinkApi.md#token_status_request) | **GET** /paylink/{token}/status | Paylink Token Status
+*ReportingApi* | [**batched_transaction_report_request**](docs/ReportingApi.md#batched_transaction_report_request) | **POST** /v6/merchant-batch/{merchantid}/{batch_no}/transactions | Batch Transaction Report Request
+*ReportingApi* | [**merchant_batch_report_request**](docs/ReportingApi.md#merchant_batch_report_request) | **POST** /v6/merchant-batch/report | Merchant Batch Report Request
+*ReportingApi* | [**merchant_batch_request**](docs/ReportingApi.md#merchant_batch_request) | **GET** /v6/merchant-batch/{merchantid}/{batch_no} | Merchant Batch Request
+*ReportingApi* | [**remittance_range_report**](docs/ReportingApi.md#remittance_range_report) | **POST** /v6/remittance/report/{clientid} | Remittance Report Request
+*ReportingApi* | [**remittance_report_request**](docs/ReportingApi.md#remittance_report_request) | **GET** /v6/remittance/report/{clientid}/{date} | Remittance Date Report Request
 
 
 ## Documentation For Models
@@ -176,11 +191,12 @@ Class | Method | HTTP request | Description
  - [AuthReferences](docs/AuthReferences.md)
  - [AuthRequest](docs/AuthRequest.md)
  - [AuthResponse](docs/AuthResponse.md)
- - [AuthenRequired](docs/AuthenRequired.md)
  - [Batch](docs/Batch.md)
  - [BatchReportRequest](docs/BatchReportRequest.md)
  - [BatchReportResponseModel](docs/BatchReportResponseModel.md)
  - [BatchTransaction](docs/BatchTransaction.md)
+ - [BatchTransactionReportRequest](docs/BatchTransactionReportRequest.md)
+ - [BatchTransactionReportResponse](docs/BatchTransactionReportResponse.md)
  - [BatchTransactionResultModel](docs/BatchTransactionResultModel.md)
  - [Bin](docs/Bin.md)
  - [BinLookup](docs/BinLookup.md)
@@ -206,6 +222,10 @@ Class | Method | HTTP request | Description
  - [ListMerchantsResponse](docs/ListMerchantsResponse.md)
  - [MCC6012](docs/MCC6012.md)
  - [Merchant](docs/Merchant.md)
+ - [MerchantBatchReportRequest](docs/MerchantBatchReportRequest.md)
+ - [MerchantBatchReportResponse](docs/MerchantBatchReportResponse.md)
+ - [MerchantBatchResponse](docs/MerchantBatchResponse.md)
+ - [NetSummaryResponse](docs/NetSummaryResponse.md)
  - [PaResAuthRequest](docs/PaResAuthRequest.md)
  - [PaylinkAddress](docs/PaylinkAddress.md)
  - [PaylinkAdjustmentRequest](docs/PaylinkAdjustmentRequest.md)
@@ -221,6 +241,7 @@ Class | Method | HTTP request | Description
  - [PaylinkErrorCode](docs/PaylinkErrorCode.md)
  - [PaylinkFieldGuardModel](docs/PaylinkFieldGuardModel.md)
  - [PaylinkPartPayments](docs/PaylinkPartPayments.md)
+ - [PaylinkResendNotificationRequest](docs/PaylinkResendNotificationRequest.md)
  - [PaylinkSMSNotificationPath](docs/PaylinkSMSNotificationPath.md)
  - [PaylinkStateEvent](docs/PaylinkStateEvent.md)
  - [PaylinkTokenCreated](docs/PaylinkTokenCreated.md)
@@ -229,11 +250,17 @@ Class | Method | HTTP request | Description
  - [PaylinkTokenStatusChangeRequest](docs/PaylinkTokenStatusChangeRequest.md)
  - [PaylinkTokenStatusChangeResponse](docs/PaylinkTokenStatusChangeResponse.md)
  - [PaylinkUI](docs/PaylinkUI.md)
+ - [PaymentIntent](docs/PaymentIntent.md)
+ - [PaymentIntentReference](docs/PaymentIntentReference.md)
  - [Ping](docs/Ping.md)
  - [ProcessBatchRequest](docs/ProcessBatchRequest.md)
  - [ProcessBatchResponse](docs/ProcessBatchResponse.md)
  - [RefundRequest](docs/RefundRequest.md)
  - [RegisterCard](docs/RegisterCard.md)
+ - [RemittanceData](docs/RemittanceData.md)
+ - [RemittanceReportRequest](docs/RemittanceReportRequest.md)
+ - [RemittanceReportResponse](docs/RemittanceReportResponse.md)
+ - [RemittedClientData](docs/RemittedClientData.md)
  - [RequestChallenged](docs/RequestChallenged.md)
  - [RetrieveRequest](docs/RetrieveRequest.md)
  - [ThreeDSecure](docs/ThreeDSecure.md)

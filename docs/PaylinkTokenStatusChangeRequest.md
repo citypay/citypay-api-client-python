@@ -6,10 +6,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **after** | **datetime** | identifies the date and time to lookup changes after. | 
-**max_results** | **int** | the maximum number of results between 5 and 250 to return. Default is 50. | [optional] 
+**max_results** | **int** | The maximum number of results to return in a single response. This value is used to limit the size of data returned by the API, enhancing performance and manageability. Values should be between 5 and 250. | [optional] 
 **merchantid** | **int** | the merchant id to review tokens for. | 
-**next_token** | **str** | the next token value when more results are available. | [optional] 
-**order_by** | **List[str]** |  | [optional] 
+**next_token** | **str** | A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request. | [optional] 
+**order_by** | **str** | Specifies the field by which results are ordered. Available fields are [p.id]. By default, fields are ordered by OrderByExpression(p.id,ASC). To order in descending order, prefix with &#39;-&#39; or suffix with &#39; DESC&#39;. | [optional] 
 
 ## Example
 

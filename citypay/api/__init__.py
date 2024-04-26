@@ -7,4 +7,5 @@ from citypay.api.card_holder_account_api import CardHolderAccountApi
 from citypay.api.direct_post_api import DirectPostApi
 from citypay.api.operational_functions_api import OperationalFunctionsApi
 from citypay.api.paylink_api import PaylinkApi
+from citypay.api.reporting_api import ReportingApi
 

@@ -81,7 +81,6 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required)
         self.assertIsNone(decision.request_challenged)
         self.assertIsNotNone(decision.auth_response)
 
@@ -109,7 +108,6 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required)
         self.assertIsNotNone(decision.request_challenged)
         self.assertIsNone(decision.auth_response)
 
@@ -188,7 +186,6 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required)
         self.assertIsNone(decision.request_challenged)
         self.assertIsNotNone(decision.auth_response)
 
@@ -215,7 +212,6 @@ class TestApiIntegration(unittest.TestCase):
             )
         ))
 
-        self.assertIsNone(decision.authen_required)
         self.assertIsNotNone(decision.request_challenged)
         self.assertIsNone(decision.auth_response)
 
