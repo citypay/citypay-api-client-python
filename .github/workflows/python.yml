@@ -5,15 +5,23 @@
 
 name: citypay Python package
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      CP_CLIENT_ID: ${{ secrets.CP_CLIENT_ID }}
+      CP_LICENCE_KEY: ${{ secrets.CP_LICENCE_KEY }}
+      CP_MERCHANT_ID: ${{ secrets.CP_MERCHANT_ID }}
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v3
