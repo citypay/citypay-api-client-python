@@ -86,8 +86,8 @@ class ApiClient:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = "CityPayAPI/Python/1.1.3" 
-        self.default_headers["cp-sdk"] = "CP_API_PY/1.1.3" 
+        self.user_agent = "CityPayAPI/Python/1.1.4"
+        self.default_headers["cp-sdk"] = "CP_API_PY/1.1.4"
 
         self.client_side_validation = configuration.client_side_validation
 

@@ -69,5 +69,5 @@ jobs:
     - name: Upload the package to PyPI
       uses: pypa/gh-action-pypi-publish@v1.4.2
       with:
-        user: ${{ secrets.PYPI_USERNAME }}
-        password: ${{ secrets.PYPI_SECRET }}
+        user: __TOKEN__
+        password: ${{ secrets.PYPI_TOKEN }}
