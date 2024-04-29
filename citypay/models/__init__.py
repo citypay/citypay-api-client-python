@@ -4,7 +4,7 @@
 """
     CityPay Payment API
 
-     This CityPay API is an HTTP RESTful payment API used for direct server to server transactional processing. It provides a number of payment mechanisms including: Internet, MOTO, Continuous Authority transaction processing, 3-D Secure decision handling using RFA Secure, Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids and Completion processing. The API is also capable of tokenized payments using cardholder Accounts.  ## Compliance and Security Your application will need to adhere to PCI-DSS standards to operate safely and to meet requirements set out by  Visa and MasterCard and the PCI Security Standards Council. These include  * Data must be collected using TLS version 1.2 using [strong cryptography](https://citypay.github.io/api-docs/payment-api/#enabled-tls-ciphers). We will not accept calls to our API at   lower grade encryption levels. We regularly scan our TLS endpoints for vulnerabilities and perform TLS assessments   as part of our compliance program. * The application must not store sensitive cardholder data (CHD) such as the card security code (CSC) or   primary access number (PAN) * The application must not display the full card number on receipts, it is recommended to mask the PAN   and show the last 4 digits. The API will return this for you for ease of receipt creation * If you are developing a website, you will be required to perform regular scans on the network where you host the   application to meet your compliance obligations * You will be required to be PCI Compliant and the application must adhere to the security standard. Further information   is available from [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/) * The API verifies that the request is for a valid account and originates from a trusted source using the remote IP   address. Our application firewalls analyse data that may be an attempt to break a large number of security common   security vulnerabilities. 
+     Welcome to the CityPay API, a robust HTTP API payment solution designed for seamless server-to-server  transactional processing. Our API facilitates a wide array of payment operations, catering to diverse business needs.  Whether you're integrating Internet payments, handling Mail Order/Telephone Order (MOTO) transactions, managing  Subscriptions with Recurring and Continuous Authority payments, or navigating the complexities of 3-D Secure  authentication, our API is equipped to support your requirements. Additionally, we offer functionalities for  Authorisation, Refunding, Pre-Authorisation, Cancellation/Voids, and Completion processing, alongside the capability  for tokenised payments.  ## Compliance and Security Overview <aside class=\"notice\">   Ensuring the security of payment transactions and compliance with industry standards is paramount. Our API is    designed with stringent security measures and compliance protocols to safeguard sensitive information and meet    the rigorous requirements of Visa, MasterCard, and the PCI Security Standards Council. </aside>  ### Key Compliance and Security Measures  * **TLS Encryption**: All data transmissions must utilise TLS version 1.2 or higher, employing [strong cryptography](#enabled-tls-ciphers). Our infrastructure strictly enforces this requirement to maintain the integrity and confidentiality of data in transit. We conduct regular scans and assessments of our TLS endpoints to identify and mitigate vulnerabilities. * **Data Storage Prohibitions**: Storing sensitive cardholder data (CHD), such as the card security code (CSC) or primary account number (PAN), is strictly prohibited. Our API is designed to minimize your exposure to sensitive data, thereby reducing your compliance burden. * **Data Masking**: For consumer protection and compliance, full card numbers must not be displayed on receipts or any customer-facing materials. Our API automatically masks PANs, displaying only the last four digits to facilitate safe receipt generation. * **Network Scans**: If your application is web-based, regular scans of your hosting environment are mandatory to identify and rectify potential vulnerabilities. This proactive measure is crucial for maintaining a secure and compliant online presence. * **PCI Compliance**: Adherence to PCI DSS standards is not optional; it's a requirement for operating securely and legally in the payments ecosystem. For detailed information on compliance requirements and resources, please visit the PCI Security Standards Council website [https://www.pcisecuritystandards.org/](https://www.pcisecuritystandards.org/). * **Request Validation**: Our API includes mechanisms to verify the legitimacy of each request, ensuring it pertains to a valid account and originates from a trusted source. We leverage remote IP address verification alongside sophisticated application firewall technologies to thwart a wide array of common security threats.  ## Getting Started Before integrating with the CityPay API, ensure your application and development practices align with the outlined compliance and security measures. This preparatory step is crucial for a smooth integration process and the long-term success of your payment processing operations.  For further details on API endpoints, request/response formats, and code examples, proceed to the subsequent sections of our documentation. Our aim is to provide you with all the necessary tools and information to integrate our payment processing capabilities seamlessly into your application.  Thank you for choosing CityPay API. We look forward to supporting your payment processing needs with our secure, compliant, and versatile API solution. 
 
     Contact: support@citypay.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
@@ -25,11 +25,12 @@ from citypay.models.auth_reference import AuthReference
 from citypay.models.auth_references import AuthReferences
 from citypay.models.auth_request import AuthRequest
 from citypay.models.auth_response import AuthResponse
-from citypay.models.authen_required import AuthenRequired
 from citypay.models.batch import Batch
 from citypay.models.batch_report_request import BatchReportRequest
 from citypay.models.batch_report_response_model import BatchReportResponseModel
 from citypay.models.batch_transaction import BatchTransaction
+from citypay.models.batch_transaction_report_request import BatchTransactionReportRequest
+from citypay.models.batch_transaction_report_response import BatchTransactionReportResponse
 from citypay.models.batch_transaction_result_model import BatchTransactionResultModel
 from citypay.models.bin import Bin
 from citypay.models.bin_lookup import BinLookup
@@ -55,6 +56,10 @@ from citypay.models.external_mpi import ExternalMPI
 from citypay.models.list_merchants_response import ListMerchantsResponse
 from citypay.models.mcc6012 import MCC6012
 from citypay.models.merchant import Merchant
+from citypay.models.merchant_batch_report_request import MerchantBatchReportRequest
+from citypay.models.merchant_batch_report_response import MerchantBatchReportResponse
+from citypay.models.merchant_batch_response import MerchantBatchResponse
+from citypay.models.net_summary_response import NetSummaryResponse
 from citypay.models.pa_res_auth_request import PaResAuthRequest
 from citypay.models.paylink_address import PaylinkAddress
 from citypay.models.paylink_adjustment_request import PaylinkAdjustmentRequest
@@ -70,6 +75,7 @@ from citypay.models.paylink_email_notification_path import PaylinkEmailNotificat
 from citypay.models.paylink_error_code import PaylinkErrorCode
 from citypay.models.paylink_field_guard_model import PaylinkFieldGuardModel
 from citypay.models.paylink_part_payments import PaylinkPartPayments
+from citypay.models.paylink_resend_notification_request import PaylinkResendNotificationRequest
 from citypay.models.paylink_sms_notification_path import PaylinkSMSNotificationPath
 from citypay.models.paylink_state_event import PaylinkStateEvent
 from citypay.models.paylink_token_created import PaylinkTokenCreated
@@ -78,11 +84,17 @@ from citypay.models.paylink_token_status import PaylinkTokenStatus
 from citypay.models.paylink_token_status_change_request import PaylinkTokenStatusChangeRequest
 from citypay.models.paylink_token_status_change_response import PaylinkTokenStatusChangeResponse
 from citypay.models.paylink_ui import PaylinkUI
+from citypay.models.payment_intent import PaymentIntent
+from citypay.models.payment_intent_reference import PaymentIntentReference
 from citypay.models.ping import Ping
 from citypay.models.process_batch_request import ProcessBatchRequest
 from citypay.models.process_batch_response import ProcessBatchResponse
 from citypay.models.refund_request import RefundRequest
 from citypay.models.register_card import RegisterCard
+from citypay.models.remittance_data import RemittanceData
+from citypay.models.remittance_report_request import RemittanceReportRequest
+from citypay.models.remittance_report_response import RemittanceReportResponse
+from citypay.models.remitted_client_data import RemittedClientData
 from citypay.models.request_challenged import RequestChallenged
 from citypay.models.retrieve_request import RetrieveRequest
 from citypay.models.three_d_secure import ThreeDSecure

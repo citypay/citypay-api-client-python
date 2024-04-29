@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **account_card_delete_request**
-> Acknowledgement account_card_delete_request(accountid, card_id)
+> Acknowledgement account_card_delete_request(accountid, card_id, force=force)
 
 Card Deletion
 
@@ -60,10 +60,11 @@ with citypay.ApiClient(configuration) as api_client:
     api_instance = citypay.CardHolderAccountApi(api_client)
     accountid = 'accountid_example' # str | The account id that refers to the customer's account no. This value will have been provided when setting up the card holder account.
     card_id = 'card_id_example' # str | The id of the card that is presented by a call to retrieve a card holder account.
+    force = True # bool | Requests that the item is forced immediately. (optional)
 
     try:
         # Card Deletion
-        api_response = api_instance.account_card_delete_request(accountid, card_id)
+        api_response = api_instance.account_card_delete_request(accountid, card_id, force=force)
         print("The response of CardHolderAccountApi->account_card_delete_request:\n")
         pprint(api_response)
     except Exception as e:
@@ -79,6 +80,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **accountid** | **str**| The account id that refers to the customer&#39;s account no. This value will have been provided when setting up the card holder account. | 
  **card_id** | **str**| The id of the card that is presented by a call to retrieve a card holder account. | 
+ **force** | **bool**| Requests that the item is forced immediately. | [optional] 
 
 ### Return type
 

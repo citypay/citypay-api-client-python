@@ -52,7 +52,7 @@ class TestAuthReferences(unittest.TestCase):
         self.assertEqual(self.instance.auths[0].authcode, "A12345")
         self.assertEqual(self.instance.auths[0].batchno, "")
         self.assertEqual(self.instance.auths[0].currency, "GBP")
-        self.assertEqual(self.instance.auths[0].date_time.isoformat(), "2020-07-21T15:55:04+00:00")
+        self.assertEqual(self.instance.auths[0].datetime.isoformat(), "2020-07-21T15:55:04+00:00")
         self.assertEqual(self.instance.auths[0].identifier, "TestingAPI")
         self.assertEqual(self.instance.auths[0].maskedpan, "400000******0000")
         self.assertEqual(self.instance.auths[0].merchantid, 12345678)

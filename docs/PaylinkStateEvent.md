@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **datetime** | **datetime** | the date and time of the event. | [optional] 
 **message** | **str** | a message associated with the event. | [optional] 
-**state** | **datetime** | The name of the event that was actioned. | [optional] 
+**state** | **str** | The name of the event that was actioned. | [optional] 
 
 ## Example
 

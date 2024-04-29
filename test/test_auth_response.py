@@ -106,7 +106,7 @@ class TestAuthResponse(unittest.TestCase):
         self.assertEqual(self.instance.context, "20200812075906AAAGV4")
         self.assertEqual(self.instance.csc_result, "C")
         self.assertEqual(self.instance.currency, "GBP")
-        self.assertEqual(self.instance.date_time.isoformat(), "2020-08-12T07:59:11+00:00")
+        self.assertEqual(self.instance.datetime.isoformat(), "2020-08-12T07:59:11+00:00")
         self.assertEqual(self.instance.eci, "0")
         self.assertEqual(self.instance.identifier, "ident1")
         self.assertEqual(self.instance.live, True)

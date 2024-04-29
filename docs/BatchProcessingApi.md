@@ -5,8 +5,8 @@ All URIs are relative to *https://api.citypay.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**batch_process_request**](BatchProcessingApi.md#batch_process_request) | **POST** /v6/batch/process | Batch Process Request
-[**batch_retrieve_request**](BatchProcessingApi.md#batch_retrieve_request) | **POST** /v6/batch/retrieve | BatchReportRequest
-[**check_batch_status_request**](BatchProcessingApi.md#check_batch_status_request) | **POST** /v6/batch/status | CheckBatchStatus
+[**batch_retrieve_request**](BatchProcessingApi.md#batch_retrieve_request) | **POST** /v6/batch/retrieve | Batch Retrieve Request
+[**check_batch_status_request**](BatchProcessingApi.md#check_batch_status_request) | **POST** /v6/batch/status | Check Batch Status
 
 
 # **batch_process_request**
@@ -103,9 +103,9 @@ Name | Type | Description  | Notes
 # **batch_retrieve_request**
 > BatchReportResponseModel batch_retrieve_request(batch_report_request)
 
-BatchReportRequest
+Batch Retrieve Request
 
-The report for a given batch.
+Obtains a batch and installment (BIS) report for a given batch id.
 
 ### Example
 
@@ -144,7 +144,7 @@ with citypay.ApiClient(configuration) as api_client:
     batch_report_request = citypay.BatchReportRequest() # BatchReportRequest | 
 
     try:
-        # BatchReportRequest
+        # Batch Retrieve Request
         api_response = api_instance.batch_retrieve_request(batch_report_request)
         print("The response of BatchProcessingApi->batch_retrieve_request:\n")
         pprint(api_response)
@@ -190,7 +190,7 @@ Name | Type | Description  | Notes
 # **check_batch_status_request**
 > CheckBatchStatusResponse check_batch_status_request(check_batch_status)
 
-CheckBatchStatus
+Check Batch Status
 
 The operation is used to retrieve the status of a batch process.
 
@@ -231,7 +231,7 @@ with citypay.ApiClient(configuration) as api_client:
     check_batch_status = citypay.CheckBatchStatus() # CheckBatchStatus | 
 
     try:
-        # CheckBatchStatus
+        # Check Batch Status
         api_response = api_instance.check_batch_status_request(check_batch_status)
         print("The response of BatchProcessingApi->check_batch_status_request:\n")
         pprint(api_response)
