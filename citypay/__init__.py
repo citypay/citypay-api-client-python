@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.1.3"
+__version__ = "1.1.4"
 
 # import apis into sdk package
 from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi
