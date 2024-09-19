@@ -17,14 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime as DateTime
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class AuthResponse(BaseModel):
     """
@@ -44,7 +41,7 @@ class AuthResponse(BaseModel):
     context: Optional[StrictStr] = Field(default=None, description="The context which processed the transaction, can be used for support purposes to trace transactions.")
     csc_result: Optional[StrictStr] = Field(default=None, description="The CSC result codes determine the result of checking the provided CSC value within the Card Security Code fraud system. If a transaction is declined due to the CSC code not matching, this value can help determine the reason for the decline.  <table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td> </td><td>No information</td></tr> <tr><td>M</td><td>Card verification data matches</td></tr> <tr><td>N</td><td>Card verification data was checked but did not match</td></tr> <tr><td>P</td><td>Card verification was not processed</td></tr> <tr><td>S</td><td>The card verification data should be on the card but the merchant indicates that it is not</td></tr> <tr><td>U</td><td>The card issuer is not certified</td></tr> </table> ")
     currency: Optional[StrictStr] = Field(default=None, description="The currency the transaction was processed in. This is an `ISO4217` alpha currency value.")
-    datetime: Optional[DateTime] = Field(default=None, description="The UTC date time of the transaction in ISO data time format. ")
+    datetime: Optional[datetime] = Field(default=None, description="The UTC date time of the transaction in ISO data time format. ")
     eci: Optional[StrictStr] = Field(default=None, description="An Electronic Commerce Indicator (ECI) used to identify the result of authentication using 3DSecure. ")
     identifier: Optional[StrictStr] = Field(default=None, description="The identifier provided within the request.")
     live: Optional[StrictBool] = Field(default=None, description="Used to identify that a transaction was processed on a live authorisation platform.")
@@ -61,11 +58,11 @@ class AuthResponse(BaseModel):
     transno: Optional[StrictInt] = Field(default=None, description="The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1 for transactions that do not have a transaction number issued. ")
     __properties: ClassVar[List[str]] = ["amount", "atrn", "atsd", "authcode", "authen_result", "authorised", "avs_result", "bin_commercial", "bin_debit", "bin_description", "cavv", "context", "csc_result", "currency", "datetime", "eci", "identifier", "live", "maskedpan", "merchantid", "result", "result_code", "result_message", "scheme", "scheme_id", "scheme_logo", "sha256", "trans_status", "transno"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -78,7 +75,7 @@ class AuthResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of AuthResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -92,16 +89,18 @@ class AuthResponse(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AuthResponse from a dict"""
         if obj is None:
             return None

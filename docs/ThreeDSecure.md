@@ -29,12 +29,12 @@ json = "{}"
 # create an instance of ThreeDSecure from a JSON string
 three_d_secure_instance = ThreeDSecure.from_json(json)
 # print the JSON string representation of the object
-print ThreeDSecure.to_json()
+print(ThreeDSecure.to_json())
 
 # convert the object into a dict
 three_d_secure_dict = three_d_secure_instance.to_dict()
 # create an instance of ThreeDSecure from a dict
-three_d_secure_form_dict = three_d_secure.from_dict(three_d_secure_dict)
+three_d_secure_from_dict = ThreeDSecure.from_dict(three_d_secure_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

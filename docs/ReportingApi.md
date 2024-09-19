@@ -23,8 +23,6 @@ Retrieves transactions available on a given batch.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.batch_transaction_report_request import BatchTransactionReportRequest
 from citypay.models.batch_transaction_report_response import BatchTransactionReportResponse
@@ -107,18 +105,13 @@ Name | Type | Description  | Notes
 
 Merchant Batch Report Request
 
-Retrieves a report of merchant batches within a specified date range. 
-Batches, which aggregate daily processing activities, are typically generated at `00:00` each day. 
-These batches play a crucial role in the settlement of funds by summarising daily transactions.
-
+Retrieves a report of merchant batches within a specified date range.  Batches, which aggregate daily processing activities, are typically generated at `00:00` each day.  These batches play a crucial role in the settlement of funds by summarising daily transactions. 
 
 ### Example
 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.merchant_batch_report_request import MerchantBatchReportRequest
 from citypay.models.merchant_batch_report_response import MerchantBatchReportResponse
@@ -204,8 +197,6 @@ Retrieves a report of merchant a merchant batch for a specified batch number.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.merchant_batch_response import MerchantBatchResponse
 from citypay.rest import ApiException
@@ -285,20 +276,13 @@ Name | Type | Description  | Notes
 
 Remittance Report Request
 
-Fetches remittance reports for financial transactions within a specified date range,
-covering all client-related activities. This report consolidates all batches disbursed to a
-client, with each remittance summarising the aggregation of batches leading up to settlement.
-Additionally, the net remittance amount presented in the final settlement will reflect any
-deductions made by the acquirer.
-
+Fetches remittance reports for financial transactions within a specified date range, covering all client-related activities. This report consolidates all batches disbursed to a client, with each remittance summarising the aggregation of batches leading up to settlement. Additionally, the net remittance amount presented in the final settlement will reflect any deductions made by the acquirer. 
 
 ### Example
 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.remittance_report_request import RemittanceReportRequest
 from citypay.models.remittance_report_response import RemittanceReportResponse
@@ -379,23 +363,13 @@ Name | Type | Description  | Notes
 
 Remittance Date Report Request
 
-Fetches remittance reports for financial transactions for a given date, 
-covering all client-related activities. This report consolidates all batches disbursed to a 
-client, with each remittance summarising the aggregation of batches leading up to settlement. 
-Additionally, the net remittance amount presented in the final settlement will reflect any 
-deductions made by the acquirer.
-
-The process also supports the notion of *today* deferring the date to today's date or *latest* reflecting the
-latest remittance date available.
-
+Fetches remittance reports for financial transactions for a given date,  covering all client-related activities. This report consolidates all batches disbursed to a  client, with each remittance summarising the aggregation of batches leading up to settlement.  Additionally, the net remittance amount presented in the final settlement will reflect any  deductions made by the acquirer.  The process also supports the notion of *today* deferring the date to today's date or *latest* reflecting the latest remittance date available. 
 
 ### Example
 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.remitted_client_data import RemittedClientData
 from citypay.rest import ApiException

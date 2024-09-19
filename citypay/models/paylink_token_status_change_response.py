@@ -17,15 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from citypay.models.paylink_token_status import PaylinkTokenStatus
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkTokenStatusChangeResponse(BaseModel):
     """
@@ -37,11 +33,11 @@ class PaylinkTokenStatusChangeResponse(BaseModel):
     tokens: List[PaylinkTokenStatus]
     __properties: ClassVar[List[str]] = ["count", "maxResults", "nextToken", "tokens"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -54,7 +50,7 @@ class PaylinkTokenStatusChangeResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkTokenStatusChangeResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -68,23 +64,25 @@ class PaylinkTokenStatusChangeResponse(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in tokens (list)
         _items = []
         if self.tokens:
-            for _item in self.tokens:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_tokens in self.tokens:
+                if _item_tokens:
+                    _items.append(_item_tokens.to_dict())
             _dict['tokens'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkTokenStatusChangeResponse from a dict"""
         if obj is None:
             return None
@@ -96,7 +94,7 @@ class PaylinkTokenStatusChangeResponse(BaseModel):
             "count": obj.get("count"),
             "maxResults": obj.get("maxResults"),
             "nextToken": obj.get("nextToken"),
-            "tokens": [PaylinkTokenStatus.from_dict(_item) for _item in obj.get("tokens")] if obj.get("tokens") is not None else None
+            "tokens": [PaylinkTokenStatus.from_dict(_item) for _item in obj["tokens"]] if obj.get("tokens") is not None else None
         })
         return _obj
 

@@ -24,12 +24,12 @@ json = "{}"
 # create an instance of AirlineSegment from a JSON string
 airline_segment_instance = AirlineSegment.from_json(json)
 # print the JSON string representation of the object
-print AirlineSegment.to_json()
+print(AirlineSegment.to_json())
 
 # convert the object into a dict
 airline_segment_dict = airline_segment_instance.to_dict()
 # create an instance of AirlineSegment from a dict
-airline_segment_form_dict = airline_segment.from_dict(airline_segment_dict)
+airline_segment_from_dict = AirlineSegment.from_dict(airline_segment_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

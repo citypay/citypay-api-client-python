@@ -26,12 +26,12 @@ json = "{}"
 # create an instance of TokenisationResponseModel from a JSON string
 tokenisation_response_model_instance = TokenisationResponseModel.from_json(json)
 # print the JSON string representation of the object
-print TokenisationResponseModel.to_json()
+print(TokenisationResponseModel.to_json())
 
 # convert the object into a dict
 tokenisation_response_model_dict = tokenisation_response_model_instance.to_dict()
 # create an instance of TokenisationResponseModel from a dict
-tokenisation_response_model_form_dict = tokenisation_response_model.from_dict(tokenisation_response_model_dict)
+tokenisation_response_model_from_dict = TokenisationResponseModel.from_dict(tokenisation_response_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

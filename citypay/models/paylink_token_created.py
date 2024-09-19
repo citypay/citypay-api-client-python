@@ -18,16 +18,13 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.paylink_attachment_result import PaylinkAttachmentResult
 from citypay.models.paylink_error_code import PaylinkErrorCode
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkTokenCreated(BaseModel):
     """
@@ -49,11 +46,11 @@ class PaylinkTokenCreated(BaseModel):
     usc: Optional[StrictStr] = Field(default=None, description="A UrlShortCode (USC) used for short links.")
     __properties: ClassVar[List[str]] = ["attachments", "bps", "date_created", "errors", "id", "identifier", "mode", "qrcode", "result", "server_version", "source", "token", "url", "usc"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -66,7 +63,7 @@ class PaylinkTokenCreated(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkTokenCreated from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -80,10 +77,12 @@ class PaylinkTokenCreated(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of attachments
@@ -92,14 +91,14 @@ class PaylinkTokenCreated(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of each item in errors (list)
         _items = []
         if self.errors:
-            for _item in self.errors:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_errors in self.errors:
+                if _item_errors:
+                    _items.append(_item_errors.to_dict())
             _dict['errors'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkTokenCreated from a dict"""
         if obj is None:
             return None
@@ -108,10 +107,10 @@ class PaylinkTokenCreated(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "attachments": PaylinkAttachmentResult.from_dict(obj.get("attachments")) if obj.get("attachments") is not None else None,
+            "attachments": PaylinkAttachmentResult.from_dict(obj["attachments"]) if obj.get("attachments") is not None else None,
             "bps": obj.get("bps"),
             "date_created": obj.get("date_created"),
-            "errors": [PaylinkErrorCode.from_dict(_item) for _item in obj.get("errors")] if obj.get("errors") is not None else None,
+            "errors": [PaylinkErrorCode.from_dict(_item) for _item in obj["errors"]] if obj.get("errors") is not None else None,
             "id": obj.get("id"),
             "identifier": obj.get("identifier"),
             "mode": obj.get("mode"),

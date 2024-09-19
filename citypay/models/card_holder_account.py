@@ -18,16 +18,13 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.card import Card
 from citypay.models.contact_details import ContactDetails
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class CardHolderAccount(BaseModel):
     """
@@ -44,11 +41,11 @@ class CardHolderAccount(BaseModel):
     unique_id: Optional[StrictStr] = Field(default=None, description="A unique id of the card holder account which uniquely identifies the stored account. This value is not searchable.")
     __properties: ClassVar[List[str]] = ["account_id", "cards", "contact", "date_created", "default_card_id", "default_card_index", "last_modified", "status", "unique_id"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -61,7 +58,7 @@ class CardHolderAccount(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of CardHolderAccount from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -75,18 +72,20 @@ class CardHolderAccount(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in cards (list)
         _items = []
         if self.cards:
-            for _item in self.cards:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_cards in self.cards:
+                if _item_cards:
+                    _items.append(_item_cards.to_dict())
             _dict['cards'] = _items
         # override the default output from pydantic by calling `to_dict()` of contact
         if self.contact:
@@ -94,7 +93,7 @@ class CardHolderAccount(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of CardHolderAccount from a dict"""
         if obj is None:
             return None
@@ -104,8 +103,8 @@ class CardHolderAccount(BaseModel):
 
         _obj = cls.model_validate({
             "account_id": obj.get("account_id"),
-            "cards": [Card.from_dict(_item) for _item in obj.get("cards")] if obj.get("cards") is not None else None,
-            "contact": ContactDetails.from_dict(obj.get("contact")) if obj.get("contact") is not None else None,
+            "cards": [Card.from_dict(_item) for _item in obj["cards"]] if obj.get("cards") is not None else None,
+            "contact": ContactDetails.from_dict(obj["contact"]) if obj.get("contact") is not None else None,
             "date_created": obj.get("date_created"),
             "default_card_id": obj.get("default_card_id"),
             "default_card_index": obj.get("default_card_index"),

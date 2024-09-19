@@ -17,18 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.paylink_card_holder import PaylinkCardHolder
 from citypay.models.paylink_cart import PaylinkCart
 from citypay.models.paylink_config import PaylinkConfig
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkTokenRequestModel(BaseModel):
     """
@@ -49,11 +45,11 @@ class PaylinkTokenRequestModel(BaseModel):
     tx_type: Optional[StrictStr] = Field(default=None, description="A value to override the transaction type if requested by your account manager.")
     __properties: ClassVar[List[str]] = ["accountno", "amount", "cardholder", "cart", "client_version", "config", "currency", "email", "identifier", "merchantid", "recurring", "subscription_id", "tx_type"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -66,7 +62,7 @@ class PaylinkTokenRequestModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkTokenRequestModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -80,10 +76,12 @@ class PaylinkTokenRequestModel(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of cardholder
@@ -98,7 +96,7 @@ class PaylinkTokenRequestModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkTokenRequestModel from a dict"""
         if obj is None:
             return None
@@ -109,10 +107,10 @@ class PaylinkTokenRequestModel(BaseModel):
         _obj = cls.model_validate({
             "accountno": obj.get("accountno"),
             "amount": obj.get("amount"),
-            "cardholder": PaylinkCardHolder.from_dict(obj.get("cardholder")) if obj.get("cardholder") is not None else None,
-            "cart": PaylinkCart.from_dict(obj.get("cart")) if obj.get("cart") is not None else None,
+            "cardholder": PaylinkCardHolder.from_dict(obj["cardholder"]) if obj.get("cardholder") is not None else None,
+            "cart": PaylinkCart.from_dict(obj["cart"]) if obj.get("cart") is not None else None,
             "client_version": obj.get("client_version"),
-            "config": PaylinkConfig.from_dict(obj.get("config")) if obj.get("config") is not None else None,
+            "config": PaylinkConfig.from_dict(obj["config"]) if obj.get("config") is not None else None,
             "currency": obj.get("currency"),
             "email": obj.get("email"),
             "identifier": obj.get("identifier"),

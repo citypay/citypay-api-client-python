@@ -21,12 +21,12 @@ json = "{}"
 # create an instance of PaylinkTokenStatusChangeRequest from a JSON string
 paylink_token_status_change_request_instance = PaylinkTokenStatusChangeRequest.from_json(json)
 # print the JSON string representation of the object
-print PaylinkTokenStatusChangeRequest.to_json()
+print(PaylinkTokenStatusChangeRequest.to_json())
 
 # convert the object into a dict
 paylink_token_status_change_request_dict = paylink_token_status_change_request_instance.to_dict()
 # create an instance of PaylinkTokenStatusChangeRequest from a dict
-paylink_token_status_change_request_form_dict = paylink_token_status_change_request.from_dict(paylink_token_status_change_request_dict)
+paylink_token_status_change_request_from_dict = PaylinkTokenStatusChangeRequest.from_dict(paylink_token_status_change_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

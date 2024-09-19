@@ -18,14 +18,11 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class RemittanceData(BaseModel):
     """
@@ -39,11 +36,11 @@ class RemittanceData(BaseModel):
     sales_count: Optional[Annotated[int, Field(le=999999999, strict=True, ge=0)]] = Field(default=None, description="Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.")
     __properties: ClassVar[List[str]] = ["date_created", "net_amount", "refund_amount", "refund_count", "sales_amount", "sales_count"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -56,7 +53,7 @@ class RemittanceData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of RemittanceData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -70,16 +67,18 @@ class RemittanceData(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of RemittanceData from a dict"""
         if obj is None:
             return None

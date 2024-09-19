@@ -27,12 +27,12 @@ json = "{}"
 # create an instance of PaylinkCustomParam from a JSON string
 paylink_custom_param_instance = PaylinkCustomParam.from_json(json)
 # print the JSON string representation of the object
-print PaylinkCustomParam.to_json()
+print(PaylinkCustomParam.to_json())
 
 # convert the object into a dict
 paylink_custom_param_dict = paylink_custom_param_instance.to_dict()
 # create an instance of PaylinkCustomParam from a dict
-paylink_custom_param_form_dict = paylink_custom_param.from_dict(paylink_custom_param_dict)
+paylink_custom_param_from_dict = PaylinkCustomParam.from_dict(paylink_custom_param_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

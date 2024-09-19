@@ -20,12 +20,12 @@ json = "{}"
 # create an instance of RemittanceReportResponse from a JSON string
 remittance_report_response_instance = RemittanceReportResponse.from_json(json)
 # print the JSON string representation of the object
-print RemittanceReportResponse.to_json()
+print(RemittanceReportResponse.to_json())
 
 # convert the object into a dict
 remittance_report_response_dict = remittance_report_response_instance.to_dict()
 # create an instance of RemittanceReportResponse from a dict
-remittance_report_response_form_dict = remittance_report_response.from_dict(remittance_report_response_dict)
+remittance_report_response_from_dict = RemittanceReportResponse.from_dict(remittance_report_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

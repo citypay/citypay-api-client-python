@@ -17,17 +17,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.contact_details import ContactDetails
 from citypay.models.three_d_secure import ThreeDSecure
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class DirectPostRequest(BaseModel):
     """
@@ -57,11 +53,11 @@ class DirectPostRequest(BaseModel):
     trans_type: Optional[Annotated[str, Field(strict=True, max_length=1)]] = Field(default=None, description="The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.")
     __properties: ClassVar[List[str]] = ["amount", "avs_postcode_policy", "bill_to", "cardnumber", "csc", "csc_policy", "currency", "duplicate_policy", "expmonth", "expyear", "identifier", "mac", "match_avsa", "name_on_card", "nonce", "redirect_failure", "redirect_success", "ship_to", "tag", "threedsecure", "trans_info", "trans_type"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -74,7 +70,7 @@ class DirectPostRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of DirectPostRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -88,10 +84,12 @@ class DirectPostRequest(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of bill_to
@@ -106,7 +104,7 @@ class DirectPostRequest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of DirectPostRequest from a dict"""
         if obj is None:
             return None
@@ -117,7 +115,7 @@ class DirectPostRequest(BaseModel):
         _obj = cls.model_validate({
             "amount": obj.get("amount"),
             "avs_postcode_policy": obj.get("avs_postcode_policy"),
-            "bill_to": ContactDetails.from_dict(obj.get("bill_to")) if obj.get("bill_to") is not None else None,
+            "bill_to": ContactDetails.from_dict(obj["bill_to"]) if obj.get("bill_to") is not None else None,
             "cardnumber": obj.get("cardnumber"),
             "csc": obj.get("csc"),
             "csc_policy": obj.get("csc_policy"),
@@ -132,9 +130,9 @@ class DirectPostRequest(BaseModel):
             "nonce": obj.get("nonce"),
             "redirect_failure": obj.get("redirect_failure"),
             "redirect_success": obj.get("redirect_success"),
-            "ship_to": ContactDetails.from_dict(obj.get("ship_to")) if obj.get("ship_to") is not None else None,
+            "ship_to": ContactDetails.from_dict(obj["ship_to"]) if obj.get("ship_to") is not None else None,
             "tag": obj.get("tag"),
-            "threedsecure": ThreeDSecure.from_dict(obj.get("threedsecure")) if obj.get("threedsecure") is not None else None,
+            "threedsecure": ThreeDSecure.from_dict(obj["threedsecure"]) if obj.get("threedsecure") is not None else None,
             "trans_info": obj.get("trans_info"),
             "trans_type": obj.get("trans_type")
         })

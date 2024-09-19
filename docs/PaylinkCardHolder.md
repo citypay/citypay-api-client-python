@@ -26,12 +26,12 @@ json = "{}"
 # create an instance of PaylinkCardHolder from a JSON string
 paylink_card_holder_instance = PaylinkCardHolder.from_json(json)
 # print the JSON string representation of the object
-print PaylinkCardHolder.to_json()
+print(PaylinkCardHolder.to_json())
 
 # convert the object into a dict
 paylink_card_holder_dict = paylink_card_holder_instance.to_dict()
 # create an instance of PaylinkCardHolder from a dict
-paylink_card_holder_form_dict = paylink_card_holder.from_dict(paylink_card_holder_dict)
+paylink_card_holder_from_dict = PaylinkCardHolder.from_dict(paylink_card_holder_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -16,17 +16,13 @@ Method | HTTP request | Description
 
 ACL Check Request
 
-Allows the checking of IP addresses against configured ACLs. Requests can perform a lookup of addresses in subnets and
-services such as AWS or Azure to check that those addresses are listed in the ACLs.
-
+Allows the checking of IP addresses against configured ACLs. Requests can perform a lookup of addresses in subnets and services such as AWS or Azure to check that those addresses are listed in the ACLs. 
 
 ### Example
 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acl_check_request import AclCheckRequest
 from citypay.models.acl_check_response_model import AclCheckResponseModel
@@ -105,17 +101,13 @@ Name | Type | Description  | Notes
 
 Domain Key Check Request
 
-Checks the contents of a `domain key`. Can be used for operational processes to ensure that the properties of a 
-domain key meet their expectations.
-
+Checks the contents of a `domain key`. Can be used for operational processes to ensure that the properties of a  domain key meet their expectations. 
 
 ### Example
 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.domain_key_check_request import DomainKeyCheckRequest
 from citypay.models.domain_key_response import DomainKeyResponse
@@ -194,17 +186,13 @@ Name | Type | Description  | Notes
 
 Domain Key Generation Request
 
-Generates a domain key based on the permissions of the calling `api-key`. Domain keys can be used in _Direct Post_ and
-`XHR` calls to the API services.
-
+Generates a domain key based on the permissions of the calling `api-key`. Domain keys can be used in _Direct Post_ and `XHR` calls to the API services. 
 
 ### Example
 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.domain_key_request import DomainKeyRequest
 from citypay.models.domain_key_response import DomainKeyResponse
@@ -283,22 +271,13 @@ Name | Type | Description  | Notes
 
 List Merchants Request
 
-An operational request to list current merchants for a client.
-
-### Sorting
-
-Sorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`
-
-Fields that can be sorted are `merchantid` or `name`.
-
+An operational request to list current merchants for a client.  ### Sorting  Sorting can be performed by include a query parameter i.e. `/merchants/?sort=merchantid`  Fields that can be sorted are `merchantid` or `name`. 
 
 ### Example
 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.list_merchants_response import ListMerchantsResponse
 from citypay.rest import ApiException
@@ -376,14 +355,7 @@ Name | Type | Description  | Notes
 
 Ping Request
 
-A ping request which performs a connection and authentication test to the CityPay API server. The request
-will return a standard Acknowledgement with a response code `044` to signify a successful
-ping.
-
-The ping call is useful to confirm that you will be able to access 
-the API from behind any firewalls and that the permission
-model is granting access from your source.
-
+A ping request which performs a connection and authentication test to the CityPay API server. The request will return a standard Acknowledgement with a response code `044` to signify a successful ping.  The ping call is useful to confirm that you will be able to access  the API from behind any firewalls and that the permission model is granting access from your source. 
 
 ### Example
 
@@ -391,8 +363,6 @@ model is granting access from your source.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.ping import Ping

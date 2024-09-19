@@ -17,16 +17,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime as DateTime
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.paylink_state_event import PaylinkStateEvent
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkTokenStatus(BaseModel):
     """
@@ -35,8 +32,8 @@ class PaylinkTokenStatus(BaseModel):
     amount_paid: Optional[StrictInt] = Field(default=None, description="the amount that has been paid against the session.")
     auth_code: Optional[StrictStr] = Field(default=None, description="an authorisation code if the transaction was processed and isPaid is true.")
     card: Optional[StrictStr] = Field(default=None, description="a description of the card that was used for payment if paid.")
-    created: Optional[DateTime] = Field(default=None, description="the date and time that the session was created.")
-    datetime: Optional[DateTime] = Field(default=None, description="the date and time of the current status.")
+    created: Optional[datetime] = Field(default=None, description="the date and time that the session was created.")
+    datetime: Optional[datetime] = Field(default=None, description="the date and time of the current status.")
     identifier: Optional[Annotated[str, Field(min_length=4, strict=True, max_length=50)]] = Field(default=None, description="the merchant identifier, to help identifying the token.")
     is_attachment: Optional[StrictBool] = Field(default=None, description="true if an attachment exists.")
     is_cancelled: Optional[StrictBool] = Field(default=None, description="true if the session was cancelled either by the user or by a system request.")
@@ -53,7 +50,7 @@ class PaylinkTokenStatus(BaseModel):
     is_request_challenged: Optional[StrictBool] = Field(default=None, description="true if the request has been challenged using 3-D Secure.")
     is_sms_sent: Optional[StrictBool] = Field(default=None, description="true if an SMS was sent.")
     is_validated: Optional[StrictBool] = Field(default=None, description="whether the token generation was successfully validated.")
-    last_event_date_time: Optional[DateTime] = Field(default=None, description="the date and time that the session last had an event actioned against it.")
+    last_event_date_time: Optional[datetime] = Field(default=None, description="the date and time that the session last had an event actioned against it.")
     last_payment_result: Optional[StrictStr] = Field(default=None, description="the result of the last payment if one exists.")
     mid: Optional[StrictInt] = Field(default=None, description="identifies the merchant account.")
     payment_attempts_count: Optional[StrictInt] = Field(default=None, description="the number of attempts made to pay.")
@@ -62,11 +59,11 @@ class PaylinkTokenStatus(BaseModel):
     trans_no: Optional[StrictInt] = Field(default=None, description="a transaction number if the transacstion was processed and isPaid is true.")
     __properties: ClassVar[List[str]] = ["amount_paid", "auth_code", "card", "created", "datetime", "identifier", "is_attachment", "is_cancelled", "is_closed", "is_customer_receipt_email_sent", "is_email_sent", "is_expired", "is_form_viewed", "is_merchant_notification_email_sent", "is_open_for_payment", "is_paid", "is_payment_attempted", "is_postback_ok", "is_request_challenged", "is_sms_sent", "is_validated", "last_event_date_time", "last_payment_result", "mid", "payment_attempts_count", "state_history", "token", "trans_no"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -79,7 +76,7 @@ class PaylinkTokenStatus(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkTokenStatus from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -93,23 +90,25 @@ class PaylinkTokenStatus(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in state_history (list)
         _items = []
         if self.state_history:
-            for _item in self.state_history:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_state_history in self.state_history:
+                if _item_state_history:
+                    _items.append(_item_state_history.to_dict())
             _dict['state_history'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkTokenStatus from a dict"""
         if obj is None:
             return None
@@ -143,7 +142,7 @@ class PaylinkTokenStatus(BaseModel):
             "last_payment_result": obj.get("last_payment_result"),
             "mid": obj.get("mid"),
             "payment_attempts_count": obj.get("payment_attempts_count"),
-            "state_history": [PaylinkStateEvent.from_dict(_item) for _item in obj.get("state_history")] if obj.get("state_history") is not None else None,
+            "state_history": [PaylinkStateEvent.from_dict(_item) for _item in obj["state_history"]] if obj.get("state_history") is not None else None,
             "token": obj.get("token"),
             "trans_no": obj.get("trans_no")
         })

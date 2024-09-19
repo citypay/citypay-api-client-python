@@ -25,12 +25,12 @@ json = "{}"
 # create an instance of Bin from a JSON string
 bin_instance = Bin.from_json(json)
 # print the JSON string representation of the object
-print Bin.to_json()
+print(Bin.to_json())
 
 # convert the object into a dict
 bin_dict = bin_instance.to_dict()
 # create an instance of Bin from a dict
-bin_form_dict = bin.from_dict(bin_dict)
+bin_from_dict = Bin.from_dict(bin_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

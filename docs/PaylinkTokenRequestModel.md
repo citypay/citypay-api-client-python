@@ -29,12 +29,12 @@ json = "{}"
 # create an instance of PaylinkTokenRequestModel from a JSON string
 paylink_token_request_model_instance = PaylinkTokenRequestModel.from_json(json)
 # print the JSON string representation of the object
-print PaylinkTokenRequestModel.to_json()
+print(PaylinkTokenRequestModel.to_json())
 
 # convert the object into a dict
 paylink_token_request_model_dict = paylink_token_request_model_instance.to_dict()
 # create an instance of PaylinkTokenRequestModel from a dict
-paylink_token_request_model_form_dict = paylink_token_request_model.from_dict(paylink_token_request_model_dict)
+paylink_token_request_model_from_dict = PaylinkTokenRequestModel.from_dict(paylink_token_request_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

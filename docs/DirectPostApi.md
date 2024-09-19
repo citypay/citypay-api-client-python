@@ -16,17 +16,12 @@ Method | HTTP request | Description
 
 Handles a CRes response from ACS, returning back the result of authorisation
 
-Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint requires a valid `threeDSSessionData`
-value which defines the unique transaction through its workflow. This endpoint may be used by merchants wishing to
-perform a `Direct Post` integration who wish to handle the challenge flow themselves.
-
+Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint requires a valid `threeDSSessionData` value which defines the unique transaction through its workflow. This endpoint may be used by merchants wishing to perform a `Direct Post` integration who wish to handle the challenge flow themselves. 
 
 ### Example
 
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.rest import ApiException
@@ -100,17 +95,12 @@ No authorization required
 
 Handles a CRes response from ACS, returning back a token for future authorisation
 
-Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint requires a valid `threeDSSessionData`
-value which defines the unique transaction through its workflow. This endpoint may be used by merchants wishing to
-perform a `Direct Post` integration who wish to handle the challenge flow themselves.
-
+Used to post from an ACS during a ThreeDSecure direct flow process. The endpoint requires a valid `threeDSSessionData` value which defines the unique transaction through its workflow. This endpoint may be used by merchants wishing to perform a `Direct Post` integration who wish to handle the challenge flow themselves. 
 
 ### Example
 
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.tokenisation_response_model import TokenisationResponseModel
 from citypay.rest import ApiException
@@ -184,8 +174,7 @@ No authorization required
 
 Direct Post Auth Request
 
-Used to initiate a direct post request transaction flow.
-
+Used to initiate a direct post request transaction flow. 
 
 ### Example
 
@@ -193,8 +182,6 @@ Used to initiate a direct post request transaction flow.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.direct_post_request import DirectPostRequest
@@ -281,8 +268,7 @@ Name | Type | Description  | Notes
 
 Direct Post Tokenise Request
 
-Used to initiate a direct post request transaction flow.
-
+Used to initiate a direct post request transaction flow. 
 
 ### Example
 
@@ -290,8 +276,6 @@ Used to initiate a direct post request transaction flow.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.direct_post_request import DirectPostRequest
@@ -378,9 +362,7 @@ Name | Type | Description  | Notes
 
 Direct Post Token Request
 
-Perform a request for authorisation for a previously generated token. This flow will return an authorisation
-response stating that the transaction was approved or declined.
-
+Perform a request for authorisation for a previously generated token. This flow will return an authorisation response stating that the transaction was approved or declined. 
 
 ### Example
 
@@ -388,8 +370,6 @@ response stating that the transaction was approved or declined.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.direct_token_auth_request import DirectTokenAuthRequest

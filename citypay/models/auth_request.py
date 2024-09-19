@@ -17,10 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.airline_advice import AirlineAdvice
 from citypay.models.contact_details import ContactDetails
@@ -28,10 +26,8 @@ from citypay.models.event_data_model import EventDataModel
 from citypay.models.external_mpi import ExternalMPI
 from citypay.models.mcc6012 import MCC6012
 from citypay.models.three_d_secure import ThreeDSecure
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class AuthRequest(BaseModel):
     """
@@ -62,11 +58,11 @@ class AuthRequest(BaseModel):
     trans_type: Optional[Annotated[str, Field(strict=True, max_length=1)]] = Field(default=None, description="The type of transaction being submitted. Normally this value is not required and your account manager may request that you set this field.")
     __properties: ClassVar[List[str]] = ["airline_data", "amount", "avs_postcode_policy", "bill_to", "cardnumber", "csc", "csc_policy", "currency", "duplicate_policy", "event_management", "expmonth", "expyear", "external_mpi", "identifier", "match_avsa", "mcc6012", "merchantid", "name_on_card", "ship_to", "tag", "threedsecure", "trans_info", "trans_type"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -79,7 +75,7 @@ class AuthRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of AuthRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -93,10 +89,12 @@ class AuthRequest(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of airline_data
@@ -123,7 +121,7 @@ class AuthRequest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AuthRequest from a dict"""
         if obj is None:
             return None
@@ -132,27 +130,27 @@ class AuthRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "airline_data": AirlineAdvice.from_dict(obj.get("airline_data")) if obj.get("airline_data") is not None else None,
+            "airline_data": AirlineAdvice.from_dict(obj["airline_data"]) if obj.get("airline_data") is not None else None,
             "amount": obj.get("amount"),
             "avs_postcode_policy": obj.get("avs_postcode_policy"),
-            "bill_to": ContactDetails.from_dict(obj.get("bill_to")) if obj.get("bill_to") is not None else None,
+            "bill_to": ContactDetails.from_dict(obj["bill_to"]) if obj.get("bill_to") is not None else None,
             "cardnumber": obj.get("cardnumber"),
             "csc": obj.get("csc"),
             "csc_policy": obj.get("csc_policy"),
             "currency": obj.get("currency"),
             "duplicate_policy": obj.get("duplicate_policy"),
-            "event_management": EventDataModel.from_dict(obj.get("event_management")) if obj.get("event_management") is not None else None,
+            "event_management": EventDataModel.from_dict(obj["event_management"]) if obj.get("event_management") is not None else None,
             "expmonth": obj.get("expmonth"),
             "expyear": obj.get("expyear"),
-            "external_mpi": ExternalMPI.from_dict(obj.get("external_mpi")) if obj.get("external_mpi") is not None else None,
+            "external_mpi": ExternalMPI.from_dict(obj["external_mpi"]) if obj.get("external_mpi") is not None else None,
             "identifier": obj.get("identifier"),
             "match_avsa": obj.get("match_avsa"),
-            "mcc6012": MCC6012.from_dict(obj.get("mcc6012")) if obj.get("mcc6012") is not None else None,
+            "mcc6012": MCC6012.from_dict(obj["mcc6012"]) if obj.get("mcc6012") is not None else None,
             "merchantid": obj.get("merchantid"),
             "name_on_card": obj.get("name_on_card"),
-            "ship_to": ContactDetails.from_dict(obj.get("ship_to")) if obj.get("ship_to") is not None else None,
+            "ship_to": ContactDetails.from_dict(obj["ship_to"]) if obj.get("ship_to") is not None else None,
             "tag": obj.get("tag"),
-            "threedsecure": ThreeDSecure.from_dict(obj.get("threedsecure")) if obj.get("threedsecure") is not None else None,
+            "threedsecure": ThreeDSecure.from_dict(obj["threedsecure"]) if obj.get("threedsecure") is not None else None,
             "trans_info": obj.get("trans_info"),
             "trans_type": obj.get("trans_type")
         })

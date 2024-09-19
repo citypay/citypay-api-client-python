@@ -32,12 +32,12 @@ json = "{}"
 # create an instance of AirlineAdvice from a JSON string
 airline_advice_instance = AirlineAdvice.from_json(json)
 # print the JSON string representation of the object
-print AirlineAdvice.to_json()
+print(AirlineAdvice.to_json())
 
 # convert the object into a dict
 airline_advice_dict = airline_advice_instance.to_dict()
 # create an instance of AirlineAdvice from a dict
-airline_advice_form_dict = airline_advice.from_dict(airline_advice_dict)
+airline_advice_from_dict = AirlineAdvice.from_dict(airline_advice_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
