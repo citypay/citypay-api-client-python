@@ -17,17 +17,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.airline_advice import AirlineAdvice
 from citypay.models.event_data_model import EventDataModel
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class CaptureRequest(BaseModel):
     """
@@ -41,11 +37,11 @@ class CaptureRequest(BaseModel):
     transno: Optional[StrictInt] = Field(default=None, description="The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.")
     __properties: ClassVar[List[str]] = ["airline_data", "amount", "event_management", "identifier", "merchantid", "transno"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -58,7 +54,7 @@ class CaptureRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of CaptureRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -72,10 +68,12 @@ class CaptureRequest(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of airline_data
@@ -87,7 +85,7 @@ class CaptureRequest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of CaptureRequest from a dict"""
         if obj is None:
             return None
@@ -96,9 +94,9 @@ class CaptureRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "airline_data": AirlineAdvice.from_dict(obj.get("airline_data")) if obj.get("airline_data") is not None else None,
+            "airline_data": AirlineAdvice.from_dict(obj["airline_data"]) if obj.get("airline_data") is not None else None,
             "amount": obj.get("amount"),
-            "event_management": EventDataModel.from_dict(obj.get("event_management")) if obj.get("event_management") is not None else None,
+            "event_management": EventDataModel.from_dict(obj["event_management"]) if obj.get("event_management") is not None else None,
             "identifier": obj.get("identifier"),
             "merchantid": obj.get("merchantid"),
             "transno": obj.get("transno")

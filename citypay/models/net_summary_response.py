@@ -17,15 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class NetSummaryResponse(BaseModel):
     """
@@ -41,11 +37,11 @@ class NetSummaryResponse(BaseModel):
     total_count: Optional[Annotated[int, Field(le=999999, strict=True, ge=0)]] = Field(default=None, description="The total count of all transaction items.")
     __properties: ClassVar[List[str]] = ["credit_items_amount", "credit_items_count", "credit_items_value", "debit_items_amount", "debit_items_count", "debit_items_value", "net_amount", "total_count"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -58,7 +54,7 @@ class NetSummaryResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of NetSummaryResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -72,16 +68,18 @@ class NetSummaryResponse(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of NetSummaryResponse from a dict"""
         if obj is None:
             return None

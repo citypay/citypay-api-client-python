@@ -30,12 +30,12 @@ json = "{}"
 # create an instance of PaylinkTokenCreated from a JSON string
 paylink_token_created_instance = PaylinkTokenCreated.from_json(json)
 # print the JSON string representation of the object
-print PaylinkTokenCreated.to_json()
+print(PaylinkTokenCreated.to_json())
 
 # convert the object into a dict
 paylink_token_created_dict = paylink_token_created_instance.to_dict()
 # create an instance of PaylinkTokenCreated from a dict
-paylink_token_created_form_dict = paylink_token_created.from_dict(paylink_token_created_dict)
+paylink_token_created_from_dict = PaylinkTokenCreated.from_dict(paylink_token_created_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -30,12 +30,12 @@ json = "{}"
 # create an instance of RemittedClientData from a JSON string
 remitted_client_data_instance = RemittedClientData.from_json(json)
 # print the JSON string representation of the object
-print RemittedClientData.to_json()
+print(RemittedClientData.to_json())
 
 # convert the object into a dict
 remitted_client_data_dict = remitted_client_data_instance.to_dict()
 # create an instance of RemittedClientData from a dict
-remitted_client_data_form_dict = remitted_client_data.from_dict(remitted_client_data_dict)
+remitted_client_data_from_dict = RemittedClientData.from_dict(remitted_client_data_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

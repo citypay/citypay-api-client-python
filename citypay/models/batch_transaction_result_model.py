@@ -17,15 +17,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime as DateTime
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class BatchTransactionResultModel(BaseModel):
     """
@@ -34,7 +31,7 @@ class BatchTransactionResultModel(BaseModel):
     account_id: Annotated[str, Field(min_length=5, strict=True, max_length=50)] = Field(description="The card holder account id used for the transaction.")
     amount: Optional[Annotated[int, Field(strict=True)]] = Field(default=None, description="The amount of the transaction processed.")
     authcode: Optional[StrictStr] = Field(default=None, description="The authorisation code of a successful transaction.")
-    datetime: Optional[DateTime] = Field(default=None, description="The datetime that the transaction was processed.")
+    datetime: Optional[datetime] = Field(default=None, description="The datetime that the transaction was processed.")
     identifier: Annotated[str, Field(min_length=4, strict=True, max_length=50)] = Field(description="The identifier of the transaction.")
     maskedpan: Optional[StrictStr] = Field(default=None, description="A masked value of the card number used for processing displaying limited values that can be used on a receipt. ")
     merchantid: StrictInt = Field(description="The merchant id of the transaction.")
@@ -47,11 +44,11 @@ class BatchTransactionResultModel(BaseModel):
     transno: Optional[StrictInt] = Field(default=None, description="The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1 for transactions that do not have a transaction number issued. ")
     __properties: ClassVar[List[str]] = ["account_id", "amount", "authcode", "datetime", "identifier", "maskedpan", "merchantid", "message", "result", "result_code", "scheme", "scheme_id", "scheme_logo", "transno"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -64,7 +61,7 @@ class BatchTransactionResultModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of BatchTransactionResultModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -78,16 +75,18 @@ class BatchTransactionResultModel(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of BatchTransactionResultModel from a dict"""
         if obj is None:
             return None

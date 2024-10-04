@@ -21,12 +21,12 @@ json = "{}"
 # create an instance of ExternalMPI from a JSON string
 external_mpi_instance = ExternalMPI.from_json(json)
 # print the JSON string representation of the object
-print ExternalMPI.to_json()
+print(ExternalMPI.to_json())
 
 # convert the object into a dict
 external_mpi_dict = external_mpi_instance.to_dict()
 # create an instance of ExternalMPI from a dict
-external_mpi_form_dict = external_mpi.from_dict(external_mpi_dict)
+external_mpi_from_dict = ExternalMPI.from_dict(external_mpi_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

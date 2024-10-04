@@ -24,12 +24,12 @@ json = "{}"
 # create an instance of PaylinkCartItemModel from a JSON string
 paylink_cart_item_model_instance = PaylinkCartItemModel.from_json(json)
 # print the JSON string representation of the object
-print PaylinkCartItemModel.to_json()
+print(PaylinkCartItemModel.to_json())
 
 # convert the object into a dict
 paylink_cart_item_model_dict = paylink_cart_item_model_instance.to_dict()
 # create an instance of PaylinkCartItemModel from a dict
-paylink_cart_item_model_form_dict = paylink_cart_item_model.from_dict(paylink_cart_item_model_dict)
+paylink_cart_item_model_from_dict = PaylinkCartItemModel.from_dict(paylink_cart_item_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

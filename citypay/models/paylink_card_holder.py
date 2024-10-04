@@ -17,16 +17,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.paylink_address import PaylinkAddress
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkCardHolder(BaseModel):
     """
@@ -44,11 +40,11 @@ class PaylinkCardHolder(BaseModel):
     user_agent: Optional[StrictStr] = Field(default=None, description="Specifies the user agent string of the Customer Browser. This field may be used to lock the payment form to the browser. Should a different user agent attempt to process the transaction or a malicious third party attempted to hijack the transaction, an error is generated.")
     __properties: ClassVar[List[str]] = ["accept_headers", "address", "company", "email", "firstname", "lastname", "mobile_no", "remote_addr", "title", "user_agent"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -61,7 +57,7 @@ class PaylinkCardHolder(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkCardHolder from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -75,10 +71,12 @@ class PaylinkCardHolder(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of address
@@ -87,7 +85,7 @@ class PaylinkCardHolder(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkCardHolder from a dict"""
         if obj is None:
             return None
@@ -97,7 +95,7 @@ class PaylinkCardHolder(BaseModel):
 
         _obj = cls.model_validate({
             "accept_headers": obj.get("accept_headers"),
-            "address": PaylinkAddress.from_dict(obj.get("address")) if obj.get("address") is not None else None,
+            "address": PaylinkAddress.from_dict(obj["address"]) if obj.get("address") is not None else None,
             "company": obj.get("company"),
             "email": obj.get("email"),
             "firstname": obj.get("firstname"),

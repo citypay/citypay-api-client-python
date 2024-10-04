@@ -22,12 +22,12 @@ json = "{}"
 # create an instance of PaylinkPartPayments from a JSON string
 paylink_part_payments_instance = PaylinkPartPayments.from_json(json)
 # print the JSON string representation of the object
-print PaylinkPartPayments.to_json()
+print(PaylinkPartPayments.to_json())
 
 # convert the object into a dict
 paylink_part_payments_dict = paylink_part_payments_instance.to_dict()
 # create an instance of PaylinkPartPayments from a dict
-paylink_part_payments_form_dict = paylink_part_payments.from_dict(paylink_part_payments_dict)
+paylink_part_payments_from_dict = PaylinkPartPayments.from_dict(paylink_part_payments_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

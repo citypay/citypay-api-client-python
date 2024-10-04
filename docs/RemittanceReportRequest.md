@@ -22,12 +22,12 @@ json = "{}"
 # create an instance of RemittanceReportRequest from a JSON string
 remittance_report_request_instance = RemittanceReportRequest.from_json(json)
 # print the JSON string representation of the object
-print RemittanceReportRequest.to_json()
+print(RemittanceReportRequest.to_json())
 
 # convert the object into a dict
 remittance_report_request_dict = remittance_report_request_instance.to_dict()
 # create an instance of RemittanceReportRequest from a dict
-remittance_report_request_form_dict = remittance_report_request.from_dict(remittance_report_request_dict)
+remittance_report_request_from_dict = RemittanceReportRequest.from_dict(remittance_report_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -19,12 +19,12 @@ json = "{}"
 # create an instance of BatchTransactionReportRequest from a JSON string
 batch_transaction_report_request_instance = BatchTransactionReportRequest.from_json(json)
 # print the JSON string representation of the object
-print BatchTransactionReportRequest.to_json()
+print(BatchTransactionReportRequest.to_json())
 
 # convert the object into a dict
 batch_transaction_report_request_dict = batch_transaction_report_request_instance.to_dict()
 # create an instance of BatchTransactionReportRequest from a dict
-batch_transaction_report_request_form_dict = batch_transaction_report_request.from_dict(batch_transaction_report_request_dict)
+batch_transaction_report_request_from_dict = BatchTransactionReportRequest.from_dict(batch_transaction_report_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

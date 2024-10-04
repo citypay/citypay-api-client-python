@@ -21,12 +21,12 @@ json = "{}"
 # create an instance of EventDataModel from a JSON string
 event_data_model_instance = EventDataModel.from_json(json)
 # print the JSON string representation of the object
-print EventDataModel.to_json()
+print(EventDataModel.to_json())
 
 # convert the object into a dict
 event_data_model_dict = event_data_model_instance.to_dict()
 # create an instance of EventDataModel from a dict
-event_data_model_form_dict = event_data_model.from_dict(event_data_model_dict)
+event_data_model_from_dict = EventDataModel.from_dict(event_data_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

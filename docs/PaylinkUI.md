@@ -20,12 +20,12 @@ json = "{}"
 # create an instance of PaylinkUI from a JSON string
 paylink_ui_instance = PaylinkUI.from_json(json)
 # print the JSON string representation of the object
-print PaylinkUI.to_json()
+print(PaylinkUI.to_json())
 
 # convert the object into a dict
 paylink_ui_dict = paylink_ui_instance.to_dict()
 # create an instance of PaylinkUI from a dict
-paylink_ui_form_dict = paylink_ui.from_dict(paylink_ui_dict)
+paylink_ui_from_dict = PaylinkUI.from_dict(paylink_ui_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

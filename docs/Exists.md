@@ -19,12 +19,12 @@ json = "{}"
 # create an instance of Exists from a JSON string
 exists_instance = Exists.from_json(json)
 # print the JSON string representation of the object
-print Exists.to_json()
+print(Exists.to_json())
 
 # convert the object into a dict
 exists_dict = exists_instance.to_dict()
 # create an instance of Exists from a dict
-exists_form_dict = exists.from_dict(exists_dict)
+exists_from_dict = Exists.from_dict(exists_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

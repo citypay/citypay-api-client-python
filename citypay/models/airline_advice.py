@@ -18,15 +18,12 @@ import re  # noqa: F401
 import json
 
 from datetime import date
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.airline_segment import AirlineSegment
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class AirlineAdvice(BaseModel):
     """
@@ -50,11 +47,11 @@ class AirlineAdvice(BaseModel):
     transaction_type: Annotated[str, Field(min_length=3, strict=True, max_length=3)] = Field(description="This field contains the Transaction Type code assigned to this transaction. Valid codes include:   - `TKT` = Ticket Purchase   - `REF` = Refund   - `EXC` = Exchange Ticket   - `MSC` = Miscellaneous (non-Ticket Purchase- and non-Exchange Ticket-related transactions only). ")
     __properties: ClassVar[List[str]] = ["carrier_name", "conjunction_ticket_indicator", "eticket_indicator", "no_air_segments", "number_in_party", "original_ticket_no", "passenger_name", "segment1", "segment2", "segment3", "segment4", "ticket_issue_city", "ticket_issue_date", "ticket_issue_name", "ticket_no", "transaction_type"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -67,7 +64,7 @@ class AirlineAdvice(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of AirlineAdvice from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -81,10 +78,12 @@ class AirlineAdvice(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of segment1
@@ -102,7 +101,7 @@ class AirlineAdvice(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AirlineAdvice from a dict"""
         if obj is None:
             return None
@@ -118,10 +117,10 @@ class AirlineAdvice(BaseModel):
             "number_in_party": obj.get("number_in_party"),
             "original_ticket_no": obj.get("original_ticket_no"),
             "passenger_name": obj.get("passenger_name"),
-            "segment1": AirlineSegment.from_dict(obj.get("segment1")) if obj.get("segment1") is not None else None,
-            "segment2": AirlineSegment.from_dict(obj.get("segment2")) if obj.get("segment2") is not None else None,
-            "segment3": AirlineSegment.from_dict(obj.get("segment3")) if obj.get("segment3") is not None else None,
-            "segment4": AirlineSegment.from_dict(obj.get("segment4")) if obj.get("segment4") is not None else None,
+            "segment1": AirlineSegment.from_dict(obj["segment1"]) if obj.get("segment1") is not None else None,
+            "segment2": AirlineSegment.from_dict(obj["segment2"]) if obj.get("segment2") is not None else None,
+            "segment3": AirlineSegment.from_dict(obj["segment3"]) if obj.get("segment3") is not None else None,
+            "segment4": AirlineSegment.from_dict(obj["segment4"]) if obj.get("segment4") is not None else None,
             "ticket_issue_city": obj.get("ticket_issue_city"),
             "ticket_issue_date": obj.get("ticket_issue_date"),
             "ticket_issue_name": obj.get("ticket_issue_name"),

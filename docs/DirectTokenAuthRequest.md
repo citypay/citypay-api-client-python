@@ -20,12 +20,12 @@ json = "{}"
 # create an instance of DirectTokenAuthRequest from a JSON string
 direct_token_auth_request_instance = DirectTokenAuthRequest.from_json(json)
 # print the JSON string representation of the object
-print DirectTokenAuthRequest.to_json()
+print(DirectTokenAuthRequest.to_json())
 
 # convert the object into a dict
 direct_token_auth_request_dict = direct_token_auth_request_instance.to_dict()
 # create an instance of DirectTokenAuthRequest from a dict
-direct_token_auth_request_form_dict = direct_token_auth_request.from_dict(direct_token_auth_request_dict)
+direct_token_auth_request_from_dict = DirectTokenAuthRequest.from_dict(direct_token_auth_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -23,12 +23,12 @@ json = "{}"
 # create an instance of PaylinkFieldGuardModel from a JSON string
 paylink_field_guard_model_instance = PaylinkFieldGuardModel.from_json(json)
 # print the JSON string representation of the object
-print PaylinkFieldGuardModel.to_json()
+print(PaylinkFieldGuardModel.to_json())
 
 # convert the object into a dict
 paylink_field_guard_model_dict = paylink_field_guard_model_instance.to_dict()
 # create an instance of PaylinkFieldGuardModel from a dict
-paylink_field_guard_model_form_dict = paylink_field_guard_model.from_dict(paylink_field_guard_model_dict)
+paylink_field_guard_model_from_dict = PaylinkFieldGuardModel.from_dict(paylink_field_guard_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -30,12 +30,12 @@ json = "{}"
 # create an instance of BatchTransactionResultModel from a JSON string
 batch_transaction_result_model_instance = BatchTransactionResultModel.from_json(json)
 # print the JSON string representation of the object
-print BatchTransactionResultModel.to_json()
+print(BatchTransactionResultModel.to_json())
 
 # convert the object into a dict
 batch_transaction_result_model_dict = batch_transaction_result_model_instance.to_dict()
 # create an instance of BatchTransactionResultModel from a dict
-batch_transaction_result_model_form_dict = batch_transaction_result_model.from_dict(batch_transaction_result_model_dict)
+batch_transaction_result_model_from_dict = BatchTransactionResultModel.from_dict(batch_transaction_result_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

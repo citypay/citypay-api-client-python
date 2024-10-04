@@ -30,12 +30,12 @@ json = "{}"
 # create an instance of AuthReference from a JSON string
 auth_reference_instance = AuthReference.from_json(json)
 # print the JSON string representation of the object
-print AuthReference.to_json()
+print(AuthReference.to_json())
 
 # convert the object into a dict
 auth_reference_dict = auth_reference_instance.to_dict()
 # create an instance of AuthReference from a dict
-auth_reference_form_dict = auth_reference.from_dict(auth_reference_dict)
+auth_reference_from_dict = AuthReference.from_dict(auth_reference_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

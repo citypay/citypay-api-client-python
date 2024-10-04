@@ -25,12 +25,12 @@ json = "{}"
 # create an instance of CardHolderAccount from a JSON string
 card_holder_account_instance = CardHolderAccount.from_json(json)
 # print the JSON string representation of the object
-print CardHolderAccount.to_json()
+print(CardHolderAccount.to_json())
 
 # convert the object into a dict
 card_holder_account_dict = card_holder_account_instance.to_dict()
 # create an instance of CardHolderAccount from a dict
-card_holder_account_form_dict = card_holder_account.from_dict(card_holder_account_dict)
+card_holder_account_from_dict = CardHolderAccount.from_dict(card_holder_account_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

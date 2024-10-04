@@ -18,12 +18,12 @@ json = "{}"
 # create an instance of PaResAuthRequest from a JSON string
 pa_res_auth_request_instance = PaResAuthRequest.from_json(json)
 # print the JSON string representation of the object
-print PaResAuthRequest.to_json()
+print(PaResAuthRequest.to_json())
 
 # convert the object into a dict
 pa_res_auth_request_dict = pa_res_auth_request_instance.to_dict()
 # create an instance of PaResAuthRequest from a dict
-pa_res_auth_request_form_dict = pa_res_auth_request.from_dict(pa_res_auth_request_dict)
+pa_res_auth_request_from_dict = PaResAuthRequest.from_dict(pa_res_auth_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

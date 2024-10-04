@@ -20,12 +20,12 @@ json = "{}"
 # create an instance of AclCheckResponseModel from a JSON string
 acl_check_response_model_instance = AclCheckResponseModel.from_json(json)
 # print the JSON string representation of the object
-print AclCheckResponseModel.to_json()
+print(AclCheckResponseModel.to_json())
 
 # convert the object into a dict
 acl_check_response_model_dict = acl_check_response_model_instance.to_dict()
 # create an instance of AclCheckResponseModel from a dict
-acl_check_response_model_form_dict = acl_check_response_model.from_dict(acl_check_response_model_dict)
+acl_check_response_model_from_dict = AclCheckResponseModel.from_dict(acl_check_response_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

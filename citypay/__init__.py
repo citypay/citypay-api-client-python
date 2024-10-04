@@ -14,7 +14,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.1.4"
+__version__ = "1.1.5"
 
 # import apis into sdk package
 from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi
@@ -123,4 +123,4 @@ from citypay.models.retrieve_request import RetrieveRequest
 from citypay.models.three_d_secure import ThreeDSecure
 from citypay.models.tokenisation_response_model import TokenisationResponseModel
 from citypay.models.void_request import VoidRequest
-from citypay.models.api_key import api_key_generate
+from citypay.model.api_key import api_key_generate

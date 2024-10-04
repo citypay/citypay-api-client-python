@@ -18,16 +18,13 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.merchant_batch_response import MerchantBatchResponse
 from citypay.models.remittance_data import RemittanceData
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class RemittedClientData(BaseModel):
     """
@@ -49,11 +46,11 @@ class RemittedClientData(BaseModel):
     uuid: Optional[Annotated[str, Field(min_length=36, strict=True, max_length=36)]] = Field(default=None, description="The uuid of the settlement file processed on.")
     __properties: ClassVar[List[str]] = ["batches", "clientid", "date", "date_created", "net_amount", "processed_amount", "processed_count", "refund_amount", "refund_count", "remittances", "sales_amount", "sales_count", "settlement_implementation", "uuid"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -66,7 +63,7 @@ class RemittedClientData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of RemittedClientData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -80,30 +77,32 @@ class RemittedClientData(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in batches (list)
         _items = []
         if self.batches:
-            for _item in self.batches:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_batches in self.batches:
+                if _item_batches:
+                    _items.append(_item_batches.to_dict())
             _dict['batches'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in remittances (list)
         _items = []
         if self.remittances:
-            for _item in self.remittances:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_remittances in self.remittances:
+                if _item_remittances:
+                    _items.append(_item_remittances.to_dict())
             _dict['remittances'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of RemittedClientData from a dict"""
         if obj is None:
             return None
@@ -112,7 +111,7 @@ class RemittedClientData(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "batches": [MerchantBatchResponse.from_dict(_item) for _item in obj.get("batches")] if obj.get("batches") is not None else None,
+            "batches": [MerchantBatchResponse.from_dict(_item) for _item in obj["batches"]] if obj.get("batches") is not None else None,
             "clientid": obj.get("clientid"),
             "date": obj.get("date"),
             "date_created": obj.get("date_created"),
@@ -121,7 +120,7 @@ class RemittedClientData(BaseModel):
             "processed_count": obj.get("processed_count"),
             "refund_amount": obj.get("refund_amount"),
             "refund_count": obj.get("refund_count"),
-            "remittances": [RemittanceData.from_dict(_item) for _item in obj.get("remittances")] if obj.get("remittances") is not None else None,
+            "remittances": [RemittanceData.from_dict(_item) for _item in obj["remittances"]] if obj.get("remittances") is not None else None,
             "sales_amount": obj.get("sales_amount"),
             "sales_count": obj.get("sales_count"),
             "settlement_implementation": obj.get("settlement_implementation"),

@@ -17,15 +17,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime as DateTime
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class AuthReference(BaseModel):
     """
@@ -37,7 +34,7 @@ class AuthReference(BaseModel):
     authcode: Optional[StrictStr] = Field(default=None, description="The authorisation code of the transaction returned by the acquirer or card issuer.")
     batchno: Optional[StrictStr] = Field(default=None, description="A batch number which the transaction has been end of day batched towards.")
     currency: Optional[Annotated[str, Field(min_length=3, strict=True, max_length=3)]] = Field(default=None, description="The currency of the transaction in ISO 4217 code format.")
-    datetime: Optional[DateTime] = Field(default=None, description="The date and time of the transaction.")
+    datetime: Optional[datetime] = Field(default=None, description="The date and time of the transaction.")
     identifier: Optional[Annotated[str, Field(min_length=4, strict=True, max_length=50)]] = Field(default=None, description="The identifier of the transaction used to process the transaction.")
     maskedpan: Optional[StrictStr] = Field(default=None, description="A masking of the card number which was used to process the tranasction.")
     merchantid: Optional[StrictInt] = Field(default=None, description="The merchant id of the transaction result.")
@@ -47,11 +44,11 @@ class AuthReference(BaseModel):
     transno: Optional[StrictInt] = Field(default=None, description="The transaction number of the transaction.")
     __properties: ClassVar[List[str]] = ["amount", "amount_value", "atrn", "authcode", "batchno", "currency", "datetime", "identifier", "maskedpan", "merchantid", "result", "trans_status", "trans_type", "transno"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -64,7 +61,7 @@ class AuthReference(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of AuthReference from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -78,16 +75,18 @@ class AuthReference(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AuthReference from a dict"""
         if obj is None:
             return None

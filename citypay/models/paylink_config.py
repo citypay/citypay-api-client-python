@@ -17,18 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
 from citypay.models.paylink_custom_param import PaylinkCustomParam
 from citypay.models.paylink_field_guard_model import PaylinkFieldGuardModel
 from citypay.models.paylink_part_payments import PaylinkPartPayments
 from citypay.models.paylink_ui import PaylinkUI
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkConfig(BaseModel):
     """
@@ -58,11 +54,11 @@ class PaylinkConfig(BaseModel):
     ui: Optional[PaylinkUI] = None
     __properties: ClassVar[List[str]] = ["acs_mode", "custom_params", "descriptor", "expire_in", "field_guard", "lock_params", "merch_logo", "merch_terms", "options", "part_payments", "pass_through_data", "pass_through_headers", "postback", "postback_password", "postback_policy", "postback_username", "redirect_delay", "redirect_failure", "redirect_success", "renderer", "return_params", "ui"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -75,7 +71,7 @@ class PaylinkConfig(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkConfig from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -89,25 +85,27 @@ class PaylinkConfig(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in custom_params (list)
         _items = []
         if self.custom_params:
-            for _item in self.custom_params:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_custom_params in self.custom_params:
+                if _item_custom_params:
+                    _items.append(_item_custom_params.to_dict())
             _dict['custom_params'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in field_guard (list)
         _items = []
         if self.field_guard:
-            for _item in self.field_guard:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_field_guard in self.field_guard:
+                if _item_field_guard:
+                    _items.append(_item_field_guard.to_dict())
             _dict['field_guard'] = _items
         # override the default output from pydantic by calling `to_dict()` of part_payments
         if self.part_payments:
@@ -118,7 +116,7 @@ class PaylinkConfig(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkConfig from a dict"""
         if obj is None:
             return None
@@ -128,15 +126,15 @@ class PaylinkConfig(BaseModel):
 
         _obj = cls.model_validate({
             "acs_mode": obj.get("acs_mode"),
-            "custom_params": [PaylinkCustomParam.from_dict(_item) for _item in obj.get("custom_params")] if obj.get("custom_params") is not None else None,
+            "custom_params": [PaylinkCustomParam.from_dict(_item) for _item in obj["custom_params"]] if obj.get("custom_params") is not None else None,
             "descriptor": obj.get("descriptor"),
             "expire_in": obj.get("expire_in"),
-            "field_guard": [PaylinkFieldGuardModel.from_dict(_item) for _item in obj.get("field_guard")] if obj.get("field_guard") is not None else None,
+            "field_guard": [PaylinkFieldGuardModel.from_dict(_item) for _item in obj["field_guard"]] if obj.get("field_guard") is not None else None,
             "lock_params": obj.get("lock_params"),
             "merch_logo": obj.get("merch_logo"),
             "merch_terms": obj.get("merch_terms"),
             "options": obj.get("options"),
-            "part_payments": PaylinkPartPayments.from_dict(obj.get("part_payments")) if obj.get("part_payments") is not None else None,
+            "part_payments": PaylinkPartPayments.from_dict(obj["part_payments"]) if obj.get("part_payments") is not None else None,
             "pass_through_data": obj.get("pass_through_data"),
             "pass_through_headers": obj.get("pass_through_headers"),
             "postback": obj.get("postback"),
@@ -148,7 +146,7 @@ class PaylinkConfig(BaseModel):
             "redirect_success": obj.get("redirect_success"),
             "renderer": obj.get("renderer"),
             "return_params": obj.get("return_params"),
-            "ui": PaylinkUI.from_dict(obj.get("ui")) if obj.get("ui") is not None else None
+            "ui": PaylinkUI.from_dict(obj["ui"]) if obj.get("ui") is not None else None
         })
         return _obj
 

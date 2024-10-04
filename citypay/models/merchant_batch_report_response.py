@@ -17,15 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from citypay.models.merchant_batch_response import MerchantBatchResponse
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class MerchantBatchReportResponse(BaseModel):
     """
@@ -37,11 +33,11 @@ class MerchantBatchReportResponse(BaseModel):
     next_token: Optional[StrictStr] = Field(default=None, description="A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.", alias="nextToken")
     __properties: ClassVar[List[str]] = ["batches", "count", "maxResults", "nextToken"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -54,7 +50,7 @@ class MerchantBatchReportResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of MerchantBatchReportResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -68,23 +64,25 @@ class MerchantBatchReportResponse(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in batches (list)
         _items = []
         if self.batches:
-            for _item in self.batches:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_batches in self.batches:
+                if _item_batches:
+                    _items.append(_item_batches.to_dict())
             _dict['batches'] = _items
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of MerchantBatchReportResponse from a dict"""
         if obj is None:
             return None
@@ -93,7 +91,7 @@ class MerchantBatchReportResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "batches": [MerchantBatchResponse.from_dict(_item) for _item in obj.get("batches")] if obj.get("batches") is not None else None,
+            "batches": [MerchantBatchResponse.from_dict(_item) for _item in obj["batches"]] if obj.get("batches") is not None else None,
             "count": obj.get("count"),
             "maxResults": obj.get("maxResults"),
             "nextToken": obj.get("nextToken")
