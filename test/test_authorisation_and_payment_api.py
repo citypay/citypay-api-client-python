@@ -8,17 +8,52 @@
 """
 
 
-import unittest
-
-import citypay
 from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi  # noqa: E501
+import json
+import unittest
+import uuid
+import citypay
+from citypay import Configuration
+from citypay.api.card_holder_account_api import CardHolderAccountApi
+from citypay.models.api_key import *
+import requests
 
+
+from citypay.models.auth_request import AuthRequest
+from citypay.models.c_res_auth_request import CResAuthRequest
+from citypay.models.three_d_secure import ThreeDSecure
+from citypay.utils.digest import validate_digest
+from dotenv import load_dotenv
 
 class TestAuthorisationAndPaymentApi(unittest.TestCase):
     """AuthorisationAndPaymentApi unit test stubs"""
+    load_dotenv()
 
     def setUp(self):
         self.api = AuthorisationAndPaymentApi()  # noqa: E501
+
+        if 'CP_CLIENT_ID' not in os.environ:
+            raise Exception("No CP_CLIENT_ID set")
+
+        if 'CP_LICENCE_KEY' not in os.environ:
+            raise Exception("No CP_LICENCE_KEY set")
+
+        if 'CP_MERCHANT_ID' not in os.environ:
+            raise Exception("No CP_MERCHANT_ID set")
+
+        self.client_id = os.environ['CP_CLIENT_ID']
+        self.licence_key = os.environ['CP_LICENCE_KEY']
+        self.merchant_id = os.environ['CP_MERCHANT_ID']
+
+        # create new api key on each call
+        client_api_key = api_key_generate(self.client_id, self.licence_key)
+        self.api_client = citypay.ApiClient(Configuration(
+            host="https://sandbox.citypay.com/v6",
+            server_index=1,
+            api_key={'cp-api-key': str(client_api_key)}
+        ))
+
+        self.api = CardHolderAccountApi(self.api_client)
 
     def tearDown(self):
         pass
@@ -28,7 +63,29 @@ class TestAuthorisationAndPaymentApi(unittest.TestCase):
 
         Authorisation  # noqa: E501
         """
-        pass
+        id = uuid.uuid4().hex
+        decision = AuthorisationAndPaymentApi(self.api_client).authorisation_request(AuthRequest(
+            amount=1395,
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030,
+            csc="012",
+            identifier=id,
+            merchantid=int(self.merchant_id),
+            threedsecure=ThreeDSecure(
+                tds_policy="2"
+            )
+        ))
+
+        self.assertIsNone(decision.request_challenged)
+        self.assertIsNotNone(decision.auth_response)
+
+        response = decision.auth_response
+        self.assertEqual(response.result_code, "001")
+        self.assertEqual(response.identifier, id)
+        self.assertEqual(response.authcode, "A12345")
+        self.assertEqual(response.amount, 1395)
+        self.assertTrue(validate_digest(response, self.licence_key))
 
     def test_bin_range_lookup_request(self):
         """Test case for bin_range_lookup_request
@@ -42,7 +99,52 @@ class TestAuthorisationAndPaymentApi(unittest.TestCase):
 
         CRes  # noqa: E501
         """
-        pass
+        id = uuid.uuid4().hex
+        decision = AuthorisationAndPaymentApi(self.api_client).authorisation_request(AuthRequest(
+            amount=1396,
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030,
+            csc="123",
+            identifier=id,
+            merchantid=int(self.merchant_id),
+            trans_type="A",
+            threedsecure=ThreeDSecure(
+                cp_bx="eyJhIjoiRkFwSCIsImMiOjI0LCJpIjoid3dIOTExTlBKSkdBRVhVZCIsImoiOmZhbHNlLCJsIjoiZW4tVVMiLCJoIjoxNDQwLCJ3IjoyNTYwLCJ0IjowLCJ1IjoiTW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfMl8zKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODkuMC40Mzg5LjgyIFNhZmFyaS81MzcuMzYiLCJ2IjoiMS4wLjAifQ",
+                merchant_termurl="https://citypay.com/acs/return"
+            )
+        ))
+
+        self.assertIsNotNone(decision.request_challenged)
+        self.assertIsNone(decision.auth_response)
+
+        response = decision.request_challenged
+        self.assertIsNotNone(response.creq)
+        self.assertIsNotNone(response.acs_url)
+        self.assertIsNotNone(response.threedserver_trans_id)
+
+        content = {
+            "transStatus": "Y",
+            "reason": "01",
+            "threeDSSessionData": response.threedserver_trans_id,
+            "creq": response.creq
+        }
+
+        # url = "https://sandbox.citypay.com/3dsv2/acs"
+        url = "https://sandbox.citypay.com/3dsv2/gen-rreq"
+        headers = {'Content-type': 'application/x-www-form-urlencoded'}
+
+        res = requests.post(url, data=content, headers=headers)
+        res_obj = json.loads(res.text)
+
+        c_res_auth_request = CResAuthRequest(cres=res_obj['cres'])
+
+        c_res_request_response = AuthorisationAndPaymentApi(self.api_client).c_res_request(c_res_auth_request)
+
+        self.assertEqual(c_res_request_response.amount, 1396)
+        self.assertEqual(c_res_request_response.authcode, "A12345")
+        self.assertEqual(c_res_request_response.authen_result, "Y")
+        self.assertEqual(c_res_request_response.authorised, True)
 
     def test_capture_request(self):
         """Test case for capture_request

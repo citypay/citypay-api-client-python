@@ -13,13 +13,41 @@ import unittest
 import citypay
 from citypay.api.operational_functions_api import OperationalFunctionsApi  # noqa: E501
 
+import unittest
+import citypay
+from citypay import Configuration
+from citypay.api.operational_functions_api import OperationalFunctionsApi
+from citypay.models.api_key import *
+from citypay.models.ping import Ping
+from dotenv import load_dotenv
 
 class TestOperationalFunctionsApi(unittest.TestCase):
     """OperationalFunctionsApi unit test stubs"""
+    load_dotenv()
 
+    @classmethod
     def setUp(self):
+        if 'CP_CLIENT_ID' not in os.environ:
+            raise Exception("No CP_CLIENT_ID set")
+
+        if 'CP_LICENCE_KEY' not in os.environ:
+            raise Exception("No CP_LICENCE_KEY set")
+
+        if 'CP_MERCHANT_ID' not in os.environ:
+            raise Exception("No CP_MERCHANT_ID set")
+
+        self.client_id = os.environ['CP_CLIENT_ID']
+        self.licence_key = os.environ['CP_LICENCE_KEY']
+        self.merchant_id = os.environ['CP_MERCHANT_ID']
         self.api = OperationalFunctionsApi()  # noqa: E501
 
+        # create new api key on each call
+        client_api_key = api_key_generate(self.client_id, self.licence_key)
+        self.api_client = citypay.ApiClient(Configuration(
+            host="https://sandbox.citypay.com/v6",
+            server_index=1,
+            api_key={'cp-api-key': str(client_api_key)}
+        ))
     def tearDown(self):
         pass
 
@@ -49,14 +77,21 @@ class TestOperationalFunctionsApi(unittest.TestCase):
 
         List Merchants Request  # noqa: E501
         """
-        pass
+        api_list_merchants = OperationalFunctionsApi(self.api_client).list_merchants_request(self.client_id)
+        self.assertEqual(api_list_merchants.clientid, str(self.client_id))
 
-    def test_ping_request(self):
+def test_ping_request(self):
         """Test case for ping_request
 
         Ping Request  # noqa: E501
         """
-        pass
+        api_response = OperationalFunctionsApi(self.api_client).ping_request(Ping(
+            identifier="it_test"
+        ))
+        self.assertEqual("044", api_response.code)
+        self.assertEqual("it_test", api_response.identifier)
+        self.assertEqual("Ping OK", api_response.message)
+        self.assertIsNotNone(api_response.context)
 
 
 if __name__ == '__main__':

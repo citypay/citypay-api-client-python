@@ -55,6 +55,7 @@ class TestApiIntegration(unittest.TestCase):
             api_key={'cp-api-key': str(client_api_key)}
         ))
 
+    #moved
     def testPing(self):
         api_response = OperationalFunctionsApi(self.api_client).ping_request(Ping(
             identifier="it_test"
@@ -64,10 +65,12 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual("Ping OK", api_response.message)
         self.assertIsNotNone(api_response.context)
 
+    # moved
     def testListMerchants(self):
         api_list_merchants = OperationalFunctionsApi(self.api_client).list_merchants_request(self.client_id)
         self.assertEqual(api_list_merchants.clientid, str(self.client_id))
 
+    # moved
     def testAuthorise(self):
 
         id = uuid.uuid4().hex
@@ -94,6 +97,7 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(response.amount, 1395)
         self.assertTrue(validate_digest(response, self.licence_key))
 
+    # moved
     def testAuthorise3DSv2Test(self):
         id = uuid.uuid4().hex
         decision = AuthorisationAndPaymentApi(self.api_client).authorisation_request(AuthRequest(
@@ -142,8 +146,9 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(c_res_request_response.authen_result, "Y")
         self.assertEqual(c_res_request_response.authorised, True)
 
+    # All moved
     def testCardHolderAccounts(self):
-
+        # create an account - moved
         cha_id = uuid.uuid4().hex
         api = CardHolderAccountApi(self.api_client)
         result = api.account_create(AccountCreate(
@@ -162,7 +167,7 @@ class TestApiIntegration(unittest.TestCase):
 
         self.assertEqual(result.account_id, cha_id)
         self.assertEqual(result.contact.address1, "7 Esplanade")
-
+        # register a card - moved
         result = api.account_card_register_request(cha_id, RegisterCard(
             cardnumber="4000 0000 0000 0002",
             expmonth=12,
@@ -172,14 +177,14 @@ class TestApiIntegration(unittest.TestCase):
         self.assertEqual(len(result.cards), 1)
         self.assertEqual(result.cards[0].expmonth, 12)
         self.assertEqual(result.cards[0].expyear, 2030)
-
+        # retrieve an account - moved
         result = api.account_retrieve_request(cha_id)
         self.assertEqual(result.account_id, cha_id)
         self.assertEqual(result.contact.address1, "7 Esplanade")
         self.assertEqual(len(result.cards), 1)
         self.assertEqual(result.cards[0].expmonth, 12)
         self.assertEqual(result.cards[0].expyear, 2030)
-
+        # perform two payments attempts (3DS2 & 3DS1)
         identifier = uuid.uuid4().hex
         decision = api.charge_request(ChargeRequest(
             amount=7801,
@@ -222,7 +227,7 @@ class TestApiIntegration(unittest.TestCase):
         self.assertIsNone(decision.auth_response)
 
         self.assertIsNotNone(decision.request_challenged.acs_url)
-
+        # delete an account - moved
         result = api.account_delete_request(cha_id)
         self.assertEqual(result.code, "001")
 

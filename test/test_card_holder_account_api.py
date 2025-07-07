@@ -13,16 +13,66 @@
 from __future__ import absolute_import
 
 import unittest
-
+import uuid
 import citypay
+from citypay import Configuration, AccountStatus
 from citypay.api.card_holder_account_api import CardHolderAccountApi
-
+from citypay.models import contact_details
+from citypay.models.card_status import CardStatus
+from citypay.models.account_create import AccountCreate
+from citypay.models.api_key import *
+from citypay.models.charge_request import ChargeRequest
+from citypay.models.contact_details import ContactDetails
+from citypay.models.register_card import RegisterCard
+from citypay.models.three_d_secure import ThreeDSecure
+from dotenv import load_dotenv
 
 class TestCardHolderAccountApi(unittest.TestCase):
     """CardHolderAccountApi unit test stubs"""
+    load_dotenv()
 
     def setUp(self):
         self.api = CardHolderAccountApi()  # noqa: E501
+
+        if 'CP_CLIENT_ID' not in os.environ:
+            raise Exception("No CP_CLIENT_ID set")
+
+        if 'CP_LICENCE_KEY' not in os.environ:
+            raise Exception("No CP_LICENCE_KEY set")
+
+        if 'CP_MERCHANT_ID' not in os.environ:
+            raise Exception("No CP_MERCHANT_ID set")
+
+        self.client_id = os.environ['CP_CLIENT_ID']
+        self.licence_key = os.environ['CP_LICENCE_KEY']
+        self.merchant_id = os.environ['CP_MERCHANT_ID']
+
+        # create new api key on each call
+        client_api_key = api_key_generate(self.client_id, self.licence_key)
+        self.api_client = citypay.ApiClient(Configuration(
+            host="https://sandbox.citypay.com/v6",
+            server_index=1,
+            api_key={'cp-api-key': str(client_api_key)}
+        ))
+
+        self.api = CardHolderAccountApi(self.api_client)
+        self.cha_id = uuid.uuid4().hex
+
+        self.contact = ContactDetails(
+            address1="7 Esplanade",
+            area="St Helier",
+            company="CityPay Limited",
+            country="JE",
+            email="dev@citypay.com",
+            firstname="Integration",
+            lastname="Test",
+            postcode="JE2 3QA"
+        )
+
+        self.account = self.api.account_create(AccountCreate(
+            account_id=self.cha_id,
+            contact=self.contact
+        ))
 
     def tearDown(self):
         pass
@@ -32,64 +82,178 @@ class TestCardHolderAccountApi(unittest.TestCase):
 
         Card Deletion  # noqa: E501
         """
-        pass
+        registered_card = self.api.account_card_register_request(self.cha_id, RegisterCard(
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030
+        ))
+
+        self.assertEqual(registered_card.account_id, self.cha_id)
+        self.assertEqual(len(registered_card.cards), 1)
+        self.assertEqual(registered_card.cards[0].expmonth, 12)
+        self.assertEqual(registered_card.cards[0].expyear, 2030)
+
+        result = self.api.account_card_delete_request(self.cha_id, registered_card.cards[0].card_id)
+        self.assertEqual(result.code, "001")
 
     def test_account_card_register_request(self):
         """Test case for account_card_register_request
 
         Card Registration  # noqa: E501
         """
-        pass
+
+        self.assertEqual(self.account.account_id, self.cha_id)
+        self.assertEqual(self.contact.address1, "7 Esplanade")
+
+        result = self.api.account_card_register_request(self.cha_id, RegisterCard(
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030
+        ))
+        self.assertEqual(result.account_id, self.cha_id)
+        self.assertEqual(len(result.cards), 1)
+        self.assertEqual(result.cards[0].expmonth, 12)
+        self.assertEqual(result.cards[0].expyear, 2030)
 
     def test_account_card_status_request(self):
         """Test case for account_card_status_request
 
         Card Status  # noqa: E501
         """
-        pass
+        registered_card = self.api.account_card_register_request(self.cha_id, RegisterCard(
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030
+        ))
+
+        status_response = self.api.account_card_status_request(accountid=self.cha_id, card_id=registered_card.cards[0].card_id, card_status=CardStatus(card_status="INACTIVE"))
+        self.assertEqual(status_response.code, "001")
 
     def test_account_change_contact_request(self):
         """Test case for account_change_contact_request
 
         Contact Details Update  # noqa: E501
         """
-        pass
+        updated_contact = ContactDetails(
+            address1="Seven Esplanade",  # change to new address
+            area="St Helier",
+            company="CityPay Limited",
+            country="JE",
+            email="dev@citypay.com",
+            firstname="Integration",
+            lastname="Test",
+            postcode="JE2 3QA"
+        )
+
+        registered_contact = self.api.account_change_contact_request(
+            accountid=self.cha_id,
+            contact_details=updated_contact
+        )
+
+        self.assertEqual(registered_contact.contact.address1, "Seven Esplanade")
+
 
     def test_account_create(self):
         """Test case for account_create
 
         Account Create  # noqa: E501
         """
-        pass
+        self.assertEqual(self.account.account_id, self.cha_id)
+        self.assertEqual(self.contact.address1, "7 Esplanade")
+
+    def test_account_exist_request(self):
+        """Test case for account_exist_request"""
+        registered_account = self.api.account_exists_request(
+            accountid=self.cha_id,
+        )
+        self.assertTrue(registered_account.exists)
 
     def test_account_delete_request(self):
         """Test case for account_delete_request
 
         Account Deletion  # noqa: E501
         """
-        pass
+        result = self.api.account_delete_request(self.cha_id)
+        self.assertEqual(result.code, "001")
 
     def test_account_retrieve_request(self):
         """Test case for account_retrieve_request
 
         Account Retrieval  # noqa: E501
         """
-        pass
+        result = self.api.account_retrieve_request(self.cha_id)
+        self.assertEqual(result.account_id, self.cha_id)
+        self.assertEqual(result.contact.address1, "7 Esplanade")
+        self.assertEqual(len(result.cards), 1)
+        self.assertEqual(result.cards[0].expmonth, 12)
+        self.assertEqual(result.cards[0].expyear, 2030)
 
     def test_account_status_request(self):
         """Test case for account_status_request
 
         Account Status  # noqa: E501
         """
-        pass
+        account_status = self.api.account_status_request(
+            accountid=self.cha_id,
+            account_status=AccountStatus(status="DISABLED")
+        )
+        self.assertEqual(account_status.code, "001")
 
     def test_charge_request(self):
         """Test case for charge_request
 
         Charge  # noqa: E501
         """
-        pass
+        result = self.api.account_card_register_request(self.cha_id, RegisterCard(
+            cardnumber="4000 0000 0000 0002",
+            expmonth=12,
+            expyear=2030
+        ))
 
+        identifier = uuid.uuid4().hex
+        decision = self.api.charge_request(ChargeRequest(
+            amount=7801,
+            identifier=identifier,
+            merchantid=int(self.merchant_id),
+            token=result.cards[0].token,
+            csc="012",
+            threedsecure=ThreeDSecure(
+                tds_policy="2"
+            )
+        ))
 
+        self.assertIsNone(decision.request_challenged)
+        self.assertIsNotNone(decision.auth_response)
+
+        response = decision.auth_response
+        self.assertEqual("001", response.result_code)
+        self.assertEqual(identifier, response.identifier)
+        self.assertEqual("A12345", response.authcode)
+        self.assertEqual(7801, response.amount)
+
+        # attempt with 3dsv1
+        identifier = uuid.uuid4().hex
+        decision = self.api.charge_request(ChargeRequest(
+            amount=7802,
+            identifier=identifier,
+            merchantid=int(self.merchant_id),
+            token=result.cards[0].token,
+            csc="801",
+            trans_type='A',
+            threedsecure=ThreeDSecure(
+                accept_headers="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                merchant_termurl="https://citypay.com/example-url",
+                user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
+                downgrade1=True
+            )
+        ))
+
+        self.assertIsNotNone(decision.request_challenged)
+        self.assertIsNone(decision.auth_response)
+
+        self.assertIsNotNone(decision.request_challenged.acs_url)
+
+        result = self.api.account_delete_request(self.cha_id)
+        self.assertEqual(result.code, "001")
 if __name__ == '__main__':
     unittest.main()
