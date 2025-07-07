@@ -13,7 +13,7 @@ from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi
 from citypay.models.account_create import AccountCreate
 from citypay.models.api_key import *
 import requests
-import base64
+
 
 from citypay.models.auth_request import AuthRequest
 from citypay.models.c_res_auth_request import CResAuthRequest
@@ -23,10 +23,13 @@ from citypay.models.ping import Ping
 from citypay.models.register_card import RegisterCard
 from citypay.models.three_d_secure import ThreeDSecure
 from citypay.utils.digest import validate_digest
+from dotenv import load_dotenv
+
 
 
 class TestApiIntegration(unittest.TestCase):
     """Error unit test stubs"""
+    load_dotenv()
 
     @classmethod
     def setUpClass(self):
@@ -117,14 +120,17 @@ class TestApiIntegration(unittest.TestCase):
         self.assertIsNotNone(response.threedserver_trans_id)
 
         content = {
+            "transStatus": "Y",
+            "reason": "01",
             "threeDSSessionData": response.threedserver_trans_id,
             "creq": response.creq
         }
 
-        url = "https://sandbox.citypay.com/3dsv2/acs"
-        headers = {'Content-type': 'application/json'}
+        #url = "https://sandbox.citypay.com/3dsv2/acs"
+        url = "https://sandbox.citypay.com/3dsv2/gen-rreq"
+        headers = {'Content-type': 'application/x-www-form-urlencoded'}
 
-        res = requests.post(url, data=json.dumps(content), headers=headers)
+        res = requests.post(url, data=content, headers=headers)
         res_obj = json.loads(res.text)
 
         c_res_auth_request = CResAuthRequest(cres=res_obj['cres'])

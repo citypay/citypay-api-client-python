@@ -21,12 +21,12 @@ json = "{}"
 # create an instance of RegisterCard from a JSON string
 register_card_instance = RegisterCard.from_json(json)
 # print the JSON string representation of the object
-print RegisterCard.to_json()
+print(RegisterCard.to_json())
 
 # convert the object into a dict
 register_card_dict = register_card_instance.to_dict()
 # create an instance of RegisterCard from a dict
-register_card_form_dict = register_card.from_dict(register_card_dict)
+register_card_from_dict = RegisterCard.from_dict(register_card_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

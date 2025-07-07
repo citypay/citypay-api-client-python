@@ -21,12 +21,12 @@ json = "{}"
 # create an instance of PaylinkEmailNotificationPath from a JSON string
 paylink_email_notification_path_instance = PaylinkEmailNotificationPath.from_json(json)
 # print the JSON string representation of the object
-print PaylinkEmailNotificationPath.to_json()
+print(PaylinkEmailNotificationPath.to_json())
 
 # convert the object into a dict
 paylink_email_notification_path_dict = paylink_email_notification_path_instance.to_dict()
 # create an instance of PaylinkEmailNotificationPath from a dict
-paylink_email_notification_path_form_dict = paylink_email_notification_path.from_dict(paylink_email_notification_path_dict)
+paylink_email_notification_path_from_dict = PaylinkEmailNotificationPath.from_dict(paylink_email_notification_path_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

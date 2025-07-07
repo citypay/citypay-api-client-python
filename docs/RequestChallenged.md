@@ -21,12 +21,12 @@ json = "{}"
 # create an instance of RequestChallenged from a JSON string
 request_challenged_instance = RequestChallenged.from_json(json)
 # print the JSON string representation of the object
-print RequestChallenged.to_json()
+print(RequestChallenged.to_json())
 
 # convert the object into a dict
 request_challenged_dict = request_challenged_instance.to_dict()
 # create an instance of RequestChallenged from a dict
-request_challenged_form_dict = request_challenged.from_dict(request_challenged_dict)
+request_challenged_from_dict = RequestChallenged.from_dict(request_challenged_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

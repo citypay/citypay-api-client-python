@@ -14,113 +14,253 @@
 """  # noqa: E501
 
 
-__version__ = "1.1.4"
+__version__ = "1.1.5"
+
+# Define package exports
+__all__ = [
+    "AuthorisationAndPaymentApi",
+    "BatchProcessingApi",
+    "CardHolderAccountApi",
+    "DirectPostApi",
+    "OperationalFunctionsApi",
+    "PaylinkApi",
+    "PaymentIntentApi",
+    "ReportingApi",
+    "WebHooks",
+    "ApiResponse",
+    "ApiClient",
+    "Configuration",
+    "OpenApiException",
+    "ApiTypeError",
+    "ApiValueError",
+    "ApiKeyError",
+    "ApiAttributeError",
+    "ApiException",
+    "AccountCreate",
+    "AccountStatus",
+    "Acknowledgement",
+    "AclCheckRequest",
+    "AclCheckResponseModel",
+    "AdjustmentCondition",
+    "Adjustments",
+    "AirlineAdvice",
+    "AirlineSegment",
+    "AuthReference",
+    "AuthReferences",
+    "AuthRequest",
+    "AuthResponse",
+    "Batch",
+    "BatchReportRequest",
+    "BatchReportResponseModel",
+    "BatchTransaction",
+    "BatchTransactionReportRequest",
+    "BatchTransactionReportResponse",
+    "BatchTransactionResultModel",
+    "Bin",
+    "BinLookup",
+    "CResAuthRequest",
+    "CaptureRequest",
+    "Card",
+    "CardHolderAccount",
+    "CardStatus",
+    "CardTokenisationRequest",
+    "CardTokenisationResponse",
+    "ChargeRequest",
+    "CheckBatchStatus",
+    "CheckBatchStatusResponse",
+    "ContactDetails",
+    "Decision",
+    "DirectPostRequest",
+    "DirectTokenAuthRequest",
+    "DomainKeyCheckRequest",
+    "DomainKeyRequest",
+    "DomainKeyResponse",
+    "Error",
+    "EventDataModel",
+    "Exists",
+    "ExternalMPI",
+    "FindPaymentIntentRequest",
+    "HttpConfig",
+    "ListMerchantsResponse",
+    "MCC6012",
+    "Merchant",
+    "MerchantBatchReportRequest",
+    "MerchantBatchReportResponse",
+    "MerchantBatchResponse",
+    "NetSummaryResponse",
+    "PaylinkAddress",
+    "PaylinkAdjustmentRequest",
+    "PaylinkAttachmentRequest",
+    "PaylinkAttachmentResult",
+    "PaylinkBillPaymentTokenRequest",
+    "PaylinkCardHolder",
+    "PaylinkCart",
+    "PaylinkCartItemModel",
+    "PaylinkConfig",
+    "PaylinkCustomParam",
+    "PaylinkEmailNotificationPath",
+    "PaylinkErrorCode",
+    "PaylinkFieldGuardModel",
+    "PaylinkPartPayments",
+    "PaylinkResendNotificationRequest",
+    "PaylinkSMSNotificationPath",
+    "PaylinkStateEvent",
+    "PaylinkTokenCreated",
+    "PaylinkTokenRequestModel",
+    "PaylinkTokenStatus",
+    "PaylinkTokenStatusChangeRequest",
+    "PaylinkTokenStatusChangeResponse",
+    "PaylinkUI",
+    "PaymentIntentReference",
+    "PaymentIntentRequestModel",
+    "PaymentIntentResponseModel",
+    "Ping",
+    "ProcessBatchRequest",
+    "ProcessBatchResponse",
+    "RefundRequest",
+    "RegisterCard",
+    "RegisterIpModel",
+    "RemittanceData",
+    "RemittanceReportRequest",
+    "RemittanceReportResponse",
+    "RemittedClientData",
+    "RequestChallenged",
+    "RetrieveRequest",
+    "ThreeDSecure",
+    "TokenisationResponseModel",
+    "TransactionReportRequest",
+    "VerificationRequest",
+    "VoidRequest",
+    "WebHookChannelCreateRequest",
+    "WebHookChannelCreateResponse",
+    "WebHookChannelDeleteRequest",
+    "WebHookSubscriptionRequest",
+    "WebHookSubscriptionResponse",
+    "WebHookUnsubscribeRequest",
+]
 
 # import apis into sdk package
-from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi
-from citypay.api.batch_processing_api import BatchProcessingApi
-from citypay.api.card_holder_account_api import CardHolderAccountApi
-from citypay.api.direct_post_api import DirectPostApi
-from citypay.api.operational_functions_api import OperationalFunctionsApi
-from citypay.api.paylink_api import PaylinkApi
-from citypay.api.reporting_api import ReportingApi
+from citypay.api.authorisation_and_payment_api import AuthorisationAndPaymentApi as AuthorisationAndPaymentApi
+from citypay.api.batch_processing_api import BatchProcessingApi as BatchProcessingApi
+from citypay.api.card_holder_account_api import CardHolderAccountApi as CardHolderAccountApi
+from citypay.api.direct_post_api import DirectPostApi as DirectPostApi
+from citypay.api.operational_functions_api import OperationalFunctionsApi as OperationalFunctionsApi
+from citypay.api.paylink_api import PaylinkApi as PaylinkApi
+from citypay.api.payment_intent_api import PaymentIntentApi as PaymentIntentApi
+from citypay.api.reporting_api import ReportingApi as ReportingApi
+from citypay.api.web_hooks import WebHooks as WebHooks
 
 # import ApiClient
-from citypay.api_response import ApiResponse
-from citypay.api_client import ApiClient
-from citypay.configuration import Configuration
-from citypay.exceptions import OpenApiException
-from citypay.exceptions import ApiTypeError
-from citypay.exceptions import ApiValueError
-from citypay.exceptions import ApiKeyError
-from citypay.exceptions import ApiAttributeError
-from citypay.exceptions import ApiException
+from citypay.api_response import ApiResponse as ApiResponse
+from citypay.api_client import ApiClient as ApiClient
+from citypay.configuration import Configuration as Configuration
+from citypay.exceptions import OpenApiException as OpenApiException
+from citypay.exceptions import ApiTypeError as ApiTypeError
+from citypay.exceptions import ApiValueError as ApiValueError
+from citypay.exceptions import ApiKeyError as ApiKeyError
+from citypay.exceptions import ApiAttributeError as ApiAttributeError
+from citypay.exceptions import ApiException as ApiException
 
 # import models into sdk package
-from citypay.models.account_create import AccountCreate
-from citypay.models.account_status import AccountStatus
-from citypay.models.acknowledgement import Acknowledgement
-from citypay.models.acl_check_request import AclCheckRequest
-from citypay.models.acl_check_response_model import AclCheckResponseModel
-from citypay.models.airline_advice import AirlineAdvice
-from citypay.models.airline_segment import AirlineSegment
-from citypay.models.auth_reference import AuthReference
-from citypay.models.auth_references import AuthReferences
-from citypay.models.auth_request import AuthRequest
-from citypay.models.auth_response import AuthResponse
-from citypay.models.batch import Batch
-from citypay.models.batch_report_request import BatchReportRequest
-from citypay.models.batch_report_response_model import BatchReportResponseModel
-from citypay.models.batch_transaction import BatchTransaction
-from citypay.models.batch_transaction_report_request import BatchTransactionReportRequest
-from citypay.models.batch_transaction_report_response import BatchTransactionReportResponse
-from citypay.models.batch_transaction_result_model import BatchTransactionResultModel
-from citypay.models.bin import Bin
-from citypay.models.bin_lookup import BinLookup
-from citypay.models.c_res_auth_request import CResAuthRequest
-from citypay.models.capture_request import CaptureRequest
-from citypay.models.card import Card
-from citypay.models.card_holder_account import CardHolderAccount
-from citypay.models.card_status import CardStatus
-from citypay.models.charge_request import ChargeRequest
-from citypay.models.check_batch_status import CheckBatchStatus
-from citypay.models.check_batch_status_response import CheckBatchStatusResponse
-from citypay.models.contact_details import ContactDetails
-from citypay.models.decision import Decision
-from citypay.models.direct_post_request import DirectPostRequest
-from citypay.models.direct_token_auth_request import DirectTokenAuthRequest
-from citypay.models.domain_key_check_request import DomainKeyCheckRequest
-from citypay.models.domain_key_request import DomainKeyRequest
-from citypay.models.domain_key_response import DomainKeyResponse
-from citypay.models.error import Error
-from citypay.models.event_data_model import EventDataModel
-from citypay.models.exists import Exists
-from citypay.models.external_mpi import ExternalMPI
-from citypay.models.list_merchants_response import ListMerchantsResponse
-from citypay.models.mcc6012 import MCC6012
-from citypay.models.merchant import Merchant
-from citypay.models.merchant_batch_report_request import MerchantBatchReportRequest
-from citypay.models.merchant_batch_report_response import MerchantBatchReportResponse
-from citypay.models.merchant_batch_response import MerchantBatchResponse
-from citypay.models.net_summary_response import NetSummaryResponse
-from citypay.models.pa_res_auth_request import PaResAuthRequest
-from citypay.models.paylink_address import PaylinkAddress
-from citypay.models.paylink_adjustment_request import PaylinkAdjustmentRequest
-from citypay.models.paylink_attachment_request import PaylinkAttachmentRequest
-from citypay.models.paylink_attachment_result import PaylinkAttachmentResult
-from citypay.models.paylink_bill_payment_token_request import PaylinkBillPaymentTokenRequest
-from citypay.models.paylink_card_holder import PaylinkCardHolder
-from citypay.models.paylink_cart import PaylinkCart
-from citypay.models.paylink_cart_item_model import PaylinkCartItemModel
-from citypay.models.paylink_config import PaylinkConfig
-from citypay.models.paylink_custom_param import PaylinkCustomParam
-from citypay.models.paylink_email_notification_path import PaylinkEmailNotificationPath
-from citypay.models.paylink_error_code import PaylinkErrorCode
-from citypay.models.paylink_field_guard_model import PaylinkFieldGuardModel
-from citypay.models.paylink_part_payments import PaylinkPartPayments
-from citypay.models.paylink_resend_notification_request import PaylinkResendNotificationRequest
-from citypay.models.paylink_sms_notification_path import PaylinkSMSNotificationPath
-from citypay.models.paylink_state_event import PaylinkStateEvent
-from citypay.models.paylink_token_created import PaylinkTokenCreated
-from citypay.models.paylink_token_request_model import PaylinkTokenRequestModel
-from citypay.models.paylink_token_status import PaylinkTokenStatus
-from citypay.models.paylink_token_status_change_request import PaylinkTokenStatusChangeRequest
-from citypay.models.paylink_token_status_change_response import PaylinkTokenStatusChangeResponse
-from citypay.models.paylink_ui import PaylinkUI
-from citypay.models.payment_intent import PaymentIntent
-from citypay.models.payment_intent_reference import PaymentIntentReference
-from citypay.models.ping import Ping
-from citypay.models.process_batch_request import ProcessBatchRequest
-from citypay.models.process_batch_response import ProcessBatchResponse
-from citypay.models.refund_request import RefundRequest
-from citypay.models.register_card import RegisterCard
-from citypay.models.remittance_data import RemittanceData
-from citypay.models.remittance_report_request import RemittanceReportRequest
-from citypay.models.remittance_report_response import RemittanceReportResponse
-from citypay.models.remitted_client_data import RemittedClientData
-from citypay.models.request_challenged import RequestChallenged
-from citypay.models.retrieve_request import RetrieveRequest
-from citypay.models.three_d_secure import ThreeDSecure
-from citypay.models.tokenisation_response_model import TokenisationResponseModel
-from citypay.models.void_request import VoidRequest
+from citypay.models.account_create import AccountCreate as AccountCreate
+from citypay.models.account_status import AccountStatus as AccountStatus
+from citypay.models.acknowledgement import Acknowledgement as Acknowledgement
+from citypay.models.acl_check_request import AclCheckRequest as AclCheckRequest
+from citypay.models.acl_check_response_model import AclCheckResponseModel as AclCheckResponseModel
+from citypay.models.adjustment_condition import AdjustmentCondition as AdjustmentCondition
+from citypay.models.adjustments import Adjustments as Adjustments
+from citypay.models.airline_advice import AirlineAdvice as AirlineAdvice
+from citypay.models.airline_segment import AirlineSegment as AirlineSegment
+from citypay.models.auth_reference import AuthReference as AuthReference
+from citypay.models.auth_references import AuthReferences as AuthReferences
+from citypay.models.auth_request import AuthRequest as AuthRequest
+from citypay.models.auth_response import AuthResponse as AuthResponse
+from citypay.models.batch import Batch as Batch
+from citypay.models.batch_report_request import BatchReportRequest as BatchReportRequest
+from citypay.models.batch_report_response_model import BatchReportResponseModel as BatchReportResponseModel
+from citypay.models.batch_transaction import BatchTransaction as BatchTransaction
+from citypay.models.batch_transaction_report_request import BatchTransactionReportRequest as BatchTransactionReportRequest
+from citypay.models.batch_transaction_report_response import BatchTransactionReportResponse as BatchTransactionReportResponse
+from citypay.models.batch_transaction_result_model import BatchTransactionResultModel as BatchTransactionResultModel
+from citypay.models.bin import Bin as Bin
+from citypay.models.bin_lookup import BinLookup as BinLookup
+from citypay.models.c_res_auth_request import CResAuthRequest as CResAuthRequest
+from citypay.models.capture_request import CaptureRequest as CaptureRequest
+from citypay.models.card import Card as Card
+from citypay.models.card_holder_account import CardHolderAccount as CardHolderAccount
+from citypay.models.card_status import CardStatus as CardStatus
+from citypay.models.card_tokenisation_request import CardTokenisationRequest as CardTokenisationRequest
+from citypay.models.card_tokenisation_response import CardTokenisationResponse as CardTokenisationResponse
+from citypay.models.charge_request import ChargeRequest as ChargeRequest
+from citypay.models.check_batch_status import CheckBatchStatus as CheckBatchStatus
+from citypay.models.check_batch_status_response import CheckBatchStatusResponse as CheckBatchStatusResponse
+from citypay.models.contact_details import ContactDetails as ContactDetails
+from citypay.models.decision import Decision as Decision
+from citypay.models.direct_post_request import DirectPostRequest as DirectPostRequest
+from citypay.models.direct_token_auth_request import DirectTokenAuthRequest as DirectTokenAuthRequest
+from citypay.models.domain_key_check_request import DomainKeyCheckRequest as DomainKeyCheckRequest
+from citypay.models.domain_key_request import DomainKeyRequest as DomainKeyRequest
+from citypay.models.domain_key_response import DomainKeyResponse as DomainKeyResponse
+from citypay.models.error import Error as Error
+from citypay.models.event_data_model import EventDataModel as EventDataModel
+from citypay.models.exists import Exists as Exists
+from citypay.models.external_mpi import ExternalMPI as ExternalMPI
+from citypay.models.find_payment_intent_request import FindPaymentIntentRequest as FindPaymentIntentRequest
+from citypay.models.http_config import HttpConfig as HttpConfig
+from citypay.models.list_merchants_response import ListMerchantsResponse as ListMerchantsResponse
+from citypay.models.mcc6012 import MCC6012 as MCC6012
+from citypay.models.merchant import Merchant as Merchant
+from citypay.models.merchant_batch_report_request import MerchantBatchReportRequest as MerchantBatchReportRequest
+from citypay.models.merchant_batch_report_response import MerchantBatchReportResponse as MerchantBatchReportResponse
+from citypay.models.merchant_batch_response import MerchantBatchResponse as MerchantBatchResponse
+from citypay.models.net_summary_response import NetSummaryResponse as NetSummaryResponse
+from citypay.models.paylink_address import PaylinkAddress as PaylinkAddress
+from citypay.models.paylink_adjustment_request import PaylinkAdjustmentRequest as PaylinkAdjustmentRequest
+from citypay.models.paylink_attachment_request import PaylinkAttachmentRequest as PaylinkAttachmentRequest
+from citypay.models.paylink_attachment_result import PaylinkAttachmentResult as PaylinkAttachmentResult
+from citypay.models.paylink_bill_payment_token_request import PaylinkBillPaymentTokenRequest as PaylinkBillPaymentTokenRequest
+from citypay.models.paylink_card_holder import PaylinkCardHolder as PaylinkCardHolder
+from citypay.models.paylink_cart import PaylinkCart as PaylinkCart
+from citypay.models.paylink_cart_item_model import PaylinkCartItemModel as PaylinkCartItemModel
+from citypay.models.paylink_config import PaylinkConfig as PaylinkConfig
+from citypay.models.paylink_custom_param import PaylinkCustomParam as PaylinkCustomParam
+from citypay.models.paylink_email_notification_path import PaylinkEmailNotificationPath as PaylinkEmailNotificationPath
+from citypay.models.paylink_error_code import PaylinkErrorCode as PaylinkErrorCode
+from citypay.models.paylink_field_guard_model import PaylinkFieldGuardModel as PaylinkFieldGuardModel
+from citypay.models.paylink_part_payments import PaylinkPartPayments as PaylinkPartPayments
+from citypay.models.paylink_resend_notification_request import PaylinkResendNotificationRequest as PaylinkResendNotificationRequest
+from citypay.models.paylink_sms_notification_path import PaylinkSMSNotificationPath as PaylinkSMSNotificationPath
+from citypay.models.paylink_state_event import PaylinkStateEvent as PaylinkStateEvent
+from citypay.models.paylink_token_created import PaylinkTokenCreated as PaylinkTokenCreated
+from citypay.models.paylink_token_request_model import PaylinkTokenRequestModel as PaylinkTokenRequestModel
+from citypay.models.paylink_token_status import PaylinkTokenStatus as PaylinkTokenStatus
+from citypay.models.paylink_token_status_change_request import PaylinkTokenStatusChangeRequest as PaylinkTokenStatusChangeRequest
+from citypay.models.paylink_token_status_change_response import PaylinkTokenStatusChangeResponse as PaylinkTokenStatusChangeResponse
+from citypay.models.paylink_ui import PaylinkUI as PaylinkUI
+from citypay.models.payment_intent_reference import PaymentIntentReference as PaymentIntentReference
+from citypay.models.payment_intent_request_model import PaymentIntentRequestModel as PaymentIntentRequestModel
+from citypay.models.payment_intent_response_model import PaymentIntentResponseModel as PaymentIntentResponseModel
+from citypay.models.ping import Ping as Ping
+from citypay.models.process_batch_request import ProcessBatchRequest as ProcessBatchRequest
+from citypay.models.process_batch_response import ProcessBatchResponse as ProcessBatchResponse
+from citypay.models.refund_request import RefundRequest as RefundRequest
+from citypay.models.register_card import RegisterCard as RegisterCard
+from citypay.models.register_ip_model import RegisterIpModel as RegisterIpModel
+from citypay.models.remittance_data import RemittanceData as RemittanceData
+from citypay.models.remittance_report_request import RemittanceReportRequest as RemittanceReportRequest
+from citypay.models.remittance_report_response import RemittanceReportResponse as RemittanceReportResponse
+from citypay.models.remitted_client_data import RemittedClientData as RemittedClientData
+from citypay.models.request_challenged import RequestChallenged as RequestChallenged
+from citypay.models.retrieve_request import RetrieveRequest as RetrieveRequest
+from citypay.models.three_d_secure import ThreeDSecure as ThreeDSecure
+from citypay.models.tokenisation_response_model import TokenisationResponseModel as TokenisationResponseModel
+from citypay.models.transaction_report_request import TransactionReportRequest as TransactionReportRequest
+from citypay.models.verification_request import VerificationRequest as VerificationRequest
+from citypay.models.void_request import VoidRequest as VoidRequest
+from citypay.models.web_hook_channel_create_request import WebHookChannelCreateRequest as WebHookChannelCreateRequest
+from citypay.models.web_hook_channel_create_response import WebHookChannelCreateResponse as WebHookChannelCreateResponse
+from citypay.models.web_hook_channel_delete_request import WebHookChannelDeleteRequest as WebHookChannelDeleteRequest
+from citypay.models.web_hook_subscription_request import WebHookSubscriptionRequest as WebHookSubscriptionRequest
+from citypay.models.web_hook_subscription_response import WebHookSubscriptionResponse as WebHookSubscriptionResponse
+from citypay.models.web_hook_unsubscribe_request import WebHookUnsubscribeRequest as WebHookUnsubscribeRequest
 from citypay.models.api_key import api_key_generate

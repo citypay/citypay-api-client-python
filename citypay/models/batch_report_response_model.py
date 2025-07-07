@@ -18,15 +18,12 @@ import re  # noqa: F401
 import json
 
 from datetime import date
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.batch_transaction_result_model import BatchTransactionResultModel
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class BatchReportResponseModel(BaseModel):
     """
@@ -38,13 +35,14 @@ class BatchReportResponseModel(BaseModel):
     batch_status: StrictStr = Field(description="The status of the batch. Possible values are:   - CANCELLED. The file has been cancelled by an administrator or server process.  - COMPLETE. The file has passed through the processing cycle and is determined as being complete further information should be obtained on the results of the processing - ERROR_IN_PROCESSING. Errors have occurred in the processing that has deemed that processing can not continue. - INITIALISED. The file has been initialised and no action has yet been performed - LOCKED. The file has been locked for processing - QUEUED. The file has been queued for processing yet no processing has yet been performed - UNKNOWN. The file is of an unknown status, that is the file can either not be determined by the information requested of the file has not yet been received. ")
     client_account_id: Annotated[str, Field(min_length=3, strict=True, max_length=20)] = Field(description="The batch account id that the batch was processed with.")
     transactions: List[BatchTransactionResultModel]
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["amount", "batch_date", "batch_id", "batch_status", "client_account_id", "transactions"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -57,7 +55,7 @@ class BatchReportResponseModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of BatchReportResponseModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -70,24 +68,33 @@ class BatchReportResponseModel(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in transactions (list)
         _items = []
         if self.transactions:
-            for _item in self.transactions:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_transactions in self.transactions:
+                if _item_transactions:
+                    _items.append(_item_transactions.to_dict())
             _dict['transactions'] = _items
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of BatchReportResponseModel from a dict"""
         if obj is None:
             return None
@@ -101,8 +108,13 @@ class BatchReportResponseModel(BaseModel):
             "batch_id": obj.get("batch_id"),
             "batch_status": obj.get("batch_status"),
             "client_account_id": obj.get("client_account_id"),
-            "transactions": [BatchTransactionResultModel.from_dict(_item) for _item in obj.get("transactions")] if obj.get("transactions") is not None else None
+            "transactions": [BatchTransactionResultModel.from_dict(_item) for _item in obj["transactions"]] if obj.get("transactions") is not None else None
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

@@ -22,12 +22,12 @@ json = "{}"
 # create an instance of MerchantBatchReportRequest from a JSON string
 merchant_batch_report_request_instance = MerchantBatchReportRequest.from_json(json)
 # print the JSON string representation of the object
-print MerchantBatchReportRequest.to_json()
+print(MerchantBatchReportRequest.to_json())
 
 # convert the object into a dict
 merchant_batch_report_request_dict = merchant_batch_report_request_instance.to_dict()
 # create an instance of MerchantBatchReportRequest from a dict
-merchant_batch_report_request_form_dict = merchant_batch_report_request.from_dict(merchant_batch_report_request_dict)
+merchant_batch_report_request_from_dict = MerchantBatchReportRequest.from_dict(merchant_batch_report_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

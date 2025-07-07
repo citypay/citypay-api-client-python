@@ -30,8 +30,6 @@ purge will clear the card permanently.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.rest import ApiException
@@ -128,8 +126,6 @@ The card will be validated for
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.card_holder_account import CardHolderAccount
 from citypay.models.register_card import RegisterCard
@@ -224,8 +220,6 @@ Updates the status of a card for processing. The following values are available
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.card_status import CardStatus
@@ -315,8 +309,6 @@ Allows for the ability to change the contact details for an account.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.card_holder_account import CardHolderAccount
 from citypay.models.contact_details import ContactDetails
@@ -404,8 +396,6 @@ Creates a new card holder account and initialises the account ready for adding c
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.account_create import AccountCreate
 from citypay.models.card_holder_account import CardHolderAccount
@@ -493,8 +483,6 @@ transactions will be alowed to be processed or actioned against this account.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.rest import ApiException
@@ -580,8 +568,6 @@ Checks that an account exists and is active by providing the account id as a url
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.exists import Exists
 from citypay.rest import ApiException
@@ -672,8 +658,6 @@ enable a card holder to view their wallet and make constructive choices on which
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.card_holder_account import CardHolderAccount
 from citypay.rest import ApiException
@@ -764,8 +748,6 @@ Updates the status of an account. An account can have the following statuses app
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.account_status import AccountStatus
 from citypay.models.acknowledgement import Acknowledgement
@@ -876,8 +858,6 @@ required field with both Visa and MasterCard for risk analysis._.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.charge_request import ChargeRequest
 from citypay.models.decision import Decision

@@ -18,13 +18,10 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class Exists(BaseModel):
     """
@@ -33,13 +30,14 @@ class Exists(BaseModel):
     active: Optional[StrictBool] = Field(default=None, description="Boolean value whether the entity is active.")
     exists: StrictBool = Field(description="Boolean value whether the entity exists.")
     last_modified: Optional[datetime] = Field(default=None, description="The last modified date of the entity.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["active", "exists", "last_modified"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -52,7 +50,7 @@ class Exists(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of Exists from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,17 +63,26 @@ class Exists(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Exists from a dict"""
         if obj is None:
             return None
@@ -88,6 +95,11 @@ class Exists(BaseModel):
             "exists": obj.get("exists"),
             "last_modified": obj.get("last_modified")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

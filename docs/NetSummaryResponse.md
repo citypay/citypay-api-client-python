@@ -24,12 +24,12 @@ json = "{}"
 # create an instance of NetSummaryResponse from a JSON string
 net_summary_response_instance = NetSummaryResponse.from_json(json)
 # print the JSON string representation of the object
-print NetSummaryResponse.to_json()
+print(NetSummaryResponse.to_json())
 
 # convert the object into a dict
 net_summary_response_dict = net_summary_response_instance.to_dict()
 # create an instance of NetSummaryResponse from a dict
-net_summary_response_form_dict = net_summary_response.from_dict(net_summary_response_dict)
+net_summary_response_from_dict = NetSummaryResponse.from_dict(net_summary_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

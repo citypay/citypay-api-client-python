@@ -22,12 +22,12 @@ json = "{}"
 # create an instance of BatchReportResponseModel from a JSON string
 batch_report_response_model_instance = BatchReportResponseModel.from_json(json)
 # print the JSON string representation of the object
-print BatchReportResponseModel.to_json()
+print(BatchReportResponseModel.to_json())
 
 # convert the object into a dict
 batch_report_response_model_dict = batch_report_response_model_instance.to_dict()
 # create an instance of BatchReportResponseModel from a dict
-batch_report_response_model_form_dict = batch_report_response_model.from_dict(batch_report_response_model_dict)
+batch_report_response_model_from_dict = BatchReportResponseModel.from_dict(batch_report_response_model_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -84,8 +84,8 @@ class TestAuthResponse(unittest.TestCase):
         }
         """
 
-        self.instance = ApiClient().deserialize(self.data, AuthResponse)
-        self.instance_no_ident = ApiClient().deserialize(self.data_no_ident, AuthResponse)
+        self.instance = ApiClient().deserialize(self.data, "AuthResponse", "application/json")
+        self.instance_no_ident = ApiClient().deserialize(self.data_no_ident, AuthResponse, "application/json")
 
     def tearDown(self):
         pass

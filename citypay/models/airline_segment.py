@@ -18,14 +18,11 @@ import re  # noqa: F401
 import json
 
 from datetime import date
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class AirlineSegment(BaseModel):
     """
@@ -39,13 +36,14 @@ class AirlineSegment(BaseModel):
     flight_number: Annotated[str, Field(strict=True, max_length=4)] = Field(description="This field contains the carrier-assigned Flight Number for this travel segment.")
     segment_fare: Optional[StrictInt] = Field(default=None, description="This field contains the total Fare for this travel segment.")
     stop_over_indicator: Optional[Annotated[str, Field(strict=True, max_length=1)]] = Field(default=None, description="O = Stopover allowed, X = Stopover not allowed.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["arrival_location_code", "carrier_code", "class_service_code", "departure_date", "departure_location_code", "flight_number", "segment_fare", "stop_over_indicator"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -58,7 +56,7 @@ class AirlineSegment(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of AirlineSegment from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -71,17 +69,26 @@ class AirlineSegment(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AirlineSegment from a dict"""
         if obj is None:
             return None
@@ -99,6 +106,11 @@ class AirlineSegment(BaseModel):
             "segment_fare": obj.get("segment_fare"),
             "stop_over_indicator": obj.get("stop_over_indicator")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

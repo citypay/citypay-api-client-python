@@ -44,12 +44,12 @@ json = "{}"
 # create an instance of PaylinkTokenStatus from a JSON string
 paylink_token_status_instance = PaylinkTokenStatus.from_json(json)
 # print the JSON string representation of the object
-print PaylinkTokenStatus.to_json()
+print(PaylinkTokenStatus.to_json())
 
 # convert the object into a dict
 paylink_token_status_dict = paylink_token_status_instance.to_dict()
 # create an instance of PaylinkTokenStatus from a dict
-paylink_token_status_form_dict = paylink_token_status.from_dict(paylink_token_status_dict)
+paylink_token_status_from_dict = PaylinkTokenStatus.from_dict(paylink_token_status_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

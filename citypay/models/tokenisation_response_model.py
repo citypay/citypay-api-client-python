@@ -17,15 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class TokenisationResponseModel(BaseModel):
     """
@@ -41,13 +37,14 @@ class TokenisationResponseModel(BaseModel):
     scheme: Optional[StrictStr] = Field(default=None, description="The name of the card scheme of the transaction that processed the transaction such as Visa or MasterCard. ")
     sig_id: Optional[StrictStr] = Field(default=None, description="A Base58 encoded SHA-256 digest generated from the token value Base58 decoded and appended with the nonce value UTF-8 decoded.")
     token: Optional[StrictStr] = Field(default=None, description="The token used for presentment to authorisation later in the processing flow.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["authen_result", "bin_commercial", "bin_debit", "bin_description", "eci", "identifier", "maskedpan", "scheme", "sig_id", "token"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -60,7 +57,7 @@ class TokenisationResponseModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of TokenisationResponseModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -73,17 +70,26 @@ class TokenisationResponseModel(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of TokenisationResponseModel from a dict"""
         if obj is None:
             return None
@@ -103,6 +109,11 @@ class TokenisationResponseModel(BaseModel):
             "sig_id": obj.get("sig_id"),
             "token": obj.get("token")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

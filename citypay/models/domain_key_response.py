@@ -18,14 +18,11 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class DomainKeyResponse(BaseModel):
     """
@@ -36,13 +33,14 @@ class DomainKeyResponse(BaseModel):
     domain_key: Optional[Annotated[str, Field(min_length=64, strict=True, max_length=512)]] = Field(default=None, description="The domain key generated. ")
     live: Optional[StrictBool] = Field(default=None, description="true if this key is a production key. ")
     merchantid: StrictInt = Field(description="The merchant id the domain key is to be used for. ")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["date_created", "domain", "domain_key", "live", "merchantid"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -55,7 +53,7 @@ class DomainKeyResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of DomainKeyResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -68,17 +66,26 @@ class DomainKeyResponse(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of DomainKeyResponse from a dict"""
         if obj is None:
             return None
@@ -93,6 +100,11 @@ class DomainKeyResponse(BaseModel):
             "live": obj.get("live"),
             "merchantid": obj.get("merchantid")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

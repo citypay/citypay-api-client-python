@@ -62,7 +62,7 @@ class TestCardHolderAccount(unittest.TestCase):
         }
         """
 
-        self.instance = ApiClient().deserialize(self.data, CardHolderAccount)
+        self.instance = ApiClient().deserialize(self.data, CardHolderAccount, "application/json")
 
     def tearDown(self):
         pass

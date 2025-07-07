@@ -18,13 +18,10 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkTokenStatusChangeRequest(BaseModel):
     """
@@ -35,13 +32,14 @@ class PaylinkTokenStatusChangeRequest(BaseModel):
     merchantid: StrictInt = Field(description="the merchant id to review tokens for.")
     next_token: Optional[StrictStr] = Field(default=None, description="A token that identifies the starting point of the page of results to be returned. An empty value indicates the start of the dataset. When supplied, it is validated and used to fetch the subsequent page of results. This token is typically obtained from the response of a previous pagination request.", alias="nextToken")
     order_by: Optional[StrictStr] = Field(default=None, description="Specifies the field by which results are ordered. Available fields are [p.id]. By default, fields are ordered by OrderByExpression(p.id,ASC). To order in descending order, prefix with '-' or suffix with ' DESC'.", alias="orderBy")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["after", "maxResults", "merchantid", "nextToken", "orderBy"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -54,7 +52,7 @@ class PaylinkTokenStatusChangeRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkTokenStatusChangeRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -67,17 +65,26 @@ class PaylinkTokenStatusChangeRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkTokenStatusChangeRequest from a dict"""
         if obj is None:
             return None
@@ -92,6 +99,11 @@ class PaylinkTokenStatusChangeRequest(BaseModel):
             "nextToken": obj.get("nextToken"),
             "orderBy": obj.get("orderBy")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

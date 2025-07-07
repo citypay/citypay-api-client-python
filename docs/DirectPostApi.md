@@ -25,8 +25,6 @@ perform a `Direct Post` integration who wish to handle the challenge flow themse
 
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.rest import ApiException
@@ -109,8 +107,6 @@ perform a `Direct Post` integration who wish to handle the challenge flow themse
 
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.tokenisation_response_model import TokenisationResponseModel
 from citypay.rest import ApiException
@@ -193,8 +189,6 @@ Used to initiate a direct post request transaction flow.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.direct_post_request import DirectPostRequest
@@ -290,8 +284,6 @@ Used to initiate a direct post request transaction flow.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.direct_post_request import DirectPostRequest
@@ -388,8 +380,6 @@ response stating that the transaction was approved or declined.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.direct_token_auth_request import DirectTokenAuthRequest

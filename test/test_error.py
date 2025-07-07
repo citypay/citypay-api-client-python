@@ -27,7 +27,7 @@ class TestError(unittest.TestCase):
             "message": "Approved 044332"
         }
         """
-        self.instance = ApiClient().deserialize(self.data, Error)
+        self.instance = ApiClient().deserialize(self.data, "Acknowledgement", "application/json")
 
     def tearDown(self):
         pass

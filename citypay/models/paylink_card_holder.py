@@ -17,16 +17,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.paylink_address import PaylinkAddress
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkCardHolder(BaseModel):
     """
@@ -42,13 +38,14 @@ class PaylinkCardHolder(BaseModel):
     remote_addr: Optional[StrictStr] = Field(default=None, description="Specifies the remote IP address of the customer's browser. This field may be used to lock the payment form to the customer's IP address. Should the address change or a malicious third party attempted to hijack the transaction, an error will be generated.")
     title: Optional[StrictStr] = Field(default=None, description="A title for the card holder such as Mr, Mrs, Ms, M. Mme. etc.")
     user_agent: Optional[StrictStr] = Field(default=None, description="Specifies the user agent string of the Customer Browser. This field may be used to lock the payment form to the browser. Should a different user agent attempt to process the transaction or a malicious third party attempted to hijack the transaction, an error is generated.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["accept_headers", "address", "company", "email", "firstname", "lastname", "mobile_no", "remote_addr", "title", "user_agent"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -61,7 +58,7 @@ class PaylinkCardHolder(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkCardHolder from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -74,20 +71,29 @@ class PaylinkCardHolder(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of address
         if self.address:
             _dict['address'] = self.address.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkCardHolder from a dict"""
         if obj is None:
             return None
@@ -97,7 +103,7 @@ class PaylinkCardHolder(BaseModel):
 
         _obj = cls.model_validate({
             "accept_headers": obj.get("accept_headers"),
-            "address": PaylinkAddress.from_dict(obj.get("address")) if obj.get("address") is not None else None,
+            "address": PaylinkAddress.from_dict(obj["address"]) if obj.get("address") is not None else None,
             "company": obj.get("company"),
             "email": obj.get("email"),
             "firstname": obj.get("firstname"),
@@ -107,6 +113,11 @@ class PaylinkCardHolder(BaseModel):
             "title": obj.get("title"),
             "user_agent": obj.get("user_agent")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

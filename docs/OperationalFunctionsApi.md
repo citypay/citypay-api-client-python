@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**domain_key_gen_request**](OperationalFunctionsApi.md#domain_key_gen_request) | **POST** /dk/gen | Domain Key Generation Request
 [**list_merchants_request**](OperationalFunctionsApi.md#list_merchants_request) | **GET** /v6/merchants/{clientid} | List Merchants Request
 [**ping_request**](OperationalFunctionsApi.md#ping_request) | **POST** /v6/ping | Ping Request
+[**register_temp_key**](OperationalFunctionsApi.md#register_temp_key) | **POST** /v6/permissions/register-temp-ip | Register Temp Key
 
 
 # **acl_check_request**
@@ -25,8 +26,6 @@ services such as AWS or Azure to check that those addresses are listed in the AC
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acl_check_request import AclCheckRequest
 from citypay.models.acl_check_response_model import AclCheckResponseModel
@@ -114,8 +113,6 @@ domain key meet their expectations.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.domain_key_check_request import DomainKeyCheckRequest
 from citypay.models.domain_key_response import DomainKeyResponse
@@ -203,8 +200,6 @@ Generates a domain key based on the permissions of the calling `api-key`. Domain
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.domain_key_request import DomainKeyRequest
 from citypay.models.domain_key_response import DomainKeyResponse
@@ -297,8 +292,6 @@ Fields that can be sorted are `merchantid` or `name`.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.list_merchants_response import ListMerchantsResponse
 from citypay.rest import ApiException
@@ -391,8 +384,6 @@ model is granting access from your source.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.ping import Ping
@@ -464,6 +455,91 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A result of the ping request, returning on 044 response code on successful receipt of the ping request. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **register_temp_key**
+> Acknowledgement register_temp_key(register_ip_model)
+
+Register Temp Key
+
+Registers a temporary licence key.
+
+### Example
+
+* Api Key Authentication (cp-api-key):
+
+```python
+import citypay
+from citypay.models.acknowledgement import Acknowledgement
+from citypay.models.register_ip_model import RegisterIpModel
+from citypay.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.citypay.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = citypay.Configuration(
+    host = "https://api.citypay.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: cp-api-key
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with citypay.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = citypay.OperationalFunctionsApi(api_client)
+    register_ip_model = citypay.RegisterIpModel() # RegisterIpModel | 
+
+    try:
+        # Register Temp Key
+        api_response = api_instance.register_temp_key(register_ip_model)
+        print("The response of OperationalFunctionsApi->register_temp_key:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling OperationalFunctionsApi->register_temp_key: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **register_ip_model** | [**RegisterIpModel**](RegisterIpModel.md)|  | 
+
+### Return type
+
+[**Acknowledgement**](Acknowledgement.md)
+
+### Authorization
+
+[cp-api-key](../README.md#cp-api-key)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/xml
+ - **Accept**: application/json, text/xml
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Register IP. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |

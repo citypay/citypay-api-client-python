@@ -17,24 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.paylink_card_holder import PaylinkCardHolder
 from citypay.models.paylink_cart import PaylinkCart
 from citypay.models.paylink_config import PaylinkConfig
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkTokenRequestModel(BaseModel):
     """
     PaylinkTokenRequestModel
     """ # noqa: E501
-    accountno: Optional[StrictStr] = Field(default=None, description="Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length.")
+    accountno: Optional[StrictStr] = Field(default=None, description="To be able to use credential on file (COF) services. A cardholder account may be created once the payment has been authorised, this is then stored \"on file\" for subsequent charging for example re-authorisation, unscheduled payment, delayed charges, incremental authorisation, recurring payments, resubmission or no-show style agreements.  Specifies an alpha-numeric account number that the Paylink service uses when creating a Cardholder Account. The value should be no longer than 20 characters in length. ")
     amount: StrictInt = Field(description="Specifies the intended value of the transaction in the lowest denomination with no spacing characters or decimal point. This is the net total to be processed. An example of £74.95 would be presented as 7495.")
     cardholder: Optional[PaylinkCardHolder] = None
     cart: Optional[PaylinkCart] = None
@@ -44,16 +40,18 @@ class PaylinkTokenRequestModel(BaseModel):
     email: Optional[Annotated[str, Field(strict=True, max_length=254)]] = Field(default=None, description="The email field is used for the Merchant to be notified on completion of the transaction . The value may be supplied to override the default stored value. Emails sent to this address by the Paylink service should not be forwarded on to the cardholder as it may contain certain information that is used by the Paylink service to validate and authenticate Paylink Token Requests: for example, the Merchant ID and the licence key. ")
     identifier: Annotated[str, Field(min_length=4, strict=True, max_length=50)] = Field(description="Identifies a particular transaction linked to a Merchant account. It enables accurate duplicate checking within a pre-configured time period, as well as transaction reporting and tracing. The identifier should be unique to prevent payment card processing attempts from being rejected due to duplication. ")
     merchantid: StrictInt = Field(description="The merchant id you wish to process this transaction with.")
+    payment_intent_id: Optional[StrictStr] = Field(default=None, description="A payment intent id already previously registered for this token.")
     recurring: Optional[StrictBool] = Field(default=None, description="True if the intent of this cardholder initiated transaction is to establish a recurring payment model, processable as merchant initiated transactions.")
     subscription_id: Optional[StrictStr] = Field(default=None, description="an id associated with a subscription to link the token request against.")
     tx_type: Optional[StrictStr] = Field(default=None, description="A value to override the transaction type if requested by your account manager.")
-    __properties: ClassVar[List[str]] = ["accountno", "amount", "cardholder", "cart", "client_version", "config", "currency", "email", "identifier", "merchantid", "recurring", "subscription_id", "tx_type"]
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["accountno", "amount", "cardholder", "cart", "client_version", "config", "currency", "email", "identifier", "merchantid", "payment_intent_id", "recurring", "subscription_id", "tx_type"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -66,7 +64,7 @@ class PaylinkTokenRequestModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkTokenRequestModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -79,11 +77,15 @@ class PaylinkTokenRequestModel(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of cardholder
@@ -95,10 +97,15 @@ class PaylinkTokenRequestModel(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of config
         if self.config:
             _dict['config'] = self.config.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkTokenRequestModel from a dict"""
         if obj is None:
             return None
@@ -109,18 +116,24 @@ class PaylinkTokenRequestModel(BaseModel):
         _obj = cls.model_validate({
             "accountno": obj.get("accountno"),
             "amount": obj.get("amount"),
-            "cardholder": PaylinkCardHolder.from_dict(obj.get("cardholder")) if obj.get("cardholder") is not None else None,
-            "cart": PaylinkCart.from_dict(obj.get("cart")) if obj.get("cart") is not None else None,
+            "cardholder": PaylinkCardHolder.from_dict(obj["cardholder"]) if obj.get("cardholder") is not None else None,
+            "cart": PaylinkCart.from_dict(obj["cart"]) if obj.get("cart") is not None else None,
             "client_version": obj.get("client_version"),
-            "config": PaylinkConfig.from_dict(obj.get("config")) if obj.get("config") is not None else None,
+            "config": PaylinkConfig.from_dict(obj["config"]) if obj.get("config") is not None else None,
             "currency": obj.get("currency"),
             "email": obj.get("email"),
             "identifier": obj.get("identifier"),
             "merchantid": obj.get("merchantid"),
+            "payment_intent_id": obj.get("payment_intent_id"),
             "recurring": obj.get("recurring"),
             "subscription_id": obj.get("subscription_id"),
             "tx_type": obj.get("tx_type")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

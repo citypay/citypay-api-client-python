@@ -25,8 +25,6 @@ status.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.process_batch_request import ProcessBatchRequest
 from citypay.models.process_batch_response import ProcessBatchResponse
@@ -112,8 +110,6 @@ Obtains a batch and installment (BIS) report for a given batch id.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.batch_report_request import BatchReportRequest
 from citypay.models.batch_report_response_model import BatchReportResponseModel
@@ -199,8 +195,6 @@ The operation is used to retrieve the status of a batch process.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.check_batch_status import CheckBatchStatus
 from citypay.models.check_batch_status_response import CheckBatchStatusResponse

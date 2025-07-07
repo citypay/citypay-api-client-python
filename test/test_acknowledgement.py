@@ -28,7 +28,7 @@ class TestAcknowledgement(unittest.TestCase):
         }        
         """
 
-        self.instance = ApiClient().deserialize(self.data, Acknowledgement)
+        self.instance = ApiClient().deserialize(self.data, "Acknowledgement", "application/json")
 
     def tearDown(self):
         # run after each test

@@ -19,6 +19,8 @@ from citypay.models.account_status import AccountStatus
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.acl_check_request import AclCheckRequest
 from citypay.models.acl_check_response_model import AclCheckResponseModel
+from citypay.models.adjustment_condition import AdjustmentCondition
+from citypay.models.adjustments import Adjustments
 from citypay.models.airline_advice import AirlineAdvice
 from citypay.models.airline_segment import AirlineSegment
 from citypay.models.auth_reference import AuthReference
@@ -39,6 +41,8 @@ from citypay.models.capture_request import CaptureRequest
 from citypay.models.card import Card
 from citypay.models.card_holder_account import CardHolderAccount
 from citypay.models.card_status import CardStatus
+from citypay.models.card_tokenisation_request import CardTokenisationRequest
+from citypay.models.card_tokenisation_response import CardTokenisationResponse
 from citypay.models.charge_request import ChargeRequest
 from citypay.models.check_batch_status import CheckBatchStatus
 from citypay.models.check_batch_status_response import CheckBatchStatusResponse
@@ -53,6 +57,8 @@ from citypay.models.error import Error
 from citypay.models.event_data_model import EventDataModel
 from citypay.models.exists import Exists
 from citypay.models.external_mpi import ExternalMPI
+from citypay.models.find_payment_intent_request import FindPaymentIntentRequest
+from citypay.models.http_config import HttpConfig
 from citypay.models.list_merchants_response import ListMerchantsResponse
 from citypay.models.mcc6012 import MCC6012
 from citypay.models.merchant import Merchant
@@ -60,7 +66,6 @@ from citypay.models.merchant_batch_report_request import MerchantBatchReportRequ
 from citypay.models.merchant_batch_report_response import MerchantBatchReportResponse
 from citypay.models.merchant_batch_response import MerchantBatchResponse
 from citypay.models.net_summary_response import NetSummaryResponse
-from citypay.models.pa_res_auth_request import PaResAuthRequest
 from citypay.models.paylink_address import PaylinkAddress
 from citypay.models.paylink_adjustment_request import PaylinkAdjustmentRequest
 from citypay.models.paylink_attachment_request import PaylinkAttachmentRequest
@@ -84,13 +89,15 @@ from citypay.models.paylink_token_status import PaylinkTokenStatus
 from citypay.models.paylink_token_status_change_request import PaylinkTokenStatusChangeRequest
 from citypay.models.paylink_token_status_change_response import PaylinkTokenStatusChangeResponse
 from citypay.models.paylink_ui import PaylinkUI
-from citypay.models.payment_intent import PaymentIntent
 from citypay.models.payment_intent_reference import PaymentIntentReference
+from citypay.models.payment_intent_request_model import PaymentIntentRequestModel
+from citypay.models.payment_intent_response_model import PaymentIntentResponseModel
 from citypay.models.ping import Ping
 from citypay.models.process_batch_request import ProcessBatchRequest
 from citypay.models.process_batch_response import ProcessBatchResponse
 from citypay.models.refund_request import RefundRequest
 from citypay.models.register_card import RegisterCard
+from citypay.models.register_ip_model import RegisterIpModel
 from citypay.models.remittance_data import RemittanceData
 from citypay.models.remittance_report_request import RemittanceReportRequest
 from citypay.models.remittance_report_response import RemittanceReportResponse
@@ -99,4 +106,12 @@ from citypay.models.request_challenged import RequestChallenged
 from citypay.models.retrieve_request import RetrieveRequest
 from citypay.models.three_d_secure import ThreeDSecure
 from citypay.models.tokenisation_response_model import TokenisationResponseModel
+from citypay.models.transaction_report_request import TransactionReportRequest
+from citypay.models.verification_request import VerificationRequest
 from citypay.models.void_request import VoidRequest
+from citypay.models.web_hook_channel_create_request import WebHookChannelCreateRequest
+from citypay.models.web_hook_channel_create_response import WebHookChannelCreateResponse
+from citypay.models.web_hook_channel_delete_request import WebHookChannelDeleteRequest
+from citypay.models.web_hook_subscription_request import WebHookSubscriptionRequest
+from citypay.models.web_hook_subscription_response import WebHookSubscriptionResponse
+from citypay.models.web_hook_unsubscribe_request import WebHookUnsubscribeRequest

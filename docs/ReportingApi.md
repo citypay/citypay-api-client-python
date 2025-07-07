@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**merchant_batch_request**](ReportingApi.md#merchant_batch_request) | **GET** /v6/merchant-batch/{merchantid}/{batch_no} | Merchant Batch Request
 [**remittance_range_report**](ReportingApi.md#remittance_range_report) | **POST** /v6/remittance/report/{clientid} | Remittance Report Request
 [**remittance_report_request**](ReportingApi.md#remittance_report_request) | **GET** /v6/remittance/report/{clientid}/{date} | Remittance Date Report Request
+[**transaction_report_request**](ReportingApi.md#transaction_report_request) | **POST** /v6/transactions | Transaction Report Request
 
 
 # **batched_transaction_report_request**
@@ -23,8 +24,6 @@ Retrieves transactions available on a given batch.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.batch_transaction_report_request import BatchTransactionReportRequest
 from citypay.models.batch_transaction_report_response import BatchTransactionReportResponse
@@ -117,8 +116,6 @@ These batches play a crucial role in the settlement of funds by summarising dail
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.merchant_batch_report_request import MerchantBatchReportRequest
 from citypay.models.merchant_batch_report_response import MerchantBatchReportResponse
@@ -204,8 +201,6 @@ Retrieves a report of merchant a merchant batch for a specified batch number.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.merchant_batch_response import MerchantBatchResponse
 from citypay.rest import ApiException
@@ -297,8 +292,6 @@ deductions made by the acquirer.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.remittance_report_request import RemittanceReportRequest
 from citypay.models.remittance_report_response import RemittanceReportResponse
@@ -394,8 +387,6 @@ latest remittance date available.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.remitted_client_data import RemittedClientData
 from citypay.rest import ApiException
@@ -462,6 +453,93 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | A report of the financial remittance data for a given date. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **transaction_report_request**
+> BatchTransactionReportResponse transaction_report_request(transaction_report_request)
+
+Transaction Report Request
+
+Retrieve a paginated report of transaction activity within a specified time range. Supports filters by transaction type, 
+result state, merchant ID, and allows field selection or predefined response modes for optimal data handling.
+
+
+### Example
+
+* Api Key Authentication (cp-api-key):
+
+```python
+import citypay
+from citypay.models.batch_transaction_report_response import BatchTransactionReportResponse
+from citypay.models.transaction_report_request import TransactionReportRequest
+from citypay.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.citypay.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = citypay.Configuration(
+    host = "https://api.citypay.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: cp-api-key
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with citypay.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = citypay.ReportingApi(api_client)
+    transaction_report_request = citypay.TransactionReportRequest() # TransactionReportRequest | 
+
+    try:
+        # Transaction Report Request
+        api_response = api_instance.transaction_report_request(transaction_report_request)
+        print("The response of ReportingApi->transaction_report_request:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ReportingApi->transaction_report_request: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **transaction_report_request** | [**TransactionReportRequest**](TransactionReportRequest.md)|  | 
+
+### Return type
+
+[**BatchTransactionReportResponse**](BatchTransactionReportResponse.md)
+
+### Authorization
+
+[cp-api-key](../README.md#cp-api-key)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/xml
+ - **Accept**: application/json, text/xml
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A report of the transactions processed. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |

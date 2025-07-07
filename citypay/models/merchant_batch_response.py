@@ -18,15 +18,12 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.net_summary_response import NetSummaryResponse
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class MerchantBatchResponse(BaseModel):
     """
@@ -39,13 +36,14 @@ class MerchantBatchResponse(BaseModel):
     currency: Optional[Annotated[str, Field(min_length=3, strict=True, max_length=3)]] = Field(default=None, description="The currency of the batch.")
     merchantid: Optional[StrictInt] = Field(default=None, description="The Merchant ID (MID) associated with the batch. This identifier specifies which merchant account the batch was processed for, linking transactions to the merchant.")
     net_summary: Optional[NetSummaryResponse] = None
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["batch_closed", "batch_no", "batch_status", "batch_status_code", "currency", "merchantid", "net_summary"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -58,7 +56,7 @@ class MerchantBatchResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of MerchantBatchResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -71,20 +69,29 @@ class MerchantBatchResponse(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of net_summary
         if self.net_summary:
             _dict['net_summary'] = self.net_summary.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of MerchantBatchResponse from a dict"""
         if obj is None:
             return None
@@ -99,8 +106,13 @@ class MerchantBatchResponse(BaseModel):
             "batch_status_code": obj.get("batch_status_code"),
             "currency": obj.get("currency"),
             "merchantid": obj.get("merchantid"),
-            "net_summary": NetSummaryResponse.from_dict(obj.get("net_summary")) if obj.get("net_summary") is not None else None
+            "net_summary": NetSummaryResponse.from_dict(obj["net_summary"]) if obj.get("net_summary") is not None else None
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 
