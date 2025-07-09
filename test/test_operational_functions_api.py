@@ -80,7 +80,7 @@ class TestOperationalFunctionsApi(unittest.TestCase):
         api_list_merchants = OperationalFunctionsApi(self.api_client).list_merchants_request(self.client_id)
         self.assertEqual(api_list_merchants.clientid, str(self.client_id))
 
-def test_ping_request(self):
+    def test_ping_request(self):
         """Test case for ping_request
 
         Ping Request  # noqa: E501
