@@ -64,6 +64,7 @@ jobs:
 
     - name: Build and package
       run: |
+        export SETUPTOOLS_DISABLE_PEP621=1
         python setup.py sdist bdist_wheel
 
     - name: Upload the package to PyPI
