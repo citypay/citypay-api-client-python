@@ -17,17 +17,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt
-from pydantic import Field
 from typing_extensions import Annotated
 from citypay.models.airline_advice import AirlineAdvice
 from citypay.models.event_data_model import EventDataModel
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class CaptureRequest(BaseModel):
     """
@@ -39,13 +35,14 @@ class CaptureRequest(BaseModel):
     identifier: Optional[Annotated[str, Field(min_length=4, strict=True, max_length=50)]] = Field(default=None, description="The identifier of the transaction to capture. If an empty value is supplied then a `trans_no` value must be supplied.")
     merchantid: StrictInt = Field(description="Identifies the merchant account to perform the capture for.")
     transno: Optional[StrictInt] = Field(default=None, description="The transaction number of the transaction to look up and capture. If an empty value is supplied then an identifier value must be supplied.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["airline_data", "amount", "event_management", "identifier", "merchantid", "transno"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -58,7 +55,7 @@ class CaptureRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of CaptureRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -71,11 +68,15 @@ class CaptureRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of airline_data
@@ -84,10 +85,15 @@ class CaptureRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of event_management
         if self.event_management:
             _dict['event_management'] = self.event_management.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of CaptureRequest from a dict"""
         if obj is None:
             return None
@@ -96,13 +102,18 @@ class CaptureRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "airline_data": AirlineAdvice.from_dict(obj.get("airline_data")) if obj.get("airline_data") is not None else None,
+            "airline_data": AirlineAdvice.from_dict(obj["airline_data"]) if obj.get("airline_data") is not None else None,
             "amount": obj.get("amount"),
-            "event_management": EventDataModel.from_dict(obj.get("event_management")) if obj.get("event_management") is not None else None,
+            "event_management": EventDataModel.from_dict(obj["event_management"]) if obj.get("event_management") is not None else None,
             "identifier": obj.get("identifier"),
             "merchantid": obj.get("merchantid"),
             "transno": obj.get("transno")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

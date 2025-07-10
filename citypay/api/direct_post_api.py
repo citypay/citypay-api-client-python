@@ -11,30 +11,20 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
-
-from pydantic import Field
+from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
-from pydantic import StrictStr
 
+from pydantic import Field, StrictStr
 from typing import Optional
-
+from typing_extensions import Annotated
 from citypay.models.auth_response import AuthResponse
 from citypay.models.direct_post_request import DirectPostRequest
 from citypay.models.direct_token_auth_request import DirectTokenAuthRequest
 from citypay.models.tokenisation_response_model import TokenisationResponseModel
 
-from citypay.api_client import ApiClient
+from citypay.api_client import ApiClient, RequestSerialized
 from citypay.api_response import ApiResponse
 from citypay.rest import RESTResponseType
 
@@ -303,7 +293,7 @@ class DirectPostApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -314,7 +304,9 @@ class DirectPostApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -331,13 +323,14 @@ class DirectPostApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json', 
-                'application/xml', 
-                'application/x-www-form-urlencoded'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/xml', 
+                    'application/x-www-form-urlencoded'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -626,7 +619,7 @@ class DirectPostApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -637,7 +630,9 @@ class DirectPostApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -654,13 +649,14 @@ class DirectPostApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json', 
-                'application/xml', 
-                'application/x-www-form-urlencoded'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/xml', 
+                    'application/x-www-form-urlencoded'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -923,7 +919,7 @@ class DirectPostApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -934,7 +930,9 @@ class DirectPostApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -947,14 +945,15 @@ class DirectPostApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json', 
-                'application/xml', 
-                'application/x-www-form-urlencoded', 
-                'text/xml'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/xml', 
+                    'application/x-www-form-urlencoded', 
+                    'text/xml'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -1221,7 +1220,7 @@ class DirectPostApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -1232,7 +1231,9 @@ class DirectPostApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -1245,14 +1246,15 @@ class DirectPostApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json', 
-                'application/xml', 
-                'application/x-www-form-urlencoded', 
-                'text/xml'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/xml', 
+                    'application/x-www-form-urlencoded', 
+                    'text/xml'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -1516,7 +1518,7 @@ class DirectPostApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -1527,7 +1529,9 @@ class DirectPostApi:
         _query_params: List[Tuple[str, str]] = []
         _header_params: Dict[str, Optional[str]] = _headers or {}
         _form_params: List[Tuple[str, str]] = []
-        _files: Dict[str, str] = {}
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
         _body_params: Optional[bytes] = None
 
         # process the path parameters
@@ -1540,14 +1544,15 @@ class DirectPostApi:
 
 
         # set the HTTP header `Accept`
-        _header_params['Accept'] = self.api_client.select_header_accept(
-            [
-                'application/json', 
-                'application/xml', 
-                'application/x-www-form-urlencoded', 
-                'text/xml'
-            ]
-        )
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/xml', 
+                    'application/x-www-form-urlencoded', 
+                    'text/xml'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:

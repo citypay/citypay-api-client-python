@@ -17,31 +17,28 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
 from citypay.models.paylink_custom_param import PaylinkCustomParam
 from citypay.models.paylink_field_guard_model import PaylinkFieldGuardModel
 from citypay.models.paylink_part_payments import PaylinkPartPayments
 from citypay.models.paylink_ui import PaylinkUI
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkConfig(BaseModel):
     """
     PaylinkConfig
     """ # noqa: E501
-    acs_mode: Optional[StrictStr] = Field(default=None, description="Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be  iframe: shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  inline: an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser. If you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an improved user experience. ")
+    acs_mode: Optional[StrictStr] = Field(default=None, description="Specifies the approach to be adopted by the Paylink form when displaying a 3-D Secure challenge window. The values may be   - `iframe` shows the 3-D Secure ACS in an iframe dialog, neatly embedding it in Paylink. This provides a more seamless flow for the cardholder who is able to validate and authenticate their card using a dialog provided by their card issuer.  - `inline` an inline mode transfers the full browser window to the authentication server, allowing the payment cardholder to see their payment card issuer's URL and the certificate status in the browser.  If you request an iframe mode and the browser width is deemed as being small (< 768px) then an inline mode will be enforced. This is to ensure that mobile users have an appropriate user experience.  The default type if not supplied is **iframe**. ")
     custom_params: Optional[List[PaylinkCustomParam]] = None
     descriptor: Optional[StrictStr] = Field(default=None, description="Directly specify the merchant descriptor used for the transaction to be displayed on the payment page.")
-    expire_in: Optional[StrictStr] = Field(default=None, description="Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value. For instance:   s - Time in seconds, for example 90s.   m - Time in minutes, for example 20m.   h - Time in hours, for example 4h.   w - Time in weeks, for example 4w.   M - Time in months, for example 6M.   y - Time in years, for example 1y.   Defaults to 30 minutes. ")
+    expire_in: Optional[StrictStr] = Field(default=None, description="Specifies a period of time in seconds after which the token cannot be used. A value of 0 defines that the token will never expire. The API will convert an expiry time based on a string value.  For instance: -  s - Time in seconds, for example 90s. -  m - Time in minutes, for example 20m. -  h - Time in hours, for example 4h. -  w - Time in weeks, for example 4w. -  M - Time in months, for example 6M. -  y - Time in years, for example 1y. -  Defaults to 30 minutes. ")
     field_guard: Optional[List[PaylinkFieldGuardModel]] = None
     lock_params: Optional[List[StrictStr]] = None
     merch_logo: Optional[StrictStr] = Field(default=None, description="A URL of a logo to include in the form. The URL should be delivered using HTTPS.")
     merch_terms: Optional[StrictStr] = Field(default=None, description="A URL of the merchant terms and conditions for payment. If a value is supplied, a checkbox will be required to be completed to confirm that the cardholder agrees to these conditions before payment. A modal dialogue is displayed with the content of the conditions displayed.")
+    meta_data: Optional[Dict[str, StrictStr]] = None
     options: Optional[List[StrictStr]] = None
     part_payments: Optional[PaylinkPartPayments] = None
     pass_through_data: Optional[Dict[str, StrictStr]] = None
@@ -56,13 +53,14 @@ class PaylinkConfig(BaseModel):
     renderer: Optional[StrictStr] = Field(default=None, description="The Paylink renderer engine to use.")
     return_params: Optional[StrictBool] = Field(default=None, description="If a value of true is specified, any redirection will include the transaction result in parameters. It is recommended to use the postback integration rather than redirection parameters.")
     ui: Optional[PaylinkUI] = None
-    __properties: ClassVar[List[str]] = ["acs_mode", "custom_params", "descriptor", "expire_in", "field_guard", "lock_params", "merch_logo", "merch_terms", "options", "part_payments", "pass_through_data", "pass_through_headers", "postback", "postback_password", "postback_policy", "postback_username", "redirect_delay", "redirect_failure", "redirect_success", "renderer", "return_params", "ui"]
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["acs_mode", "custom_params", "descriptor", "expire_in", "field_guard", "lock_params", "merch_logo", "merch_terms", "meta_data", "options", "part_payments", "pass_through_data", "pass_through_headers", "postback", "postback_password", "postback_policy", "postback_username", "redirect_delay", "redirect_failure", "redirect_success", "renderer", "return_params", "ui"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -75,7 +73,7 @@ class PaylinkConfig(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkConfig from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -88,26 +86,30 @@ class PaylinkConfig(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in custom_params (list)
         _items = []
         if self.custom_params:
-            for _item in self.custom_params:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_custom_params in self.custom_params:
+                if _item_custom_params:
+                    _items.append(_item_custom_params.to_dict())
             _dict['custom_params'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in field_guard (list)
         _items = []
         if self.field_guard:
-            for _item in self.field_guard:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_field_guard in self.field_guard:
+                if _item_field_guard:
+                    _items.append(_item_field_guard.to_dict())
             _dict['field_guard'] = _items
         # override the default output from pydantic by calling `to_dict()` of part_payments
         if self.part_payments:
@@ -115,10 +117,15 @@ class PaylinkConfig(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of ui
         if self.ui:
             _dict['ui'] = self.ui.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkConfig from a dict"""
         if obj is None:
             return None
@@ -128,15 +135,16 @@ class PaylinkConfig(BaseModel):
 
         _obj = cls.model_validate({
             "acs_mode": obj.get("acs_mode"),
-            "custom_params": [PaylinkCustomParam.from_dict(_item) for _item in obj.get("custom_params")] if obj.get("custom_params") is not None else None,
+            "custom_params": [PaylinkCustomParam.from_dict(_item) for _item in obj["custom_params"]] if obj.get("custom_params") is not None else None,
             "descriptor": obj.get("descriptor"),
             "expire_in": obj.get("expire_in"),
-            "field_guard": [PaylinkFieldGuardModel.from_dict(_item) for _item in obj.get("field_guard")] if obj.get("field_guard") is not None else None,
+            "field_guard": [PaylinkFieldGuardModel.from_dict(_item) for _item in obj["field_guard"]] if obj.get("field_guard") is not None else None,
             "lock_params": obj.get("lock_params"),
             "merch_logo": obj.get("merch_logo"),
             "merch_terms": obj.get("merch_terms"),
+            "meta_data": obj.get("meta_data"),
             "options": obj.get("options"),
-            "part_payments": PaylinkPartPayments.from_dict(obj.get("part_payments")) if obj.get("part_payments") is not None else None,
+            "part_payments": PaylinkPartPayments.from_dict(obj["part_payments"]) if obj.get("part_payments") is not None else None,
             "pass_through_data": obj.get("pass_through_data"),
             "pass_through_headers": obj.get("pass_through_headers"),
             "postback": obj.get("postback"),
@@ -148,8 +156,13 @@ class PaylinkConfig(BaseModel):
             "redirect_success": obj.get("redirect_success"),
             "renderer": obj.get("renderer"),
             "return_params": obj.get("return_params"),
-            "ui": PaylinkUI.from_dict(obj.get("ui")) if obj.get("ui") is not None else None
+            "ui": PaylinkUI.from_dict(obj["ui"]) if obj.get("ui") is not None else None
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

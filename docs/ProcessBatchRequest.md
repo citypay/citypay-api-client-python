@@ -20,12 +20,12 @@ json = "{}"
 # create an instance of ProcessBatchRequest from a JSON string
 process_batch_request_instance = ProcessBatchRequest.from_json(json)
 # print the JSON string representation of the object
-print ProcessBatchRequest.to_json()
+print(ProcessBatchRequest.to_json())
 
 # convert the object into a dict
 process_batch_request_dict = process_batch_request_instance.to_dict()
 # create an instance of ProcessBatchRequest from a dict
-process_batch_request_form_dict = process_batch_request.from_dict(process_batch_request_dict)
+process_batch_request_from_dict = ProcessBatchRequest.from_dict(process_batch_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

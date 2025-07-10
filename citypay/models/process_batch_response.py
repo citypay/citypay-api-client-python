@@ -17,14 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictStr
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ProcessBatchResponse(BaseModel):
     """
@@ -32,13 +28,14 @@ class ProcessBatchResponse(BaseModel):
     """ # noqa: E501
     message: Optional[StrictStr] = Field(default=None, description="Information regarding the processing request.")
     valid: StrictBool = Field(description="true if the request has been accepted for processing and is valid.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["message", "valid"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -51,7 +48,7 @@ class ProcessBatchResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ProcessBatchResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -64,17 +61,26 @@ class ProcessBatchResponse(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ProcessBatchResponse from a dict"""
         if obj is None:
             return None
@@ -86,6 +92,11 @@ class ProcessBatchResponse(BaseModel):
             "message": obj.get("message"),
             "valid": obj.get("valid")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

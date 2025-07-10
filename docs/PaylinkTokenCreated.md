@@ -5,12 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**attachments** | [**PaylinkAttachmentResult**](PaylinkAttachmentResult.md) |  | [optional] 
+**attachments** | [**List[PaylinkAttachmentResult]**](PaylinkAttachmentResult.md) |  | [optional] 
 **bps** | **str** | true if BPS has been enabled on this token. | [optional] 
 **date_created** | **datetime** | Date and time the token was generated. | [optional] 
 **errors** | [**List[PaylinkErrorCode]**](PaylinkErrorCode.md) |  | [optional] 
 **id** | **str** | A unique id of the request. | 
 **identifier** | **str** | The identifier as presented in the TokenRequest. | [optional] 
+**merchantid** | **int** | The merchant id of the token. | [optional] 
 **mode** | **str** | Determines whether the token is &#x60;live&#x60; or &#x60;test&#x60;. | [optional] 
 **qrcode** | **str** | A URL of a qrcode which can be used to refer to the token URL. | [optional] 
 **result** | **int** | The result field contains the result for the Paylink Token Request. 0 - indicates that an error was encountered while creating the token. 1 - which indicates that a Token was successfully created. | 
@@ -30,12 +31,12 @@ json = "{}"
 # create an instance of PaylinkTokenCreated from a JSON string
 paylink_token_created_instance = PaylinkTokenCreated.from_json(json)
 # print the JSON string representation of the object
-print PaylinkTokenCreated.to_json()
+print(PaylinkTokenCreated.to_json())
 
 # convert the object into a dict
 paylink_token_created_dict = paylink_token_created_instance.to_dict()
 # create an instance of PaylinkTokenCreated from a dict
-paylink_token_created_form_dict = paylink_token_created.from_dict(paylink_token_created_dict)
+paylink_token_created_from_dict = PaylinkTokenCreated.from_dict(paylink_token_created_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

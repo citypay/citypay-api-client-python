@@ -39,7 +39,7 @@ class TestAuthReferences(unittest.TestCase):
           }
         ]}       
         """
-        self.instance = ApiClient().deserialize(self.data, AuthReferences)
+        self.instance = ApiClient().deserialize(self.data, "AuthReferences", "application/json")
 
     def tearDown(self):
         pass

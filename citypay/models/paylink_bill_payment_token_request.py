@@ -18,23 +18,22 @@ import re  # noqa: F401
 import json
 
 from datetime import date
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
+from citypay.models.adjustments import Adjustments
 from citypay.models.paylink_attachment_request import PaylinkAttachmentRequest
 from citypay.models.paylink_email_notification_path import PaylinkEmailNotificationPath
 from citypay.models.paylink_sms_notification_path import PaylinkSMSNotificationPath
 from citypay.models.paylink_token_request_model import PaylinkTokenRequestModel
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkBillPaymentTokenRequest(BaseModel):
     """
     PaylinkBillPaymentTokenRequest
     """ # noqa: E501
     addressee: Optional[StrictStr] = Field(default=None, description="Who the bill payment request intended for. This should be a readable name such as a person or company.")
+    adjustments: Optional[Adjustments] = None
     attachments: Optional[List[PaylinkAttachmentRequest]] = None
     descriptor: Optional[StrictStr] = Field(default=None, description="A descriptor for the bill payment used to describe what the payment request is for for instance \"Invoice\".  The descriptor can be used as descriptive text on emails or the payment page. For instance an invoice may have a button saying \"View Invoice\" or an email may say \"to pay your Invoice online\". ")
     due: Optional[date] = Field(default=None, description="A date that the invoice is due. This can be displayed on the payment page.")
@@ -42,13 +41,14 @@ class PaylinkBillPaymentTokenRequest(BaseModel):
     memo: Optional[StrictStr] = Field(default=None, description="A memo that can be added to the payment page and email to provide to the customer.")
     request: PaylinkTokenRequestModel
     sms_notification_path: Optional[PaylinkSMSNotificationPath] = None
-    __properties: ClassVar[List[str]] = ["addressee", "attachments", "descriptor", "due", "email_notification_path", "memo", "request", "sms_notification_path"]
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["addressee", "adjustments", "attachments", "descriptor", "due", "email_notification_path", "memo", "request", "sms_notification_path"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -61,7 +61,7 @@ class PaylinkBillPaymentTokenRequest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkBillPaymentTokenRequest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -74,19 +74,26 @@ class PaylinkBillPaymentTokenRequest(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of adjustments
+        if self.adjustments:
+            _dict['adjustments'] = self.adjustments.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in attachments (list)
         _items = []
         if self.attachments:
-            for _item in self.attachments:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_attachments in self.attachments:
+                if _item_attachments:
+                    _items.append(_item_attachments.to_dict())
             _dict['attachments'] = _items
         # override the default output from pydantic by calling `to_dict()` of email_notification_path
         if self.email_notification_path:
@@ -97,10 +104,15 @@ class PaylinkBillPaymentTokenRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of sms_notification_path
         if self.sms_notification_path:
             _dict['sms_notification_path'] = self.sms_notification_path.to_dict()
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkBillPaymentTokenRequest from a dict"""
         if obj is None:
             return None
@@ -110,14 +122,20 @@ class PaylinkBillPaymentTokenRequest(BaseModel):
 
         _obj = cls.model_validate({
             "addressee": obj.get("addressee"),
-            "attachments": [PaylinkAttachmentRequest.from_dict(_item) for _item in obj.get("attachments")] if obj.get("attachments") is not None else None,
+            "adjustments": Adjustments.from_dict(obj["adjustments"]) if obj.get("adjustments") is not None else None,
+            "attachments": [PaylinkAttachmentRequest.from_dict(_item) for _item in obj["attachments"]] if obj.get("attachments") is not None else None,
             "descriptor": obj.get("descriptor"),
             "due": obj.get("due"),
-            "email_notification_path": PaylinkEmailNotificationPath.from_dict(obj.get("email_notification_path")) if obj.get("email_notification_path") is not None else None,
+            "email_notification_path": PaylinkEmailNotificationPath.from_dict(obj["email_notification_path"]) if obj.get("email_notification_path") is not None else None,
             "memo": obj.get("memo"),
-            "request": PaylinkTokenRequestModel.from_dict(obj.get("request")) if obj.get("request") is not None else None,
-            "sms_notification_path": PaylinkSMSNotificationPath.from_dict(obj.get("sms_notification_path")) if obj.get("sms_notification_path") is not None else None
+            "request": PaylinkTokenRequestModel.from_dict(obj["request"]) if obj.get("request") is not None else None,
+            "sms_notification_path": PaylinkSMSNotificationPath.from_dict(obj["sms_notification_path"]) if obj.get("sms_notification_path") is not None else None
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

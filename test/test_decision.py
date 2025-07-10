@@ -53,7 +53,7 @@ class TestDecision(unittest.TestCase):
     }
 }
                    """
-        self.instance = ApiClient().deserialize(self.data, Decision)
+        self.instance = ApiClient().deserialize(self.data, Decision, "application/json")
 
     def tearDown(self):
         pass

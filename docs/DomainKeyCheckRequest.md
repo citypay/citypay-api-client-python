@@ -17,12 +17,12 @@ json = "{}"
 # create an instance of DomainKeyCheckRequest from a JSON string
 domain_key_check_request_instance = DomainKeyCheckRequest.from_json(json)
 # print the JSON string representation of the object
-print DomainKeyCheckRequest.to_json()
+print(DomainKeyCheckRequest.to_json())
 
 # convert the object into a dict
 domain_key_check_request_dict = domain_key_check_request_instance.to_dict()
 # create an instance of DomainKeyCheckRequest from a dict
-domain_key_check_request_form_dict = domain_key_check_request.from_dict(domain_key_check_request_dict)
+domain_key_check_request_from_dict = DomainKeyCheckRequest.from_dict(domain_key_check_request_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

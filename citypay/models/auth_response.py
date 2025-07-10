@@ -18,13 +18,10 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime as DateTime
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class AuthResponse(BaseModel):
     """
@@ -40,16 +37,19 @@ class AuthResponse(BaseModel):
     bin_commercial: Optional[StrictBool] = Field(default=None, description="Determines whether the bin range was found to be a commercial or business card.")
     bin_debit: Optional[StrictBool] = Field(default=None, description="Determines whether the bin range was found to be a debit card. If false the card was considered as a credit card.")
     bin_description: Optional[StrictStr] = Field(default=None, description="A description of the bin range found for the card.")
-    cavv: Optional[StrictStr] = Field(default=None, description="The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation. ")
+    cavv: Optional[StrictStr] = Field(default=None, description="The cardholder authentication verification value which can be returned for verification purposes of the authenticated  transaction for dispute realisation. The value is considered sensitive in the realm of PCI-3DS and is masked. ")
     context: Optional[StrictStr] = Field(default=None, description="The context which processed the transaction, can be used for support purposes to trace transactions.")
     csc_result: Optional[StrictStr] = Field(default=None, description="The CSC result codes determine the result of checking the provided CSC value within the Card Security Code fraud system. If a transaction is declined due to the CSC code not matching, this value can help determine the reason for the decline.  <table> <tr> <th>Code</th> <th>Description</th> </tr> <tr><td> </td><td>No information</td></tr> <tr><td>M</td><td>Card verification data matches</td></tr> <tr><td>N</td><td>Card verification data was checked but did not match</td></tr> <tr><td>P</td><td>Card verification was not processed</td></tr> <tr><td>S</td><td>The card verification data should be on the card but the merchant indicates that it is not</td></tr> <tr><td>U</td><td>The card issuer is not certified</td></tr> </table> ")
     currency: Optional[StrictStr] = Field(default=None, description="The currency the transaction was processed in. This is an `ISO4217` alpha currency value.")
     datetime: Optional[DateTime] = Field(default=None, description="The UTC date time of the transaction in ISO data time format. ")
     eci: Optional[StrictStr] = Field(default=None, description="An Electronic Commerce Indicator (ECI) used to identify the result of authentication using 3DSecure. ")
+    external_ref: Optional[StrictStr] = Field(default=None, description="An external ref if supplied.", alias="external-ref")
+    external_ref_source: Optional[StrictStr] = Field(default=None, description="An external ref source if supplied.", alias="external-ref-source")
     identifier: Optional[StrictStr] = Field(default=None, description="The identifier provided within the request.")
     live: Optional[StrictBool] = Field(default=None, description="Used to identify that a transaction was processed on a live authorisation platform.")
     maskedpan: Optional[StrictStr] = Field(default=None, description="A masked value of the card number used for processing displaying limited values that can be used on a receipt. ")
     merchantid: StrictInt = Field(description="The merchant id that processed this transaction.")
+    payment_intent_id: Optional[StrictStr] = Field(default=None, description="A payment intent id for the authorisation if it exists.")
     result: StrictInt = Field(description="An integer result that indicates the outcome of the transaction. The Code value below maps to the result value  <table> <tr> <th>Code</th> <th>Abbrev</th> <th>Description</th> </tr> <tr><td>0</td><td>Declined</td><td>Declined</td></tr> <tr><td>1</td><td>Accepted</td><td>Accepted</td></tr> <tr><td>2</td><td>Rejected</td><td>Rejected</td></tr> <tr><td>3</td><td>Not Attempted</td><td>Not Attempted</td></tr> <tr><td>4</td><td>Referred</td><td>Referred</td></tr> <tr><td>5</td><td>PinRetry</td><td>Perform PIN Retry</td></tr> <tr><td>6</td><td>ForSigVer</td><td>Force Signature Verification</td></tr> <tr><td>7</td><td>Hold</td><td>Hold</td></tr> <tr><td>8</td><td>SecErr</td><td>Security Error</td></tr> <tr><td>9</td><td>CallAcq</td><td>Call Acquirer</td></tr> <tr><td>10</td><td>DNH</td><td>Do Not Honour</td></tr> <tr><td>11</td><td>RtnCrd</td><td>Retain Card</td></tr> <tr><td>12</td><td>ExprdCrd</td><td>Expired Card</td></tr> <tr><td>13</td><td>InvldCrd</td><td>Invalid Card No</td></tr> <tr><td>14</td><td>PinExcd</td><td>Pin Tries Exceeded</td></tr> <tr><td>15</td><td>PinInvld</td><td>Pin Invalid</td></tr> <tr><td>16</td><td>AuthReq</td><td>Authentication Required</td></tr> <tr><td>17</td><td>AuthenFail</td><td>Authentication Failed</td></tr> <tr><td>18</td><td>Verified</td><td>Card Verified</td></tr> <tr><td>19</td><td>Cancelled</td><td>Cancelled</td></tr> <tr><td>20</td><td>Un</td><td>Unknown</td></tr> <tr><td>21</td><td>Challenged</td><td>Challenged</td></tr> <tr><td>22</td><td>Decoupled</td><td>Decoupled</td></tr> <tr><td>23</td><td>Denied</td><td>Permission Denied</td></tr> </table> ")
     result_code: StrictStr = Field(description="The result code as defined in the Response Codes Reference for example 000 is an accepted live transaction whilst 001 is an accepted test transaction. Result codes identify the source of success and failure.  Codes may start with an alpha character i.e. C001 indicating a type of error such as a card validation error. ")
     result_message: StrictStr = Field(description="The message regarding the result which provides further narrative to the result code. ")
@@ -59,13 +59,14 @@ class AuthResponse(BaseModel):
     sha256: Optional[StrictStr] = Field(default=None, description="A SHA256 digest value of the transaction used to validate the response data The digest is calculated by concatenating   * authcode   * amount   * response_code   * merchant_id   * trans_no   * identifier   * licence_key - which is not provided in the response. ")
     trans_status: Optional[StrictStr] = Field(default=None, description="Used to identify the status of a transaction. The status is used to track a transaction through its life cycle.  <table> <tr> <th>Id</th> <th>Description</th> </tr> <tr> <td>O</td> <td>Transaction is open for settlement</td> </tr> <tr> <td>A</td> <td>Transaction is assigned for settlement and can no longer be voided</td> </tr> <tr> <td>S</td> <td>Transaction has been settled</td> </tr> <tr> <td>D</td> <td>Transaction has been declined</td> </tr> <tr> <td>R</td> <td>Transaction has been rejected</td> </tr> <tr> <td>P</td> <td>Transaction has been authorised only and awaiting a capture. Used in pre-auth situations</td> </tr> <tr> <td>C</td> <td>Transaction has been cancelled</td> </tr> <tr> <td>E</td> <td>Transaction has expired</td> </tr> <tr> <td>I</td> <td>Transaction has been initialised but no action was able to be carried out</td> </tr> <tr> <td>H</td> <td>Transaction is awaiting authorisation</td> </tr> <tr> <td>.</td> <td>Transaction is on hold</td> </tr> <tr> <td>V</td> <td>Transaction has been verified</td> </tr> </table> ")
     transno: Optional[StrictInt] = Field(default=None, description="The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1 for transactions that do not have a transaction number issued. ")
-    __properties: ClassVar[List[str]] = ["amount", "atrn", "atsd", "authcode", "authen_result", "authorised", "avs_result", "bin_commercial", "bin_debit", "bin_description", "cavv", "context", "csc_result", "currency", "datetime", "eci", "identifier", "live", "maskedpan", "merchantid", "result", "result_code", "result_message", "scheme", "scheme_id", "scheme_logo", "sha256", "trans_status", "transno"]
+    additional_properties: Dict[str, Any] = {}
+    __properties: ClassVar[List[str]] = ["amount", "atrn", "atsd", "authcode", "authen_result", "authorised", "avs_result", "bin_commercial", "bin_debit", "bin_description", "cavv", "context", "csc_result", "currency", "datetime", "eci", "external-ref", "external-ref-source", "identifier", "live", "maskedpan", "merchantid", "payment_intent_id", "result", "result_code", "result_message", "scheme", "scheme_id", "scheme_logo", "sha256", "trans_status", "transno"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -78,7 +79,7 @@ class AuthResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of AuthResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -91,17 +92,26 @@ class AuthResponse(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of AuthResponse from a dict"""
         if obj is None:
             return None
@@ -126,10 +136,13 @@ class AuthResponse(BaseModel):
             "currency": obj.get("currency"),
             "datetime": obj.get("datetime"),
             "eci": obj.get("eci"),
+            "external-ref": obj.get("external-ref"),
+            "external-ref-source": obj.get("external-ref-source"),
             "identifier": obj.get("identifier"),
             "live": obj.get("live"),
             "maskedpan": obj.get("maskedpan"),
             "merchantid": obj.get("merchantid"),
+            "payment_intent_id": obj.get("payment_intent_id"),
             "result": obj.get("result"),
             "result_code": obj.get("result_code"),
             "result_message": obj.get("result_message"),
@@ -140,6 +153,11 @@ class AuthResponse(BaseModel):
             "trans_status": obj.get("trans_status"),
             "transno": obj.get("transno")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

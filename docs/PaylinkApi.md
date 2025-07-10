@@ -4,10 +4,11 @@ All URIs are relative to *https://api.citypay.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**paylink_token_close_request**](PaylinkApi.md#paylink_token_close_request) | **PUT** /paylink/{token}/close | Close Paylink Token
 [**token_adjustment_request**](PaylinkApi.md#token_adjustment_request) | **POST** /paylink/{token}/adjustment | Paylink Token Adjustment
+[**token_attachment_status**](PaylinkApi.md#token_attachment_status) | **GET** /paylink/{token}/attachment-status/{attachment} | Checks an attachment status
 [**token_cancel_request**](PaylinkApi.md#token_cancel_request) | **PUT** /paylink/{token}/cancel | Cancel a Paylink Token
 [**token_changes_request**](PaylinkApi.md#token_changes_request) | **POST** /paylink/token/changes | Paylink Token Audit
-[**token_close_request**](PaylinkApi.md#token_close_request) | **PUT** /paylink/{token}/close | Close Paylink Token
 [**token_create_bill_payment_request**](PaylinkApi.md#token_create_bill_payment_request) | **POST** /paylink/bill-payment | Create Bill Payment Paylink Token
 [**token_create_request**](PaylinkApi.md#token_create_request) | **POST** /paylink/create | Create Paylink Token
 [**token_purge_attachments_request**](PaylinkApi.md#token_purge_attachments_request) | **PUT** /paylink/{token}/purge-attachments | Purges any attachments for a Paylink Token
@@ -16,6 +17,90 @@ Method | HTTP request | Description
 [**token_resend_notification_request**](PaylinkApi.md#token_resend_notification_request) | **POST** /paylink/{token}/resend-notification | Resend a notification for Paylink Token
 [**token_status_request**](PaylinkApi.md#token_status_request) | **GET** /paylink/{token}/status | Paylink Token Status
 
+
+# **paylink_token_close_request**
+> Acknowledgement paylink_token_close_request(token)
+
+Close Paylink Token
+
+Closes a paylink token that was previously created.
+
+### Example
+
+* Api Key Authentication (cp-api-key):
+
+```python
+import citypay
+from citypay.models.acknowledgement import Acknowledgement
+from citypay.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.citypay.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = citypay.Configuration(
+    host = "https://api.citypay.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: cp-api-key
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with citypay.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = citypay.PaylinkApi(api_client)
+    token = 'token_example' # str | The token returned by the create token process.
+
+    try:
+        # Close Paylink Token
+        api_response = api_instance.paylink_token_close_request(token)
+        print("The response of PaylinkApi->paylink_token_close_request:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PaylinkApi->paylink_token_close_request: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **str**| The token returned by the create token process. | 
+
+### Return type
+
+[**Acknowledgement**](Acknowledgement.md)
+
+### Authorization
+
+[cp-api-key](../README.md#cp-api-key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/xml
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Confirms that the Paylink token was marked for closure. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **token_adjustment_request**
 > Acknowledgement token_adjustment_request(token, paylink_adjustment_request)
@@ -33,8 +118,6 @@ Adjusts a TokenRequest's amount value when for instance
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.paylink_adjustment_request import PaylinkAdjustmentRequest
@@ -110,6 +193,95 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **token_attachment_status**
+> Acknowledgement token_attachment_status(token, attachment)
+
+Checks an attachment status
+
+The `TokenAttachmentStatus` processes a request to check the status of a Paylink BPS attachment, 
+verifying its successful upload and returning metadata such as the MD5 hash, upload time, 
+and content type to ensure file integrity and correctness.
+
+
+### Example
+
+* Api Key Authentication (cp-api-key):
+
+```python
+import citypay
+from citypay.models.acknowledgement import Acknowledgement
+from citypay.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.citypay.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = citypay.Configuration(
+    host = "https://api.citypay.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: cp-api-key
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with citypay.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = citypay.PaylinkApi(api_client)
+    token = 'token_example' # str | The token returned by the create token process.
+    attachment = 'attachment_example' # str | The attachemnt name requested.
+
+    try:
+        # Checks an attachment status
+        api_response = api_instance.token_attachment_status(token, attachment)
+        print("The response of PaylinkApi->token_attachment_status:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PaylinkApi->token_attachment_status: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **token** | **str**| The token returned by the create token process. | 
+ **attachment** | **str**| The attachemnt name requested. | 
+
+### Return type
+
+[**Acknowledgement**](Acknowledgement.md)
+
+### Authorization
+
+[cp-api-key](../README.md#cp-api-key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json, text/xml
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Verifies that the attachment has been successfully uploaded and returns an MD5 hash of its content to ensure the integrity and correctness of the file during validation. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **token_cancel_request**
 > Acknowledgement token_cancel_request(token)
 
@@ -122,8 +294,6 @@ Marks a Paylink Token as cancelled. This cancels the Token for any future reques
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.rest import ApiException
@@ -208,8 +378,6 @@ Allows for the changes to a pre-existing token.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.paylink_token_status_change_request import PaylinkTokenStatusChangeRequest
 from citypay.models.paylink_token_status_change_response import PaylinkTokenStatusChangeResponse
@@ -275,94 +443,6 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Changes from tokens actioned after the pivotal date provided in the request. |  -  |
-**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
-**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
-**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
-**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
-**500** | Server Error. The server was unable to complete the request. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **token_close_request**
-> Acknowledgement token_close_request(token)
-
-Close Paylink Token
-
-Marks a Paylink Token as closed. This closes the Token for any future action and the Token will not appear in any status
-request calls.
-
-
-### Example
-
-* Api Key Authentication (cp-api-key):
-
-```python
-import time
-import os
-import citypay
-from citypay.models.acknowledgement import Acknowledgement
-from citypay.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://api.citypay.com
-# See configuration.py for a list of all supported configuration parameters.
-configuration = citypay.Configuration(
-    host = "https://api.citypay.com"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: cp-api-key
-configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with citypay.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = citypay.PaylinkApi(api_client)
-    token = 'token_example' # str | The token returned by the create token process.
-
-    try:
-        # Close Paylink Token
-        api_response = api_instance.token_close_request(token)
-        print("The response of PaylinkApi->token_close_request:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling PaylinkApi->token_close_request: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **token** | **str**| The token returned by the create token process. | 
-
-### Return type
-
-[**Acknowledgement**](Acknowledgement.md)
-
-### Authorization
-
-[cp-api-key](../README.md#cp-api-key)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, text/xml
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Confirms that the token was marked for closure. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
@@ -553,8 +633,6 @@ A result of an attachment specifies whether the attachment was successfully adde
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.paylink_bill_payment_token_request import PaylinkBillPaymentTokenRequest
 from citypay.models.paylink_token_created import PaylinkTokenCreated
@@ -640,8 +718,6 @@ Creates a Paylink token from the CityPay API.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.paylink_token_created import PaylinkTokenCreated
 from citypay.models.paylink_token_request_model import PaylinkTokenRequestModel
@@ -727,8 +803,6 @@ Purges any attachments for a token for GDPR or DP reasons.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.rest import ApiException
@@ -813,8 +887,6 @@ Marks a Paylink Token as reconciled when reconciliation is performed on the merc
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.rest import ApiException
@@ -899,8 +971,6 @@ Allows for a Paylink Token to be reopened if a Token has been previously closed 
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.rest import ApiException
@@ -985,8 +1055,6 @@ Resend a notification for Paylink Token.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.paylink_resend_notification_request import PaylinkResendNotificationRequest
@@ -1074,8 +1142,6 @@ Obtains the full status of a given Paylink Token.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.paylink_token_status import PaylinkTokenStatus
 from citypay.rest import ApiException

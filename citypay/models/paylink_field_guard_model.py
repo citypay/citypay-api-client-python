@@ -17,33 +17,30 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkFieldGuardModel(BaseModel):
     """
     PaylinkFieldGuardModel
     """ # noqa: E501
-    field_type: Optional[StrictStr] = Field(default=None, description="A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.  If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. ")
+    field_type: Optional[StrictStr] = Field(default=None, description="A type of HTML element that should be displayed such as text, password, url. Any HTML5 input type value may be supplied.  - If a value of `date` is supplied the value format should be an ISO format YYYY-MM-DD format date i.e. 2024-03-01 - If a value of `datetime-local` is supplied, the value format should be an ISO format YYYY-MM-DDTHH:mm i.e. 2024-06-01T19:30. ")
     label: Optional[StrictStr] = Field(default=None, description="A label for the field guard to display on the authentication page.")
     maxlen: Optional[StrictInt] = Field(default=None, description="A maximum length of any value supplied in the field guard form. Used for validating entry.")
     minlen: Optional[StrictInt] = Field(default=None, description="A minimum length of any value supplied in the field guard form. Used for validating entry.")
     name: Optional[StrictStr] = Field(default=None, description="A field name which is used to refer to a field which is guarded.")
     regex: Optional[StrictStr] = Field(default=None, description="A JavaScript regular expression value which can be used to validate the data provided in the field guard entry form. Used for validating entry.")
     value: Optional[StrictStr] = Field(default=None, description="A value directly associated with the field guard. Any value provided at this level will be considered as sensitive and not logged.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["field_type", "label", "maxlen", "minlen", "name", "regex", "value"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -56,7 +53,7 @@ class PaylinkFieldGuardModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkFieldGuardModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -69,17 +66,26 @@ class PaylinkFieldGuardModel(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkFieldGuardModel from a dict"""
         if obj is None:
             return None
@@ -96,6 +102,11 @@ class PaylinkFieldGuardModel(BaseModel):
             "regex": obj.get("regex"),
             "value": obj.get("value")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

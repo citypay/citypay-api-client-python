@@ -28,7 +28,7 @@ class TestAuthenRequired(unittest.TestCase):
         }
         """
 
-        self.instance = ApiClient().deserialize(self.data, AuthenRequired)
+        self.instance = ApiClient().deserialize(self.data, AuthenRequired, "application/json")
 
     def tearDown(self):
         pass

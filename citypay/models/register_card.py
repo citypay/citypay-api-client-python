@@ -17,15 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class RegisterCard(BaseModel):
     """
@@ -36,13 +32,14 @@ class RegisterCard(BaseModel):
     expmonth: Annotated[int, Field(le=12, strict=True, ge=1)] = Field(description="The expiry month of the card.")
     expyear: Annotated[int, Field(le=2100, strict=True, ge=2000)] = Field(description="The expiry year of the card.")
     name_on_card: Optional[Annotated[str, Field(min_length=2, strict=True, max_length=45)]] = Field(default=None, description="The card holder name as it appears on the card. The value is required if the account is to be used for 3dsv2 processing, otherwise it is optional.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["cardnumber", "default", "expmonth", "expyear", "name_on_card"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -55,7 +52,7 @@ class RegisterCard(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of RegisterCard from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -68,17 +65,26 @@ class RegisterCard(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of RegisterCard from a dict"""
         if obj is None:
             return None
@@ -93,6 +99,11 @@ class RegisterCard(BaseModel):
             "expyear": obj.get("expyear"),
             "name_on_card": obj.get("name_on_card")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

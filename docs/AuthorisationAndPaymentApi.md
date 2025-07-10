@@ -8,10 +8,10 @@ Method | HTTP request | Description
 [**bin_range_lookup_request**](AuthorisationAndPaymentApi.md#bin_range_lookup_request) | **POST** /v6/bin | Bin Lookup
 [**c_res_request**](AuthorisationAndPaymentApi.md#c_res_request) | **POST** /v6/cres | CRes
 [**capture_request**](AuthorisationAndPaymentApi.md#capture_request) | **POST** /v6/capture | Capture
-[**create_payment_intent**](AuthorisationAndPaymentApi.md#create_payment_intent) | **POST** /v6/intent/create | Create a Payment Intent
-[**pa_res_request**](AuthorisationAndPaymentApi.md#pa_res_request) | **POST** /v6/pares | PaRes
+[**card_tokenisation_request**](AuthorisationAndPaymentApi.md#card_tokenisation_request) | **POST** /v6/tokenise | Card Tokenisation Request
 [**refund_request**](AuthorisationAndPaymentApi.md#refund_request) | **POST** /v6/refund | Refund
-[**retrieval_request**](AuthorisationAndPaymentApi.md#retrieval_request) | **POST** /v6/retrieve | Retrieval
+[**retrieval_request**](AuthorisationAndPaymentApi.md#retrieval_request) | **POST** /v6/retrieve | Transaction Retrieval
+[**verification_request**](AuthorisationAndPaymentApi.md#verification_request) | **POST** /v6/verify | Verification
 [**void_request**](AuthorisationAndPaymentApi.md#void_request) | **POST** /v6/void | Void
 
 
@@ -27,8 +27,6 @@ Performs a request for authorisation for a card payment request.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_request import AuthRequest
 from citypay.models.decision import Decision
@@ -125,8 +123,6 @@ result.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.bin import Bin
 from citypay.models.bin_lookup import BinLookup
@@ -219,8 +215,6 @@ on its own without a previous [request challenge](#requestchallenged) being obta
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.c_res_auth_request import CResAuthRequest
@@ -323,8 +317,6 @@ be available for the settlement and completed at the end of the day.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.capture_request import CaptureRequest
@@ -398,26 +390,22 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create_payment_intent**
-> PaymentIntentReference create_payment_intent(payment_intent)
+# **card_tokenisation_request**
+> CardTokenisationResponse card_tokenisation_request(card_tokenisation_request)
 
-Create a Payment Intent
+Card Tokenisation Request
 
-This endpoint initiates the creation of a payment intent, which is a precursor to processing a payment. A payment intent
-captures the details of a prospective payment transaction, including the payment amount, currency, and associated
-billing and shipping information.
-
+Performs a tokenisation request for card details.
 
 ### Example
 
+* Api Key Authentication (cp-domain-key):
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
-from citypay.models.payment_intent import PaymentIntent
-from citypay.models.payment_intent_reference import PaymentIntentReference
+from citypay.models.card_tokenisation_request import CardTokenisationRequest
+from citypay.models.card_tokenisation_response import CardTokenisationResponse
 from citypay.rest import ApiException
 from pprint import pprint
 
@@ -432,99 +420,11 @@ configuration = citypay.Configuration(
 # Examples for each auth method are provided below, use the example that
 # satisfies your auth use case.
 
-# Configure API key authorization: cp-api-key
-configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+# Configure API key authorization: cp-domain-key
+configuration.api_key['cp-domain-key'] = os.environ["API_KEY"]
 
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with citypay.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = citypay.AuthorisationAndPaymentApi(api_client)
-    payment_intent = citypay.PaymentIntent() # PaymentIntent | 
-
-    try:
-        # Create a Payment Intent
-        api_response = api_instance.create_payment_intent(payment_intent)
-        print("The response of AuthorisationAndPaymentApi->create_payment_intent:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling AuthorisationAndPaymentApi->create_payment_intent: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **payment_intent** | [**PaymentIntent**](PaymentIntent.md)|  | 
-
-### Return type
-
-[**PaymentIntentReference**](PaymentIntentReference.md)
-
-### Authorization
-
-[cp-api-key](../README.md#cp-api-key)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, text/xml
- - **Accept**: application/json, text/xml
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Returns the id of the payment intent. |  -  |
-**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
-**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
-**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
-**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
-**500** | Server Error. The server was unable to complete the request. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **pa_res_request**
-> AuthResponse pa_res_request(pa_res_auth_request)
-
-PaRes
-
-The Payer Authentication Response (PaRes) is an operation after the result of authentication 
- being performed. The request uses an encoded packet of authentication data to 
-notify us of the completion of the liability shift. Once this value has been unpacked and its
-signature is checked, our systems will proceed to authorisation processing.  
-
-Any call to the PaRes operation will require a previous authorisation request and cannot be called 
-on its own without a previous [authentication required](#authenticationrequired)  being obtained.
-
-
-### Example
-
-* Api Key Authentication (cp-api-key):
-
-```python
-import time
-import os
-import citypay
-from citypay.models.auth_response import AuthResponse
-from citypay.models.pa_res_auth_request import PaResAuthRequest
-from citypay.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://api.citypay.com
-# See configuration.py for a list of all supported configuration parameters.
-configuration = citypay.Configuration(
-    host = "https://api.citypay.com"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
+# configuration.api_key_prefix['cp-domain-key'] = 'Bearer'
 
 # Configure API key authorization: cp-api-key
 configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
@@ -536,15 +436,15 @@ configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
 with citypay.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = citypay.AuthorisationAndPaymentApi(api_client)
-    pa_res_auth_request = citypay.PaResAuthRequest() # PaResAuthRequest | 
+    card_tokenisation_request = citypay.CardTokenisationRequest() # CardTokenisationRequest | 
 
     try:
-        # PaRes
-        api_response = api_instance.pa_res_request(pa_res_auth_request)
-        print("The response of AuthorisationAndPaymentApi->pa_res_request:\n")
+        # Card Tokenisation Request
+        api_response = api_instance.card_tokenisation_request(card_tokenisation_request)
+        print("The response of AuthorisationAndPaymentApi->card_tokenisation_request:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling AuthorisationAndPaymentApi->pa_res_request: %s\n" % e)
+        print("Exception when calling AuthorisationAndPaymentApi->card_tokenisation_request: %s\n" % e)
 ```
 
 
@@ -554,15 +454,15 @@ with citypay.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pa_res_auth_request** | [**PaResAuthRequest**](PaResAuthRequest.md)|  | 
+ **card_tokenisation_request** | [**CardTokenisationRequest**](CardTokenisationRequest.md)|  | 
 
 ### Return type
 
-[**AuthResponse**](AuthResponse.md)
+[**CardTokenisationResponse**](CardTokenisationResponse.md)
 
 ### Authorization
 
-[cp-api-key](../README.md#cp-api-key)
+[cp-domain-key](../README.md#cp-domain-key), [cp-api-key](../README.md#cp-api-key)
 
 ### HTTP request headers
 
@@ -573,7 +473,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | A result of processing the 3DSv1 authorisation data. |  -  |
+**200** | A result of the tokenisation request. |  -  |
 **400** | Bad Request. Should the incoming data not be validly determined. |  -  |
 **401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
 **403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
@@ -597,8 +497,6 @@ original card used to process the transaction.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_response import AuthResponse
 from citypay.models.refund_request import RefundRequest
@@ -675,7 +573,7 @@ Name | Type | Description  | Notes
 # **retrieval_request**
 > AuthReferences retrieval_request(retrieve_request)
 
-Retrieval
+Transaction Retrieval
 
 A retrieval request which allows an integration to obtain the result of a transaction processed
 in the last 90 days. The request allows for retrieval based on the identifier or transaction 
@@ -694,8 +592,6 @@ information to be returned.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.auth_references import AuthReferences
 from citypay.models.retrieve_request import RetrieveRequest
@@ -726,7 +622,7 @@ with citypay.ApiClient(configuration) as api_client:
     retrieve_request = citypay.RetrieveRequest() # RetrieveRequest | 
 
     try:
-        # Retrieval
+        # Transaction Retrieval
         api_response = api_instance.retrieval_request(retrieve_request)
         print("The response of AuthorisationAndPaymentApi->retrieval_request:\n")
         pprint(api_response)
@@ -769,6 +665,91 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **verification_request**
+> Decision verification_request(verification_request)
+
+Verification
+
+Performs a request for verification for a card payment request.
+
+### Example
+
+* Api Key Authentication (cp-api-key):
+
+```python
+import citypay
+from citypay.models.decision import Decision
+from citypay.models.verification_request import VerificationRequest
+from citypay.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://api.citypay.com
+# See configuration.py for a list of all supported configuration parameters.
+configuration = citypay.Configuration(
+    host = "https://api.citypay.com"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: cp-api-key
+configuration.api_key['cp-api-key'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['cp-api-key'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with citypay.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = citypay.AuthorisationAndPaymentApi(api_client)
+    verification_request = citypay.VerificationRequest() # VerificationRequest | 
+
+    try:
+        # Verification
+        api_response = api_instance.verification_request(verification_request)
+        print("The response of AuthorisationAndPaymentApi->verification_request:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AuthorisationAndPaymentApi->verification_request: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **verification_request** | [**VerificationRequest**](VerificationRequest.md)|  | 
+
+### Return type
+
+[**Decision**](Decision.md)
+
+### Authorization
+
+[cp-api-key](../README.md#cp-api-key)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/xml
+ - **Accept**: application/json, text/xml
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | A decision made by the result of verification. |  -  |
+**400** | Bad Request. Should the incoming data not be validly determined. |  -  |
+**401** | Unauthorized. No api key has been provided and is required for this operation. |  -  |
+**403** | Forbidden. The api key was provided and understood but is either incorrect or does not have permission to access the account provided on the request. |  -  |
+**422** | Unprocessable Entity. Should a failure occur that prevents processing of the API call. |  -  |
+**500** | Server Error. The server was unable to complete the request. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **void_request**
 > Acknowledgement void_request(void_request)
 
@@ -789,8 +770,6 @@ outlining the result of the transaction.
 * Api Key Authentication (cp-api-key):
 
 ```python
-import time
-import os
 import citypay
 from citypay.models.acknowledgement import Acknowledgement
 from citypay.models.void_request import VoidRequest

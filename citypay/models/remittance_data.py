@@ -18,14 +18,11 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class RemittanceData(BaseModel):
     """
@@ -37,13 +34,14 @@ class RemittanceData(BaseModel):
     refund_count: Optional[Annotated[int, Field(le=999999999, strict=True, ge=0)]] = Field(default=None, description="The total number of refund transactions processed. This figure helps in understanding the frequency of refunds relative to sales.")
     sales_amount: Optional[Annotated[int, Field(le=999999999, strict=True, ge=0)]] = Field(default=None, description="The total monetary amount of sales transactions.")
     sales_count: Optional[Annotated[int, Field(le=999999999, strict=True, ge=0)]] = Field(default=None, description="Indicates the total number of sales transactions that occurred. This count provides insight into the volume of sales.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["date_created", "net_amount", "refund_amount", "refund_count", "sales_amount", "sales_count"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -56,7 +54,7 @@ class RemittanceData(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of RemittanceData from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -69,17 +67,26 @@ class RemittanceData(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of RemittanceData from a dict"""
         if obj is None:
             return None
@@ -95,6 +102,11 @@ class RemittanceData(BaseModel):
             "sales_amount": obj.get("sales_amount"),
             "sales_count": obj.get("sales_count")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

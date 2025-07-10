@@ -17,15 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from citypay.models.paylink_cart_item_model import PaylinkCartItemModel
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PaylinkCart(BaseModel):
     """
@@ -33,18 +29,19 @@ class PaylinkCart(BaseModel):
     """ # noqa: E501
     contents: Optional[List[PaylinkCartItemModel]] = None
     coupon: Optional[StrictStr] = Field(default=None, description="A coupon redeemed with the transaction.")
-    mode: Optional[StrictInt] = Field(default=None, description="The mode field specifies the behaviour or functionality of the cart.  Valid values are:   0 - No cart - No cart is shown  1 - Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array.  2 - Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from.  3 - Dynamic cart - a text box is rendered to enable the operator to input an amount.  4 - Multi cart - The cart is displayed with items rendered with selectable quantities. ")
+    mode: Optional[StrictInt] = Field(default=None, description="The mode field specifies the behaviour or functionality of the cart.  Valid values are:  - `0` No cart - No cart is shown - `1` Read-only - The cart is shown with a breakdown of the item details provided by objects in the contents array. - `2` Selection cart - The cart is shown as a drop-down box of available cart items that the customer can a single item select from. - `3` Dynamic cart - a text box is rendered to enable the operator to input an amount. - `4` Multi cart - The cart is displayed with items rendered with selectable quantities. ")
     product_description: Optional[StrictStr] = Field(default=None, description="Specifies a description about the product or service that is the subject of the transaction. It will be rendered in the header of the page with no labels.")
     product_information: Optional[StrictStr] = Field(default=None, description="Specifies information about the product or service that is the subject of the transaction. It will be rendered in the header of the page.")
     shipping: Optional[StrictInt] = Field(default=None, description="The shipping amount of the transaction in the lowest denomination of currency.")
     tax: Optional[StrictInt] = Field(default=None, description="The tax amount of the transaction in the lowest denomination of currency.")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["contents", "coupon", "mode", "product_description", "product_information", "shipping", "tax"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -57,7 +54,7 @@ class PaylinkCart(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PaylinkCart from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -70,24 +67,33 @@ class PaylinkCart(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in contents (list)
         _items = []
         if self.contents:
-            for _item in self.contents:
-                if _item:
-                    _items.append(_item.to_dict())
+            for _item_contents in self.contents:
+                if _item_contents:
+                    _items.append(_item_contents.to_dict())
             _dict['contents'] = _items
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of PaylinkCart from a dict"""
         if obj is None:
             return None
@@ -96,7 +102,7 @@ class PaylinkCart(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "contents": [PaylinkCartItemModel.from_dict(_item) for _item in obj.get("contents")] if obj.get("contents") is not None else None,
+            "contents": [PaylinkCartItemModel.from_dict(_item) for _item in obj["contents"]] if obj.get("contents") is not None else None,
             "coupon": obj.get("coupon"),
             "mode": obj.get("mode"),
             "product_description": obj.get("product_description"),
@@ -104,6 +110,11 @@ class PaylinkCart(BaseModel):
             "shipping": obj.get("shipping"),
             "tax": obj.get("tax")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 

@@ -19,12 +19,12 @@ json = "{}"
 # create an instance of PaylinkAttachmentResult from a JSON string
 paylink_attachment_result_instance = PaylinkAttachmentResult.from_json(json)
 # print the JSON string representation of the object
-print PaylinkAttachmentResult.to_json()
+print(PaylinkAttachmentResult.to_json())
 
 # convert the object into a dict
 paylink_attachment_result_dict = paylink_attachment_result_instance.to_dict()
 # create an instance of PaylinkAttachmentResult from a dict
-paylink_attachment_result_form_dict = paylink_attachment_result.from_dict(paylink_attachment_result_dict)
+paylink_attachment_result_from_dict = PaylinkAttachmentResult.from_dict(paylink_attachment_result_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

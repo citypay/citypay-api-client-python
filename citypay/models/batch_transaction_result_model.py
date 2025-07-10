@@ -18,14 +18,11 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime as DateTime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class BatchTransactionResultModel(BaseModel):
     """
@@ -45,13 +42,14 @@ class BatchTransactionResultModel(BaseModel):
     scheme_id: Optional[StrictStr] = Field(default=None, description="The name of the card scheme of the transaction such as VI or MC. ")
     scheme_logo: Optional[StrictStr] = Field(default=None, description="A url containing a logo of the card scheme. ")
     transno: Optional[StrictInt] = Field(default=None, description="The resulting transaction number, ordered incrementally from 1 for every merchant_id. The value will default to less than 1 for transactions that do not have a transaction number issued. ")
+    additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["account_id", "amount", "authcode", "datetime", "identifier", "maskedpan", "merchantid", "message", "result", "result_code", "scheme", "scheme_id", "scheme_logo", "transno"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:
@@ -64,7 +62,7 @@ class BatchTransactionResultModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of BatchTransactionResultModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -77,17 +75,26 @@ class BatchTransactionResultModel(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
+        # puts key-value pairs in additional_properties in the top level
+        if self.additional_properties is not None:
+            for _key, _value in self.additional_properties.items():
+                _dict[_key] = _value
+
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of BatchTransactionResultModel from a dict"""
         if obj is None:
             return None
@@ -111,6 +118,11 @@ class BatchTransactionResultModel(BaseModel):
             "scheme_logo": obj.get("scheme_logo"),
             "transno": obj.get("transno")
         })
+        # store additional fields in additional_properties
+        for _key in obj.keys():
+            if _key not in cls.__properties:
+                _obj.additional_properties[_key] = obj.get(_key)
+
         return _obj
 
 
