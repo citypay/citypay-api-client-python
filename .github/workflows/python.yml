@@ -72,4 +72,4 @@ jobs:
         python -m build
 
     - name: Upload the package to PyPI
-      uses: pypa/gh-action-pypi-publish@v1.4.2
+      uses: pypa/gh-action-pypi-publish@v1.12.4
