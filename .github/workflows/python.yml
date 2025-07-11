@@ -68,9 +68,8 @@ jobs:
 
     - name: Build and package
       run: |
-        export SETUPTOOLS_DISABLE_PEP621=1
-        python setup.py sdist bdist_wheel
+        python -m pip install build
+        python -m build
 
     - name: Upload the package to PyPI
       uses: pypa/gh-action-pypi-publish@v1.4.2
-        # ⛔️ Do not include `user` or `password`
